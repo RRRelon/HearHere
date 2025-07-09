@@ -88,3 +88,6 @@ InitCodeMarker
 
 # Tutorial Framework has a backup option for the project's content, let's ignore the possible backup folder
 /Tutorial Defaults/
+
+# google TTS api api Key
+Assets/Resources/secret.json
