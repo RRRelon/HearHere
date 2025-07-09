@@ -51,3 +51,29 @@ chore : A 패키지 추가
 title: (TAG)/(ISSUE NUMBER) (PR NUMBER)
 ex) FEAT/35 (#40)
 ```
+
+## TTS 기능 사용법 (Google Text-to-Speech API)
+
+이 프로젝트에서는 Google TTS(Text-to-Speech) API를 사용하여 입력된 텍스트를 음성으로 변환해 재생합니다.  
+다른 팀원이 TTS 기능을 사용하려면 아래의 단계를 따라 주세요:
+
+---
+
+### 1. Google TTS API 키 발급 방법
+
+1. [Google Cloud Console](https://console.cloud.google.com/)에 접속 후 로그인
+2. 프로젝트 생성 또는 기존 프로젝트 선택
+3. "API 및 서비스" > "라이브러리" > "Cloud Text-to-Speech API" 검색 후 **사용 설정**
+4. "API 및 서비스" > "사용자 인증 정보" > **API 키 만들기**
+5. 생성된 **API 키 복사**
+
+---
+
+### 2. secret.json 파일 생성
+
+Unity 프로젝트의 `Assets/Resources/` 폴더 안에 `secret.json` 파일을 아래 형식으로 만들어 주세요.
+
+```json
+{
+  "googleTTSapiKey": "여기에_복사한_API_키를_붙여넣기"
+}
