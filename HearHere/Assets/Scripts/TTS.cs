@@ -16,15 +16,18 @@ public class TTS : MonoBehaviour    // TTS: unity에서 사용하는 TTS script
     // unity editor에서 이 변수들을 inspector 창에 드래그해서 연결해줘야 함
     // public -> unity inspector에서 연결 가능하게 하기 위함
     // private -> 내부에서만 쓰는 변수. 따라서 key는 private함
-    public InputField inputField;
-    public Button playButton;
-    public AudioSource audioSource;
+    // Unity에는 Attribute를 설정할 수 있음
+    // 대표적으로 SerializeField: Inspector에서 설정 가능, Header: Inspector에 Header 생성 가능
+    [Header("TTS Components")]
+    [SerializeField] private InputField inputField;
+    [SerializeField] private Button playButton;
+    [SerializeField] private AudioSource audioSource;
 
     private string apiKey;
 
     // start()는 게임이 실행되면 가장 먼저 호출되는 함수
     // 버튼이 클릭되면 inputfield의 텍스트를 읽어서 requestTTS() 실행
-    void Start()
+    private void Start()
     {
         // secret.json에서 apiKey 읽기
         TextAsset jsonFile = Resources.Load<TextAsset>("secret"); // 경로 쓸 때 확장자는 쓰지 않고, resources 폴더 기준 상대 경로로 작성해야 함
@@ -41,7 +44,7 @@ public class TTS : MonoBehaviour    // TTS: unity에서 사용하는 TTS script
     // google TTS API에 POST 요청을 보냄
     // JSON으로 텍스트 요청을 보내고, base64로 된 오디오 데이터를 받아서 저장
     // api 요청 부분이기 때문에 시간이 좀 걸림 -> 따라서 Coroutine(IEnumerator RequestTTS(string text)) 으로 비동기 처리
-    IEnumerator RequestTTS(string text)
+    private IEnumerator RequestTTS(string text)
     {
         // google TTS api가 요구하는 요청 형식에 맞게 요청 객체 구성
         var request = new GoogleCloudTextToSpeechRequest
@@ -87,7 +90,7 @@ public class TTS : MonoBehaviour    // TTS: unity에서 사용하는 TTS script
     }
     
     // 위에서 저장한 .mp3파일을 읽고 재생하는 함수
-    IEnumerator PlayAudio(string filePath)
+    private IEnumerator PlayAudio(string filePath)
     {
         using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("file://" + filePath, AudioType.MPEG)) // 지정한 경로에 있는 mp3파일을 오디오 클립으로 불러오는 요청
         {
