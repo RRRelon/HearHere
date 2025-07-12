@@ -3,7 +3,7 @@ using UnityEngine.AddressableAssets;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField] private AssetReference sceneToLoad;
+    [SerializeField] private GameSceneSO sceneToLoad;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO sceneLoadChannel;
