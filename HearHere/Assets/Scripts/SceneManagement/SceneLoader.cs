@@ -8,15 +8,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField] private AssetReference sceneToLoad;
-
     [Header("Listening to")]
     [SerializeField] private LoadEventChannelSO loadScene;
     [SerializeField] private LoadEventChannelSO coldStartup;
-    
-    private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
-    private AssetReference currentlyLoadedScene;
 
+    private GameSceneSO sceneToLoad;
+    private GameSceneSO currentlyLoadedScene;
+    private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
+    
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
 
     private void OnEnable()
@@ -39,13 +38,13 @@ public class SceneLoader : MonoBehaviour
     /// <summary>
     /// This special loading function is only used in the editor, when the developer presses Play in a Location scene, without passing by Initialisation.
     /// </summary>
-    private void ColdStartup(AssetReference currentlyOpenedScene)
+    private void ColdStartup(GameSceneSO currentlyOpenedScene)
     {
         currentlyLoadedScene = currentlyOpenedScene;
     }
 #endif
     
-    public void LoadScene(AssetReference homeToLoad)
+    public void LoadScene(GameSceneSO homeToLoad)
     {
         if (isLoading)
             return;
@@ -65,15 +64,15 @@ public class SceneLoader : MonoBehaviour
 
         if (currentlyLoadedScene != null)
         {
-            if (currentlyLoadedScene.IsValid())
+            if (currentlyLoadedScene.SceneReference.IsValid())
             {
-                var unloadHandle = currentlyLoadedScene.UnLoadScene();
+                var unloadHandle = currentlyLoadedScene.SceneReference.UnLoadScene();
                 yield return unloadHandle;    
             }
 #if UNITY_EDITOR
             else
             {
-                var unloadOperation = SceneManager.UnloadSceneAsync(currentlyLoadedScene.editorAsset.name);
+                var unloadOperation = SceneManager.UnloadSceneAsync(currentlyLoadedScene.SceneReference.editorAsset.name);
                 yield return unloadOperation;
             }
 #endif
@@ -88,7 +87,7 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     private void LoadNewScene()
     {
-        loadingOperationHandle = sceneToLoad.LoadSceneAsync(LoadSceneMode.Additive, true, 0);
+        loadingOperationHandle = sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true, 0);
         loadingOperationHandle.Completed += OnNewSceneLoad;
     }
 

@@ -5,9 +5,9 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Events/Load Event Channel")]
 public class LoadEventChannelSO : ScriptableObject
 {
-    public UnityAction<AssetReference> OnLoadingRequested;
+    public UnityAction<GameSceneSO> OnLoadingRequested;
 
-    public void RaiseEvent(AssetReference sceneToLoad)
+    public void RaiseEvent(GameSceneSO sceneToLoad)
     {
         if (OnLoadingRequested != null)
         {
