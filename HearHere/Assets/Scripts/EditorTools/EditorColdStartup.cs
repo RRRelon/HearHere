@@ -3,6 +3,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Allows a "cold start" in the editor, when pressing Play and not passing from the Initialisation scene.
@@ -10,14 +11,14 @@ using UnityEngine.SceneManagement;
 public class EditorColdStartup : MonoBehaviour
 {
 #if UNITY_EDITOR
-    [SerializeField] private AssetReference thisSceneReference;
-    [SerializeField] private AssetReference persistentManagers;
+    [SerializeField] private GameSceneSO thisSceneSO;
+    [SerializeField] private GameSceneSO persistentManagersSO;
     [SerializeField] private AssetReference notifyColdStartupChannel;
 
     private bool isColdStart = false;
     private void Awake()
     {
-        if (!SceneManager.GetSceneByName(persistentManagers.editorAsset.name).isLoaded)
+        if (!SceneManager.GetSceneByName(persistentManagersSO.SceneReference.editorAsset.name).isLoaded)
         {
             isColdStart = true;
         }
@@ -29,7 +30,7 @@ public class EditorColdStartup : MonoBehaviour
     {
         if (isColdStart)
         {
-            persistentManagers.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
+            persistentManagersSO.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
         }
         // TODO: 세이브 로드 기능 추가해야 함
         // CreateSaveFileIfNotPresent();
@@ -52,9 +53,9 @@ public class EditorColdStartup : MonoBehaviour
 
     private void OnNotifyChannelLoaded(AsyncOperationHandle<LoadEventChannelSO> obj)
     {
-        if (thisSceneReference != null)
+        if (thisSceneSO != null)
         {
-            obj.Result.RaiseEvent(thisSceneReference);
+            obj.Result.RaiseEvent(thisSceneSO);
         }
     }
 #endif

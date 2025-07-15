@@ -7,15 +7,15 @@ using UnityEngine.Serialization;
 
 public class InitializationLoader : MonoBehaviour
 {
-    [SerializeField] private AssetReference managersScene;
-    [SerializeField] private AssetReference menuToLoad;
+    [SerializeField] private GameSceneSO managersScene;
+    [SerializeField] private GameSceneSO menuToLoad;
     
     [Header("Broadcasting on")]
     [SerializeField] private AssetReference menuLoadChannel;
 
     private void Start()
     {
-        managersScene.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
+        managersScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
     }
 
     private void LoadEventChannel(AsyncOperationHandle<SceneInstance> obj)

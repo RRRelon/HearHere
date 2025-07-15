@@ -148,18 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c376ddc5b2fb51c4b993aeadb43faa15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  managersScene:
-    m_AssetGUID: ed3b55ac19d414640b820898a68bb41d
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
-  menuToLoad:
-    m_AssetGUID: 33663177b3f2a40438ab41079df830a3
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+  managersScene: {fileID: 11400000, guid: 1f73c525004cee448a6e4419864ad02a, type: 2}
+  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
   menuLoadChannel:
     m_AssetGUID: b37eb2a504ca62947b1ee1e91f3b3743
     m_SubObjectName: 
