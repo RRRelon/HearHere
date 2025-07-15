@@ -49,9 +49,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1908795145316023663, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
-      propertyPath: thisSceneReference.m_AssetGUID
-      value: 33663177b3f2a40438ab41079df830a3
-      objectReference: {fileID: 0}
+      propertyPath: thisSceneSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
     - target: {fileID: 3988095556482345560, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_Name
       value: Menu_EditorColdStartup
