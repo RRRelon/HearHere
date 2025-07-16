@@ -80,6 +80,8 @@ Unity 프로젝트의 `Assets/Resources/` 폴더 안에 `secret.json` 파일을 
 {
   "googleTTSapiKey": "여기에_복사한_API_키를_붙여넣기"
 }
+```
+```
 # Unity TTS/STT 백엔드 서버
 
 Unity 게임과 TTS(Text-to-Speech) 및 STT(Speech-to-Text) 기능을 연동하기 위한 백엔드 서버
@@ -235,7 +237,7 @@ public class GameManager : MonoBehaviour
         ttsClient.ConvertRecordedAudioToText(recordedClip);
     }
 
-    // 🎙️ 음성으로 AI와 대화
+    // 음성으로 AI와 대화
     public void TalkToAI()
     {
         ttsClient.StartVoiceRecording(0.8f, 0.3f); // 감정 강도 높게, 품질 조정
@@ -283,18 +285,6 @@ ICCAS/
 - 대화 히스토리 관리
 - 한국어 대화 최적화
 - 게임 맥락에 맞는 응답 생성
-
-## 보안 고려사항
-
-현재 버전은 개발/테스트 목적으로 설계되었습니다. 프로덕션 환경에서는 다음 사항을 고려하세요:
-
-- API 키 보안 강화
-- 사용자 인증 및 권한 관리
-- 파일 업로드 크기 제한
-- 요청 빈도 제한 (Rate Limiting)
-- HTTPS 사용
-
-## 문제 해결
 
 ### 서버 시작 실패
 
