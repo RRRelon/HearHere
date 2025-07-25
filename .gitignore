@@ -3,4 +3,7 @@
 
 # Visual Studio cache directory
 .vs/
+
+# API Information
 .env
+*/secret.json
