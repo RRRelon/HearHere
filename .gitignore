@@ -7,3 +7,5 @@
 # API Information
 .env
 */secret.json
+*/secret.meta
+__pycache__/
