@@ -75,6 +75,8 @@ namespace Samples.Whisper
             progressBar.fillAmount = 0;
             message.text = res.Text;
             recordButton.enabled = true;
+            
+            Debug.Log($"STT : {res.Text}");
         }
 
         private void Update()

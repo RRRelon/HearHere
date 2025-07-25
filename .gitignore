@@ -3,3 +3,9 @@
 
 # Visual Studio cache directory
 .vs/
+
+# API Information
+.env
+*/secret.json
+*/secret.json.meta
+__pycache__/
