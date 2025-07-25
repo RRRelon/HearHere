@@ -1,5 +1,5 @@
 {
-    "name": "InputSystem_Actions",
+    "name": "GameInput",
     "maps": [
         {
             "name": "Player",
@@ -541,33 +541,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ScrollWheel",
-                    "type": "PassThrough",
-                    "id": "0489e84a-4833-4c40-bfae-cea84b696689",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TrackedDevicePosition",
-                    "type": "PassThrough",
-                    "id": "24908448-c609-4bc3-a128-ea258674378a",
-                    "expectedControlType": "Vector3",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TrackedDeviceOrientation",
-                    "type": "PassThrough",
-                    "id": "9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be",
-                    "expectedControlType": "Quaternion",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -936,17 +909,6 @@
                 },
                 {
                     "name": "",
-                    "id": "38c99815-14ea-4617-8627-164d27641299",
-                    "path": "<Mouse>/scroll",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "ScrollWheel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4c191405-5738-4d4b-a523-c6a301dbf754",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -966,26 +928,43 @@
                     "action": "MiddleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Gameplay",
+            "id": "e6b0048b-5602-4c18-8e5b-cc88fe9ac852",
+            "actions": [
+                {
+                    "name": "Speech",
+                    "type": "Button",
+                    "id": "0ab73e2b-bf3b-4f35-b01c-cfba51966e83",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77",
-                    "path": "<XRController>/devicePosition",
+                    "id": "c2a421cb-87f4-4692-a25c-c2d410f4c21b",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XR",
-                    "action": "TrackedDevicePosition",
+                    "groups": "",
+                    "action": "Speech",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "23e01e3a-f935-4948-8d8b-9bcac77714fb",
-                    "path": "<XRController>/deviceRotation",
+                    "id": "f77c0af3-c6d8-44e8-8556-935c94674f24",
+                    "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XR",
-                    "action": "TrackedDeviceOrientation",
+                    "groups": "",
+                    "action": "Speech",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

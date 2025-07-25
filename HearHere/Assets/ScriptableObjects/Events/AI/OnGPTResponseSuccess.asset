@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcac43618d0f3b743a61f60774642d86, type: 3}
-  m_Name: SelectLocationChannel
+  m_Script: {fileID: 11500000, guid: 86e57dea452a76c438966fcc356ebbf5, type: 3}
+  m_Name: OnGPTResponseSuccess
   m_EditorClassIdentifier: 
