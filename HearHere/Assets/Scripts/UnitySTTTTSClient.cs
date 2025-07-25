@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.IO;
 using System.Text;
+using HH;
 
 /// <summary>
 /// Unity에서 FastAPI 백엔드 서버와 통신하는 클라이언트 스크립트입니다.
@@ -19,13 +20,18 @@ public class UnityTTSSTTClient : MonoBehaviour
     [Tooltip("TTS 음성을 재생할 AudioSource 컴포넌트입니다.")]
     public AudioSource audioSource;
 
+    [SerializeField] private GPTManager gptManager;
+    
+    [Header("Listening to")]
+    [SerializeField] private StringEventChannelSO onSTTCompleted;
+
     // 녹음 관련 변수
     private const int RECORDING_FREQUENCY = 16000; // 16kHz 샘플링
     private const int RECORDING_DURATION_SECONDS = 5; // 최대 녹음 시간
     private string _microphoneDevice;
     private AudioClip _recordedClip;
-
-    #region JSON 데이터 구조체
+    
+#region JSON 데이터 구조체
     // 서버와 JSON 데이터를 주고받기 위한 직렬화 가능 클래스들
 
     [System.Serializable]
@@ -54,9 +60,9 @@ public class UnityTTSSTTClient : MonoBehaviour
         public string download_url;
         public string text; // STT 응답용
     }
-    #endregion
+#endregion
 
-    void Awake()
+    private void Awake()
     {
         // 사용할 AudioSource가 없으면 새로 추가
         if (audioSource == null)
@@ -75,8 +81,18 @@ public class UnityTTSSTTClient : MonoBehaviour
             Debug.LogError("오류: 사용 가능한 마이크 장치를 찾을 수 없습니다!");
         }
     }
+    
+    private void OnEnable()
+    {
+        onSTTCompleted.OnEventRaised += SendChatMessage;
+    }
 
-    #region Public API Methods
+    private void OnDisable()
+    {
+        onSTTCompleted.OnEventRaised -= SendChatMessage;
+    }
+    
+#region Public API Methods
     // GameManager에서 호출할 공개 메소드들
 
     /// <summary>
@@ -90,9 +106,12 @@ public class UnityTTSSTTClient : MonoBehaviour
     /// <summary>
     /// AI에게 텍스트 메시지를 보냅니다.
     /// </summary>
-    public void SendChatMessage(string message, string conversationId = null)
+    public void SendChatMessage(string message)
     {
-        StartCoroutine(RequestChat(message, conversationId));
+        Debug.Log("SendChatMessage");
+        gptManager.OnSubmit(message);
+        
+        //StartCoroutine(RequestChat(message, conversationId));
     }
     
     /// <summary>
@@ -121,9 +140,9 @@ public class UnityTTSSTTClient : MonoBehaviour
         StartVoiceRecording(0.7f, 0.5f);
     }
 
-    #endregion
+#endregion
 
-    #region Coroutines (API 요청 처리)
+#region Coroutines (API 요청 처리)
 
     private IEnumerator RequestTTS(string text, float exaggeration, float cfg_weight)
     {
@@ -308,9 +327,9 @@ public class UnityTTSSTTClient : MonoBehaviour
         }
     }
 
-    #endregion
+#endregion
 
-    #region 오디오 데이터 변환 헬퍼 (AudioClip to WAV)
+#region 오디오 데이터 변환 헬퍼 (AudioClip to WAV)
     // AudioClip 데이터를 WAV 파일 형식의 byte 배열로 변환하는 유틸리티 코드
 
     private byte[] ConvertAudioClipToWav(AudioClip clip)
@@ -355,6 +374,6 @@ public class UnityTTSSTTClient : MonoBehaviour
             return memoryStream.ToArray();
         }
     }
-    #endregion
+#endregion
 }
 

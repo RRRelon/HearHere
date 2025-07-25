@@ -10,6 +10,7 @@ using UnityEngine.UI;       // UI 관련 기능
 
 // class여서 여러 개의 관련 함수, 변수들을 묶은 단위
 // MonoBehaviour 상속: unity 에서는 모든 스크립트가 이걸 상속해서 start(), update() 등 기본 기능 사용가능
+
 public class TTS : MonoBehaviour    // TTS: unity에서 사용하는 TTS script
                                     // MonoBehaviour: unity에서 script를 게임 오브젝트에 붙이기 위한 기본 클래스
 {
