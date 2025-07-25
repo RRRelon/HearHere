@@ -3,3 +3,4 @@
 
 # Visual Studio cache directory
 .vs/
+.env
