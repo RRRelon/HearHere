@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -11,7 +12,7 @@ namespace HH
         [SerializeField] private PromptSO prompt;
         
         [Header("Broadcasting on")]
-        [SerializeField] private StringEventChannelSO onGPTResponseSuccess;
+        [SerializeField] private StringEventChannelSO onTextReadyForTTS;
         
         private const string OPEN_AI_API_URL = "https://api.openai.com/v1/chat/completions";
         private const string SECRET_JSON = "secret";
@@ -56,8 +57,40 @@ namespace HH
                 ChatGPTResponse chatGPTResponse = JsonUtility.FromJson<ChatGPTResponse>(response);
                 string gptResponse = chatGPTResponse.choices[0].message.content;
                 Debug.Log($"GPT Response: {gptResponse}");
-                onGPTResponseSuccess.OnEventRaised(gptResponse);
+                
+                // TODO: 여기서 게임에 대한 질문인지, 시스템 명령인지 판단
+                // ProcessGPTResponse(gptResponse);
             }
+        }
+
+        /// <summary>
+        /// 게임 질문과 시스템 명령 구분.
+        /// </summary>
+        private void ProcessGPTResponse(string response)
+        {
+            // 1. System operation
+            // 여긴 수정해야 해
+            if (response.Contains(","))
+            {
+                List<string> commandList = response.Split(',').Select(s => s.Trim()).ToList();
+                Debug.Log($"시스템 명령어를 감지했습니다: {commandList[0]}, {commandList[1]}");
+                
+                // 첫 번째 요소가 "None"이 아니고 TTS로 출력해야 할 메시지라면
+                if (commandList[0].ToLower() != "none")
+                {
+                    // onTextReadyForTTS.OnEventRaised(gptResponse);
+                }
+            
+                // 두 번째 요소가 "MainMenu"라면 씬을 변경합니다.
+                if (commandList.Count > 1 && commandList[1] == "MainMenu")
+                {
+                    Debug.Log("메인 메뉴로 씬을 변경합니다...");
+                    // 실제 씬 변경 코드 (예시)
+                    // SceneManager.LoadScene("MainMenu");
+                }
+            }
+            // 2. Game Question
+            
         }
     }
 

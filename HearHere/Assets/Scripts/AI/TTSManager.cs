@@ -3,13 +3,14 @@ using System.IO;
 using System.Text;          
 using UnityEngine;          
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 namespace HH
 {
     public class TTSManager : MonoBehaviour
     {
         [Header("Listening to")]
-        [SerializeField] private StringEventChannelSO onGPTResponseSuccess;
+        [SerializeField] private StringEventChannelSO onTextReadyForTTS;
         
         private AudioSource audioSource;
         private string apiKey;
@@ -29,12 +30,12 @@ namespace HH
         
         private void OnEnable()
         {
-            onGPTResponseSuccess.OnEventRaised += RequestTTS;
+            onTextReadyForTTS.OnEventRaised += RequestTTS;
         }
         
         private void OnDisable()
         {
-            onGPTResponseSuccess.OnEventRaised -= RequestTTS;
+            onTextReadyForTTS.OnEventRaised -= RequestTTS;
         }
 
         private void RequestTTS(string text)
@@ -60,7 +61,8 @@ namespace HH
             var request = new GoogleCloudTextToSpeechRequest
             {
                 input = new SynthesisInput { text = text },
-                voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
+                // voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
+                voice = new VoiceSelectionParams { languageCode = "ko-KR", name = "ko-KR-Standard-B", ssmlGender = "MALE" },
                 audioConfig = new AudioConfig { audioEncoding = "MP3" }
             };
             

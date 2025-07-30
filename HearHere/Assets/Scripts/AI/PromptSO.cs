@@ -63,6 +63,11 @@ public class PromptSOEditor : Editor
     {
         // 변경 사항을 감지하고 기록
         serializedObject.Update();
+        
+        // 스크립트 설정
+        GUI.enabled = false;
+        EditorGUILayout.ObjectField("Script", MonoScript.FromScriptableObject((PromptSO)target), typeof(PromptSO), false);
+        GUI.enabled = true;
 
         // 요청하신 대로 "Header"라는 이름의 라벨을 굵은 글씨로 표시합니다.
         EditorGUILayout.LabelField("Stage1", EditorStyles.boldLabel);

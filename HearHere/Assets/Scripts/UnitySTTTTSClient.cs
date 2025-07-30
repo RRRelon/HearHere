@@ -106,7 +106,7 @@ public class UnityTTSSTTClient : MonoBehaviour
     /// <summary>
     /// AI에게 텍스트 메시지를 보냅니다.
     /// </summary>
-    public void SendChatMessage(string message)
+    private void SendChatMessage(string message)
     {
         Debug.Log("SendChatMessage");
         gptManager.OnSubmit(message);
