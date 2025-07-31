@@ -1,19 +1,19 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField] private GameSceneSO currentlyLoadedSceneType;
+    
     [Header("Listening to")]
     [SerializeField] private LoadEventChannelSO loadScene;
     [SerializeField] private LoadEventChannelSO coldStartup;
 
-    private GameSceneSO sceneToLoad;
     private GameSceneSO currentlyLoadedScene;
+    private GameSceneSO sceneToLoad;
     private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
     
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
@@ -41,10 +41,13 @@ public class SceneLoader : MonoBehaviour
     private void ColdStartup(GameSceneSO currentlyOpenedScene)
     {
         currentlyLoadedScene = currentlyOpenedScene;
+        
+        // 현재 게임씬 타입 저장
+        currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
     }
 #endif
     
-    public void LoadScene(GameSceneSO homeToLoad)
+    private void LoadScene(GameSceneSO homeToLoad)
     {
         if (isLoading)
             return;
@@ -72,6 +75,7 @@ public class SceneLoader : MonoBehaviour
 #if UNITY_EDITOR
             else
             {
+                // Cold start 시에만 사용되며, 아직 AsyncOperationHandle이 할당되지 않아 직접 접근해 언로드 해야 함
                 var unloadOperation = SceneManager.UnloadSceneAsync(currentlyLoadedScene.SceneReference.editorAsset.name);
                 yield return unloadOperation;
             }
@@ -97,6 +101,9 @@ public class SceneLoader : MonoBehaviour
     private void OnNewSceneLoad(AsyncOperationHandle<SceneInstance> obj)
     {
         currentlyLoadedScene = sceneToLoad;
+        
+        // 현재 게임씬 타입 저장
+        currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
 
         Scene s = obj.Result.Scene;
         SceneManager.SetActiveScene(s);
