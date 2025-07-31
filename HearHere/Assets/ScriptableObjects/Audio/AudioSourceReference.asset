@@ -9,14 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98e715dbe51973843bb929b7baa0e4c9, type: 3}
-  m_Name: Menu
+  m_Script: {fileID: 11500000, guid: d017571338b4ec041b9f75046586ed42, type: 3}
+  m_Name: AudioSourceReference
   m_EditorClassIdentifier: 
-  Description: 
-  SceneType: 1
-  SceneReference:
-    m_AssetGUID: 33663177b3f2a40438ab41079df830a3
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+  AudioSourceRef: {fileID: 0}

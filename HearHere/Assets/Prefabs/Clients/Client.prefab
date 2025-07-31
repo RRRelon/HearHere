@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2224430998671565786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7943969339901863985}
+  - component: {fileID: 8891909989468546243}
+  m_Layer: 0
+  m_Name: Client
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7943969339901863985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224430998671565786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 941.60803, y: 481.04132, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8891909989468546243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2224430998671565786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75ba1b489e35964285bf81ce71920ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speechTest: 
+  currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
+  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
+  gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
+  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
+  prompt: {fileID: 0}
+  loadScene: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}

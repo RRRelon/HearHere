@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98e715dbe51973843bb929b7baa0e4c9, type: 3}
-  m_Name: Menu
+  m_Script: {fileID: 11500000, guid: 315b40bf7f1652b499ce4b0bcd55a1c9, type: 3}
+  m_Name: CurrentlyLoadedScene
   m_EditorClassIdentifier: 
-  Description: 
-  SceneType: 1
+  Description: "\uD604\uC7AC \uB85C\uB4DC\uB41C \uC52C \uAD00\uB9AC"
+  SceneType: 0
   SceneReference:
-    m_AssetGUID: 33663177b3f2a40438ab41079df830a3
+    m_AssetGUID: 
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
