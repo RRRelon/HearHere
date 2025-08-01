@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -7,20 +8,25 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private GameSceneSO currentlyLoadedSceneType;
+    [SerializeField] private GameSceneSO gameplayScene;
     
     [Header("Listening to")]
-    [SerializeField] private LoadEventChannelSO loadScene;
+    [SerializeField] private LoadEventChannelSO loadMenu;
+    [SerializeField] private LoadEventChannelSO loadLocation;
     [SerializeField] private LoadEventChannelSO coldStartup;
 
     private GameSceneSO currentlyLoadedScene;
     private GameSceneSO sceneToLoad;
     private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
+    private AsyncOperationHandle<SceneInstance> gameplayManagerLoadingOpHandle;
     
+    private SceneInstance gameplayManagerSceneInstance = new SceneInstance();
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
 
     private void OnEnable()
     {
-        loadScene.OnLoadingRequested += LoadScene   ;
+        loadMenu.OnLoadingRequested += LoadMenu;
+        loadLocation.OnLoadingRequested += LoadLocation;
 #if UNITY_EDITOR
         coldStartup.OnLoadingRequested += ColdStartup;
 #endif
@@ -28,7 +34,8 @@ public class SceneLoader : MonoBehaviour
 
     private void OnDisable()
     {
-        loadScene.OnLoadingRequested -= LoadScene;
+        loadMenu.OnLoadingRequested -= LoadMenu;
+        loadLocation.OnLoadingRequested -= LoadLocation;
 #if UNITY_EDITOR
         coldStartup.OnLoadingRequested -= ColdStartup;
 #endif
@@ -44,17 +51,54 @@ public class SceneLoader : MonoBehaviour
         
         // 현재 게임씬 타입 저장
         currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
+
+        if (currentlyLoadedScene.SceneType == GameSceneType.Location)
+        {
+            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+            gameplayManagerLoadingOpHandle.WaitForCompletion();
+            gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
+        }
     }
 #endif
     
-    private void LoadScene(GameSceneSO homeToLoad)
+    private void LoadMenu(GameSceneSO menuToLoad)
     {
         if (isLoading)
             return;
 
-        sceneToLoad = homeToLoad;
-
+        sceneToLoad = menuToLoad;
         isLoading = true;
+
+        if (gameplayManagerSceneInstance.Scene != null && gameplayManagerSceneInstance.Scene.isLoaded)
+        {
+            Addressables.UnloadSceneAsync(gameplayManagerLoadingOpHandle, true);
+        }
+        
+        StartCoroutine(UnloadPreviousScene());
+    }
+
+    private void LoadLocation(GameSceneSO locationToLoad)
+    {
+        if (isLoading)
+            return;
+        
+        sceneToLoad = locationToLoad;
+        isLoading = true;
+
+        if (gameplayManagerSceneInstance.Scene == null || !gameplayManagerSceneInstance.Scene.isLoaded)
+        {
+            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+            gameplayManagerLoadingOpHandle.Completed += OnGameplayManagerLoaded;
+        }
+        else
+        {
+            StartCoroutine(UnloadPreviousScene());
+        }
+    }
+
+    private void OnGameplayManagerLoaded(AsyncOperationHandle<SceneInstance> obj)
+    {
+        gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
         StartCoroutine(UnloadPreviousScene());
     }
 
