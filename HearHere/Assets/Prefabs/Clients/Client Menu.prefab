@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 941.60803
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 481.04132
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.z
@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: speechTest
       value: "\uAC8C\uC784 \uC2DC\uC791 \uD574\uC918"
       objectReference: {fileID: 0}
+    - target: {fileID: 8891909989468546243, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: loadLocation
+      value: 
+      objectReference: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

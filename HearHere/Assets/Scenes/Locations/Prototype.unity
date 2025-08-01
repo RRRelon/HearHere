@@ -819,14 +819,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3270961989271414154, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
-      propertyPath: speechTest
-      value: "\uBA54\uC778 \uBA54\uB274\uB85C \uAC00\uC918"
-      objectReference: {fileID: 0}
-    - target: {fileID: 3270961989271414154, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
-      propertyPath: onTTSRequest
-      value: 
-      objectReference: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
     - target: {fileID: 4052119923410282872, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 941.60803

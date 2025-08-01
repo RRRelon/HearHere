@@ -149,7 +149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentlyLoadedSceneType: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
-  loadScene: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
+  gameplayScene: {fileID: 11400000, guid: cd7ac3b67beb1824ea51644b0fb325ff, type: 2}
+  loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
+  loadLocation: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
   coldStartup: {fileID: 11400000, guid: 63c908260e4cb0e45a0d92b387943cb9, type: 2}
 --- !u!4 &110726418
 Transform:
