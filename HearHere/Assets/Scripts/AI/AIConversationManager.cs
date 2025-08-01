@@ -70,8 +70,8 @@ namespace HH
             var request = new GoogleCloudTextToSpeechRequest
             {
                 input = new SynthesisInput { text = text },
-                // voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
-                voice = new VoiceSelectionParams { languageCode = "ko-KR", name = "ko-KR-Standard-B", ssmlGender = "MALE" },
+                voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
+                // voice = new VoiceSelectionParams { languageCode = "ko-KR", name = "ko-KR-Standard-B", ssmlGender = "MALE" },
                 audioConfig = new AudioConfig { audioEncoding = "MP3" }
             };
             
@@ -129,13 +129,12 @@ namespace HH
         /// </summary>
         private async Task<string> TranscribeAudioAsync(AudioClip clip)
         {
-            Debug.Log("Transcripting...");
             byte[] data = SaveWav.Save(fileName, clip);
             var req = new CreateAudioTranscriptionsRequest
             {
                 FileData = new FileData() { Data = data, Name = "audio.wav" },
                 Model = "whisper-1",
-                Language = "ko"
+                Language = "en"
             };
 
             var res = await openai.CreateAudioTranscription(req);

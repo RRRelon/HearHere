@@ -42,7 +42,7 @@ public class GameClient : MonoBehaviour
         if (Microphone.devices.Length > 0)
         {
             microphoneDevice = Microphone.devices[0];
-            Debug.Log($"사용할 마이크: {microphoneDevice}");
+            // Debug.Log($"사용할 마이크: {microphoneDevice}");
         }
         else
         {
@@ -52,20 +52,20 @@ public class GameClient : MonoBehaviour
     
     private void OnEnable()
     {
-        // inputReader.SpeechEvent += StartRecording;
-        // inputReader.SpeechCancelEvent += EndRecording;
+        inputReader.SpeechEvent += StartRecording;
+        inputReader.SpeechCancelEvent += EndRecording;
             
-        // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        inputReader.SpeechEvent += STTTest;
+        // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
+        // inputReader.SpeechEvent += STTTest;
     }
 
     private void OnDisable()
     {
-        // inputReader.SpeechEvent -= StartRecording;
-        // inputReader.SpeechCancelEvent -= EndRecording;
+        inputReader.SpeechEvent -= StartRecording;
+        inputReader.SpeechCancelEvent -= EndRecording;
             
-        // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        inputReader.SpeechEvent -= STTTest;
+        // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
+        // inputReader.SpeechEvent -= STTTest;
     }
     
     private void StartRecording()
@@ -107,8 +107,10 @@ public class GameClient : MonoBehaviour
     private async void ProcessUserInput(string userText)
     {
         #region 메뉴 설명
-        string[] menuInfoTargets = { "메뉴" };
-        string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
+        // string[] menuInfoTargets = { "메뉴" };
+        // string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
+        string[] menuInfoTargets = { "menu" };
+        string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
 
         // --- 메뉴 설명 명령어 확인 ---
         bool isMenuInfoTargetMatch = false;
@@ -128,7 +130,8 @@ public class GameClient : MonoBehaviour
                 if (userText.Contains(action))
                 {
                     // 메뉴 설명 TTS 실행
-                    onTextReadyForTTS.OnEventRaised("사용 가능한 명령어는 게임 시작, 게임 종료입니다.");
+                    // onTextReadyForTTS.OnEventRaised("사용 가능한 명령어는 메인 메뉴로 가기, 게임 종료입니다.");
+                    onTextReadyForTTS.OnEventRaised("Available commands are Go to Main Menu, and Exit Game.");
                     return; // 처리 완료, GPT에 보내지 않음
                 }
             }
@@ -136,8 +139,10 @@ public class GameClient : MonoBehaviour
         #endregion
         
         #region 메인 메뉴 관련
-        string[] menuTargets = { "메인", "처음" };
-        string[] menuActions = { "메뉴", "화면", "이동", "돌아가", "가줘" };
+        // string[] menuTargets = { "메인", "처음" };
+        // string[] menuActions = { "메뉴", "화면", "이동", "돌아가", "가줘" };
+        string[] menuTargets = { "main", "first" };
+        string[] menuActions = { "menu", "screen", "move", "return", "go" };
 
         // --- 메인 메뉴 이동 명령어 확인 ---
         bool isMenuTargetMatch = false;
@@ -158,14 +163,16 @@ public class GameClient : MonoBehaviour
                     // 메인 메뉴로 이동하는 명령어 처리
                     if (currentlyLoadedScene.SceneType != GameSceneType.Menu)
                     {
-                        onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
+                        // onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
+                        onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
                         
                         // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
                         StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
                     }
                     else
                     {
-                        onTextReadyForTTS.OnEventRaised("현재 메인 메뉴입니다.");
+                        // onTextReadyForTTS.OnEventRaised("현재 메인 메뉴입니다.");
+                        onTextReadyForTTS.OnEventRaised("You are currently in the main menu.");
                     }
                     return; // 처리 완료, GPT에 보내지 않음
                 }
@@ -176,9 +183,10 @@ public class GameClient : MonoBehaviour
         #region 게임 종료
             
         // 게임 종료 관련
-        string[] exitTargets = { "게임", "프로그램" };
-        string[] exitActions = { "나가기", "종료", "꺼줘", "끌래" };
-
+        // string[] exitTargets = { "게임", "프로그램" };
+        // string[] exitActions = { "나가기", "종료", "꺼줘", "끌래" };
+        string[] exitTargets = { "game", "application", "program" };
+        string[] exitActions = { "exit", "quit", "turn off", "close" };
 
         // --- 게임 종료 명령어 확인 ---
         bool isExitTargetMatch = false;
@@ -199,11 +207,7 @@ public class GameClient : MonoBehaviour
                 {
                     Debug.Log("게임을 종료합니다.");
                     // 실제 게임 종료 코드
-        #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-        #else
-                    Application.Quit();
-        #endif
+                    StartCoroutine(ExitGame());
                     return;
                 }
             }
@@ -261,22 +265,34 @@ public class GameClient : MonoBehaviour
         loadMenu.OnLoadingRequested(sceneToLoad);
     }
 
-    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator OnGameClear(float waitTime, GameSceneSO sceneToLoad)
     {
         inputReader.DisableAllInput();
         
         // 화면 점등
         onGameClear.OnEventRaised(true);
-        onTextReadyForTTS.OnEventRaised("축하드립니다. 게임을 클리어 하셨습니다.");
+        // onTextReadyForTTS.OnEventRaised("축하드립니다. 게임을 클리어 하셨습니다.");
+        onTextReadyForTTS.OnEventRaised("Congratulations. You have cleared the game.");
         
         yield return new WaitForSeconds(3.0f);
         
         inputReader.EnableGameplayInput();
         
         // 메인 메뉴로 이동
-        onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
+        // onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
+        onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
+        
         StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
+    }
+    
+    private IEnumerator ExitGame()
+    {
+        yield return new WaitForSeconds(3.0f);
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 }
 

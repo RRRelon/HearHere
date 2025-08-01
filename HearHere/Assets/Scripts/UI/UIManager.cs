@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
         // 게임 클리어(성공) 시 초록색으로 짧게 3번 점등
         if (isClear)
         {
-            Debug.Log("짧은 시퀀스 넣음");
             flashSequence.Append(
                 targetImage.DOColor(shortFlashColor, shortFlashDuration)
                     .SetLoops(shortFlashCount * 2, LoopType.Yoyo));
@@ -62,17 +61,11 @@ public class UIManager : MonoBehaviour
         // 게임 오버(실패) 시 빨간색으로 길게 2번 점등
         else
         {
-            Debug.Log("긴 시퀀스 넣음");
             flashSequence.Append(
                 targetImage.DOColor(longFlashColor, longFlashDuration)
                     .SetLoops(longFlashCount * 2, LoopType.Yoyo));
         }
-            
 
-        flashSequence.OnComplete(() => 
-        {
-            targetImage.color = defaultColor;
-            Debug.Log("깜빡임 시퀀스 완료");
-        });
+        flashSequence.OnComplete(() => { targetImage.color = defaultColor; });
     }
 }

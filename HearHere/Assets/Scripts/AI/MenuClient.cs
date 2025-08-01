@@ -51,28 +51,28 @@ public class MenuClient : MonoBehaviour
     
     private void OnEnable()
     {
-        // inputReader.SpeechEvent += StartRecording;
-        // inputReader.SpeechCancelEvent += EndRecording;
+        inputReader.SpeechEvent += StartRecording;
+        inputReader.SpeechCancelEvent += EndRecording;
             
-        // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        inputReader.SpeechEvent += STTTest;
+        // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
+        // inputReader.SpeechEvent += STTTest;
 
         StartCoroutine(StartAnnounce());
+    }
+    
+    private void OnDisable()
+    {
+        inputReader.SpeechEvent -= StartRecording;
+        inputReader.SpeechCancelEvent -= EndRecording;
+            
+        // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
+        // inputReader.SpeechEvent -= STTTest;
     }
 
     private IEnumerator StartAnnounce()
     {
         yield return new WaitForSeconds(2.0f);
-        onTextReadyForTTS.OnEventRaised("안녕하세요. 저는 게임 비서 입니다. 메뉴 설명이라고 말씀하시면 메뉴 목록 확인 가능합니다.");
-    }
-
-    private void OnDisable()
-    {
-        // inputReader.SpeechEvent -= StartRecording;
-        // inputReader.SpeechCancelEvent -= EndRecording;
-            
-        // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        inputReader.SpeechEvent -= STTTest;
+        onTextReadyForTTS.OnEventRaised("Hello, I'm your in-game assistant. If you'd like to see the list of commands, just say 'Explain menu'.");
     }
     
     private void StartRecording()
@@ -113,9 +113,15 @@ public class MenuClient : MonoBehaviour
     /// </summary>
     private void ProcessUserInput(string userText)
     {
+        // 입력을 소문자로 변환하고, 구두점을 제거하여 키워드 인식을 더 안정적으로 만듭니다.
+        userText = userText.ToLower().Replace(".", "").Replace("?", "");
+        Debug.Log($"처리할 입력 : {userText}");
+        
         #region 메뉴 설명
-        string[] menuInfoTargets = { "메뉴" };
-        string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
+        // string[] menuInfoTargets = { "메뉴" };
+        // string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
+        string[] menuInfoTargets = { "menu" };
+        string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
 
         // --- 메뉴 설명 명령어 확인 ---
         bool isMenuInfoTargetMatch = false;
@@ -135,7 +141,7 @@ public class MenuClient : MonoBehaviour
                 if (userText.Contains(action))
                 {
                     // 메뉴 설명 TTS 실행
-                    onTextReadyForTTS.OnEventRaised("사용 가능한 명령어는 게임 시작, 게임 종료입니다.");
+                    onTextReadyForTTS.OnEventRaised("Available commands are Start Game and Exit Game.");
                     return; // 처리 완료, GPT에 보내지 않음
                 }
             }
@@ -144,11 +150,8 @@ public class MenuClient : MonoBehaviour
 
         #region 게임 시작
         // 게임 시작 관련
-        string[] startKeywords = { "시작", "시작해", "플레이" };
-            
-        // 게임 종료 관련
-        string[] exitTargets = { "게임", "프로그램" };
-        string[] exitActions = { "나가기", "종료", "꺼줘", "끌래" };
+        // string[] startKeywords = { "시작", "시작해", "플레이" };
+        string[] startKeywords = { "start", "begin", "play" };
 
         // --- 게임 시작 명령어 확인 ---
         foreach (var keyword in startKeywords)
@@ -158,14 +161,16 @@ public class MenuClient : MonoBehaviour
                 // 게임 씬으로 이동하는 명령어 처리
                 if (currentlyLoadedScene.SceneType != GameSceneType.Location)
                 {
-                    onTextReadyForTTS.OnEventRaised("게임을 시작합니다.");
+                    // onTextReadyForTTS.OnEventRaised("게임을 시작합니다.");
+                    onTextReadyForTTS.OnEventRaised("Starting the game.");
                         
                     // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
                     StartCoroutine(DelaySceneLoad(3.0f, gameToLoad));
                 }
                 else
                 {
-                    onTextReadyForTTS.OnEventRaised("현재 게임 중 입니다.");
+                    // onTextReadyForTTS.OnEventRaised("현재 게임 중 입니다.");
+                    onTextReadyForTTS.OnEventRaised("The game is already in progress.");
                 }
                 return; // 처리 완료, GPT에 보내지 않음
             }
@@ -174,6 +179,12 @@ public class MenuClient : MonoBehaviour
 
         #region 게임 종료
         // --- 게임 종료 명령어 확인 ---
+        // 게임 종료 관련
+        // string[] exitTargets = { "게임", "프로그램" };
+        // string[] exitActions = { "나가기", "종료", "꺼줘", "끌래" };
+        string[] exitTargets = { "game", "application", "program" };
+        string[] exitActions = { "exit", "quit", "turn off", "close" };
+        
         bool isExitTargetMatch = false;
         foreach (var target in exitTargets)
         {
@@ -192,11 +203,7 @@ public class MenuClient : MonoBehaviour
                 {
                     Debug.Log("게임을 종료합니다.");
                     // 실제 게임 종료 코드
-        #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
-        #else
-                    Application.Quit();
-        #endif
+                    StartCoroutine(ExitGame());
                     return;
                 }
             }
@@ -208,6 +215,18 @@ public class MenuClient : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         loadLocation.OnLoadingRequested(sceneToLoad);
+    }
+
+    private IEnumerator ExitGame()
+    {
+        onTextReadyForTTS.OnEventRaised("Exit game.");
+        
+        yield return new WaitForSeconds(3.0f);
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 }
 

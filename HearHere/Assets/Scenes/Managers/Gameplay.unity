@@ -236,10 +236,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 2072522832}
   shortFlashColor: {r: 0, g: 1, b: 0, a: 1}
-  shortFlashDuration: 0.15
+  shortFlashDuration: 0.3
   shortFlashCount: 3
   longFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  longFlashDuration: 0.5
+  longFlashDuration: 0.8
   longFlashCount: 2
   onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}
 --- !u!1 &2072522830
