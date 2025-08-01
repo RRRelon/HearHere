@@ -15,18 +15,13 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: ab22b5990eebfb9479a9f24db1abb8b0
   m_SerializeEntries:
-  - m_GUID: 2c3cb3fcf758e464284fd1ea5f269e24
-    m_Address: Assets/Scenes/Locations/Low 2.unity
+  - m_GUID: 0cfaef470fd8e6e44993737656f49518
+    m_Address: Assets/Scenes/Managers/Gameplay.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 33663177b3f2a40438ab41079df830a3
-    m_Address: Assets/Scenes/Menu.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3bc72a9a64f6b2c4ca9e964bd82dd9bf
-    m_Address: Assets/Scenes/Locations/Medium 1.unity
+    m_Address: Assets/Scenes/MainMenu/Menu.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -35,58 +30,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5b228a4a0dfb261499f9109bf4bf562d
-    m_Address: Assets/Scenes/Locations/High 4.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5cf34296e3a636e439baaefe70b7517c
-    m_Address: Assets/Scenes/Locations/Medium 3.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5d8b9dc72b8851349a75e2e501e2d731
-    m_Address: Assets/Scenes/Locations/High.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 61f72b723d341584f9a3044e5874b553
-    m_Address: Assets/Scenes/Locations/Medium.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 63c908260e4cb0e45a0d92b387943cb9
     m_Address: Assets/ScriptableObjects/Events/ColdStartup_LoadEventChannel.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 68514f6e203625e4ea31a01a186ca864
-    m_Address: Assets/Scenes/Locations/High 2.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7c9873de6c1b75145a57016ed9c82668
-    m_Address: Assets/Scenes/Locations/Low 3.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 82e57ea7e4b67814fb025d27074fdcdb
-    m_Address: Assets/Scenes/Locations/Low 1.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8381f90dd2eb695498cc95b883f097a6
-    m_Address: Assets/Scenes/Locations/Medium 4.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa5e175bbfc7e4f4b9adadc78b4c21c9
-    m_Address: Assets/Scenes/Locations/Low 4.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ab44d21222582cd468e001af9b328e99
-    m_Address: Assets/Scenes/Locations/High 3.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -95,23 +40,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ba64ff2dcd5e9a843b78920166ab7ec3
-    m_Address: Assets/Scenes/Locations/Medium 2.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ec0449251a27db04a9d849522cc139b2
-    m_Address: Assets/Scenes/Game.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed3b55ac19d414640b820898a68bb41d
-    m_Address: Assets/Scenes/PersistentManagers.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f861bef509dfdd54ca04665c496c350c
-    m_Address: Assets/Scenes/Locations/High 1.unity
+    m_Address: Assets/Scenes/Managers/PersistentManagers.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

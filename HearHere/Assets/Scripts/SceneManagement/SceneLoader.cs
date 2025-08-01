@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -8,19 +7,26 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField] private GameSceneSO currentlyLoadedSceneType;
+    [SerializeField] private GameSceneSO gameplayScene;
+    
     [Header("Listening to")]
-    [SerializeField] private LoadEventChannelSO loadScene;
+    [SerializeField] private LoadEventChannelSO loadMenu;
+    [SerializeField] private LoadEventChannelSO loadLocation;
     [SerializeField] private LoadEventChannelSO coldStartup;
 
-    private GameSceneSO sceneToLoad;
     private GameSceneSO currentlyLoadedScene;
+    private GameSceneSO sceneToLoad;
     private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
+    private AsyncOperationHandle<SceneInstance> gameplayManagerLoadingOpHandle;
     
+    private SceneInstance gameplayManagerSceneInstance = new SceneInstance();
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
 
     private void OnEnable()
     {
-        loadScene.OnLoadingRequested += LoadScene   ;
+        loadMenu.OnLoadingRequested += LoadMenu;
+        loadLocation.OnLoadingRequested += LoadLocation;
 #if UNITY_EDITOR
         coldStartup.OnLoadingRequested += ColdStartup;
 #endif
@@ -28,7 +34,8 @@ public class SceneLoader : MonoBehaviour
 
     private void OnDisable()
     {
-        loadScene.OnLoadingRequested -= LoadScene;
+        loadMenu.OnLoadingRequested -= LoadMenu;
+        loadLocation.OnLoadingRequested -= LoadLocation;
 #if UNITY_EDITOR
         coldStartup.OnLoadingRequested -= ColdStartup;
 #endif
@@ -41,17 +48,57 @@ public class SceneLoader : MonoBehaviour
     private void ColdStartup(GameSceneSO currentlyOpenedScene)
     {
         currentlyLoadedScene = currentlyOpenedScene;
+        
+        // 현재 게임씬 타입 저장
+        currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
+
+        if (currentlyLoadedScene.SceneType == GameSceneType.Location)
+        {
+            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+            gameplayManagerLoadingOpHandle.WaitForCompletion();
+            gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
+        }
     }
 #endif
     
-    public void LoadScene(GameSceneSO homeToLoad)
+    private void LoadMenu(GameSceneSO menuToLoad)
     {
         if (isLoading)
             return;
 
-        sceneToLoad = homeToLoad;
-
+        sceneToLoad = menuToLoad;
         isLoading = true;
+
+        if (gameplayManagerSceneInstance.Scene != null && gameplayManagerSceneInstance.Scene.isLoaded)
+        {
+            Addressables.UnloadSceneAsync(gameplayManagerLoadingOpHandle, true);
+        }
+        
+        StartCoroutine(UnloadPreviousScene());
+    }
+
+    private void LoadLocation(GameSceneSO locationToLoad)
+    {
+        if (isLoading)
+            return;
+        
+        sceneToLoad = locationToLoad;
+        isLoading = true;
+
+        if (gameplayManagerSceneInstance.Scene == null || !gameplayManagerSceneInstance.Scene.isLoaded)
+        {
+            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+            gameplayManagerLoadingOpHandle.Completed += OnGameplayManagerLoaded;
+        }
+        else
+        {
+            StartCoroutine(UnloadPreviousScene());
+        }
+    }
+
+    private void OnGameplayManagerLoaded(AsyncOperationHandle<SceneInstance> obj)
+    {
+        gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
         StartCoroutine(UnloadPreviousScene());
     }
 
@@ -72,6 +119,7 @@ public class SceneLoader : MonoBehaviour
 #if UNITY_EDITOR
             else
             {
+                // Cold start 시에만 사용되며, 아직 AsyncOperationHandle이 할당되지 않아 직접 접근해 언로드 해야 함
                 var unloadOperation = SceneManager.UnloadSceneAsync(currentlyLoadedScene.SceneReference.editorAsset.name);
                 yield return unloadOperation;
             }
@@ -97,6 +145,9 @@ public class SceneLoader : MonoBehaviour
     private void OnNewSceneLoad(AsyncOperationHandle<SceneInstance> obj)
     {
         currentlyLoadedScene = sceneToLoad;
+        
+        // 현재 게임씬 타입 저장
+        currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
 
         Scene s = obj.Result.Scene;
         SceneManager.SetActiveScene(s);
