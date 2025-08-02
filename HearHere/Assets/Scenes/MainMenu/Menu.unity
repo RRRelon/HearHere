@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 1733353720}
   - component: {fileID: 1733353719}
   - component: {fileID: 1733353718}
+  - component: {fileID: 1733353722}
   m_Layer: 5
   m_Name: Canvas - MainMenu
   m_TagString: Untagged
@@ -597,6 +598,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1733353722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733353717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3ac7cc0bfd2b64181f177f374a40a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  targetImage: {fileID: 1671464394}
+  pressColor: {r: 0.044025064, g: 0.044025064, b: 0.044025064, a: 1}
+  flashColor: {r: 0.05882353, g: 0.05882353, b: 0.05882353, a: 1}
+  durationPerCharacter: 0.07
+  minFlashInterval: 0.1
+  maxFlashInterval: 0.3
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
 --- !u!1001 &1872742601
 PrefabInstance:
   m_ObjectHideFlags: 0
