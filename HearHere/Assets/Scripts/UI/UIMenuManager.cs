@@ -1,56 +1,106 @@
-using System;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class UIMenuManager : MonoBehaviour
+namespace HH.UI
 {
-    [Header("Scene List")]
-    [SerializeField] private List<GameSceneSO> lowSceneList;
-    [SerializeField] private List<GameSceneSO> mediumSceneList;
-    [SerializeField] private List<GameSceneSO> highSceneList;
+    using System.Collections;
+    using DG.Tweening;
+    using UnityEngine;
+    using UnityEngine.UI;
     
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI currentLocationTMP;
-    [SerializeField] private Button startButton;
-    
-    [Header("Broadcasting on")]
-    [SerializeField] private LoadEventChannelSO onStartLocation;
-
-    private GameSceneSO randomLocation;
-
-    public void SelectLevel(int lv)
+    public class UIMenuManager : MonoBehaviour
     {
-        // Scene List에서 랜덤하게 골라 전환
-        switch ((Level)lv)
+        [SerializeField] private InputReader inputReader;
+        
+        [Header("Touch Visual Feedback")]
+        [SerializeField] private Image targetImage;
+        [SerializeField] private Color pressColor;
+        
+        [Header("TTS Visual Feedback")]
+        [SerializeField] private Color flashColor;                  // 깜빡일 색상
+        [SerializeField] private float durationPerCharacter = 0.06f; // 텍스트 한 글자당 깜빡임이 지속될 시간 (초)
+        [SerializeField] private float minFlashInterval = 0.1f;     // 최소 깜빡임 간격
+        [SerializeField] private float maxFlashInterval = 0.3f;     // 최대 깜빡임 간격
+        
+        [Header("Listening to")]
+        [SerializeField] private StringEventChannelSO onTextReadyForTTS;
+        
+        private Coroutine flashCoroutine;
+        private Color defaultColor;
+
+        private void Awake()
         {
-            case Level.Low:
-                randomLocation = lowSceneList[UnityEngine.Random.Range(0, lowSceneList.Count)];
-                break;
-            case Level.Medium:
-                randomLocation = mediumSceneList[UnityEngine.Random.Range(0, mediumSceneList.Count)];
-                break;
-            case Level.High:
-                randomLocation = highSceneList[UnityEngine.Random.Range(0, highSceneList.Count)];
-                break;
-            default:
-                Debug.LogError("Unknown listening level");
-                return;
+            defaultColor = targetImage.color;
         }
-        currentLocationTMP.text = $"현재 스테이지: {randomLocation.name}";
-    }
+        
+        private void OnEnable()
+        {
+            inputReader.SpeechEvent += OnScreenPressed; 
+            inputReader.SpeechCancelEvent += OnScreenReleased;
+            onTextReadyForTTS.OnEventRaised += StartTTSVisualFeedback;
+        }
 
-    public void StartGame()
-    {
-        onStartLocation.OnLoadingRequested(randomLocation);
-    }
-}
+        private void OnDisable()
+        {
+            inputReader.SpeechEvent -= OnScreenPressed; 
+            inputReader.SpeechCancelEvent -= OnScreenReleased;
+            onTextReadyForTTS.OnEventRaised -= StartTTSVisualFeedback;
+        }
 
-[Serializable]
-public enum Level
-{
-    Low, 
-    Medium,
-    High
+        private void OnScreenPressed()
+        {
+            Debug.Log("화면 터치 시 이벤트");
+            targetImage.DOColor(pressColor, 0.3f);
+        }
+
+        private void OnScreenReleased()
+        {
+            targetImage.DOColor(defaultColor, 0.3f);
+        }
+        
+        /// <summary>
+        /// StringEventChannelSO에서 호출할 공개 메소드. 시각적 피드백을 시작합니다.
+        /// </summary>
+        private void StartTTSVisualFeedback(string text)
+        {
+            // 이전에 실행 중인 코루틴이 있다면 중지
+            if (flashCoroutine != null)
+            {
+                StopCoroutine(flashCoroutine);
+                // DOTween 애니메이션도 즉시 중지하고 기본 색상으로 복원
+                targetImage.DOKill();
+                targetImage.color = defaultColor;
+            }
+
+            // 텍스트 길이에 따라 전체 지속 시간 계산
+            float totalDuration = text.Length * durationPerCharacter;
+            
+            // 새로운 깜빡임 코루틴 시작
+            flashCoroutine = StartCoroutine(FlashRoutine(totalDuration));
+        }
+        
+        /// <summary>
+        /// 지정된 시간 동안 이미지를 랜덤하게 깜빡이는 코루틴
+        /// </summary>
+        private IEnumerator FlashRoutine(float totalDuration)
+        {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < totalDuration)
+            {
+                // 어두운 색으로 변경
+                targetImage.DOColor(flashColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
+                float waitTime1 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
+                yield return new WaitForSeconds(waitTime1);
+                elapsedTime += waitTime1;
+
+                // 다시 원래 색으로 변경
+                targetImage.DOColor(defaultColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
+                float waitTime2 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
+                yield return new WaitForSeconds(waitTime2);
+                elapsedTime += waitTime2;
+            }
+
+            // 코루틴이 끝나면 확실하게 기본 색상으로 복원
+            targetImage.color = defaultColor;
+            flashCoroutine = null;
+        }
+    }
 }

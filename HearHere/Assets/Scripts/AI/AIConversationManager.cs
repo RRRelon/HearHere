@@ -14,7 +14,7 @@ namespace HH
     {
         // STT
         private const string fileName = "output.wav";
-        private OpenAIApi openai = new OpenAIApi();
+        private OpenAIApi openai;
         
         // GPT
         private const string OPEN_AI_API_URL = "https://api.openai.com/v1/chat/completions";
@@ -29,6 +29,8 @@ namespace HH
             SecretData secret = JsonUtility.FromJson<SecretData>(jsonFile.text); // JSON을 C# 객체로 바꾸는 코드
             googleTTSApiKey = secret.googleTTSApiKey;
             openaiApiKey = secret.openaiApiKey;
+
+            openai = new OpenAIApi(openaiApiKey);
         }
 
         /// <summary>
