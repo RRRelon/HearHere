@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/AudioTest.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Initialization.unity
+    guid: a456241e847dcc64cb9f2f7a812953be
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: caa9695407eccfd4fbfd3af74fb7624a, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
