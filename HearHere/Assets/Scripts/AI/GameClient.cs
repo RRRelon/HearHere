@@ -20,6 +20,7 @@ public class GameClient : MonoBehaviour
     [Header("AI")]
     [SerializeField] private AIConversationManagerSO manager;
     [SerializeField] private PromptSO prompt;
+    [SerializeField] private int promptNum = 0;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
@@ -215,7 +216,7 @@ public class GameClient : MonoBehaviour
         #endregion
 
         #region 게임 내용에 대한 GPT 응답
-        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
+        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompts[promptNum].Content);
         // GPT 응답에 따른 액션 수행
         switch (response.response_type)
         {
