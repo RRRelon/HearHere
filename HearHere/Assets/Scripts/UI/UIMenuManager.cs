@@ -46,7 +46,6 @@ namespace HH.UI
 
         private void OnScreenPressed()
         {
-            Debug.Log("화면 터치 시 이벤트");
             targetImage.DOColor(pressColor, 0.3f);
         }
 

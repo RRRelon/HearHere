@@ -22,6 +22,7 @@ namespace HH
     public class AudioConfig
     {
         public string audioEncoding;
+        public float speakingRate;
     }
 
     [System.Serializable]
