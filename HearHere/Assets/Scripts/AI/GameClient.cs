@@ -10,6 +10,8 @@ public class GameClient : MonoBehaviour
 {
     [Header("Debugging")]
     public string speechTest;
+    [Header("Map Info")]
+    [SerializeField] private MapInfo mapInfo;
     // Game Management
     [Header("Scene Management")]
     [SerializeField] private GameSceneSO currentlyLoadedScene;
@@ -35,7 +37,7 @@ public class GameClient : MonoBehaviour
     private AudioClip clip;
     private bool isRecording;
     private float time;
-    
+     
     
     private void Awake()
     {
@@ -221,15 +223,22 @@ public class GameClient : MonoBehaviour
         switch (response.response_type)
         {
             case "clue": // 단서 소리
-                OnClueAction(response.command, response.command_arg);
+                mapInfo.GetClue();
                 break;
             case "dialogue": // 일반 상호작용
-                OnDialogueAction(response.tts_text);
+                mapInfo.GetNormal();
                 break;
-            default:
-                onTextReadyForTTS.OnEventRaised("게임과 관련 없는 내용입니다.");
+            case "result": // 일반 상호작용
+                mapInfo.GetResult();
+                break;
+            case "hint": // 일반 상호작용
+                mapInfo.GetHint();
+                break;
+            default:             
                 break;
         }
+        // GPT 응답 TTS로 전환
+		onTextReadyForTTS.OnEventRaised(response.tts_text);
         #endregion
     }
     

@@ -51,22 +51,22 @@ public class MenuClient : MonoBehaviour
     
     private void OnEnable()
     {
-        inputReader.SpeechEvent += StartRecording;
-        inputReader.SpeechCancelEvent += EndRecording;
+        // inputReader.SpeechEvent += StartRecording;
+        // inputReader.SpeechCancelEvent += EndRecording;
             
         // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        // inputReader.SpeechEvent += STTTest;
+        inputReader.SpeechEvent += STTTest;
 
         StartCoroutine(StartAnnounce());
     }
     
     private void OnDisable()
     {
-        inputReader.SpeechEvent -= StartRecording;
-        inputReader.SpeechCancelEvent -= EndRecording;
+        // inputReader.SpeechEvent -= StartRecording;
+        // inputReader.SpeechCancelEvent -= EndRecording;
             
         // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        // inputReader.SpeechEvent -= STTTest;
+        inputReader.SpeechEvent -= STTTest;
     }
 
     private IEnumerator StartAnnounce()
@@ -116,7 +116,7 @@ public class MenuClient : MonoBehaviour
         // 입력을 소문자로 변환하고, 구두점을 제거하여 키워드 인식을 더 안정적으로 만듭니다.
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
         Debug.Log($"처리할 입력 : {userText}");
-        
+         
         #region 메뉴 설명
         // string[] menuInfoTargets = { "메뉴" };
         // string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };

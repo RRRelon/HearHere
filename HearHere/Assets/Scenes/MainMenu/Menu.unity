@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Client Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 4942838748799764914, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: speechTest
+      value: start game
+      objectReference: {fileID: 0}
     - target: {fileID: 5890904746793616704, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 941.60803

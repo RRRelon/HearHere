@@ -12,11 +12,9 @@ namespace HH
     [CreateAssetMenu(fileName = "AIConversationManager", menuName = "AI/AI Conversation Manager")]
     public class AIConversationManagerSO : ScriptableObject
     {
-        // STT
+        // Open AI
         private const string fileName = "output.wav";
         private OpenAIApi openai;
-        
-        // GPT
         private const string OPEN_AI_API_URL = "https://api.openai.com/v1/chat/completions";
         private const string SECRET_JSON = "secret";
         private string googleTTSApiKey;
@@ -74,7 +72,7 @@ namespace HH
                 input = new SynthesisInput { text = text },
                 voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
                 // voice = new VoiceSelectionParams { languageCode = "ko-KR", name = "ko-KR-Standard-B", ssmlGender = "MALE" },
-                audioConfig = new AudioConfig { audioEncoding = "MP3" }
+                audioConfig = new AudioConfig { audioEncoding = "MP3", speakingRate = 0.7f }
             };
             
             string json = JsonUtility.ToJson(request);      // 요청 객체를 JSON 문자열로 바꿈, unity에서는 서버로 데이터를 보낼 때 JSON형태로 변환해서 보내야함
