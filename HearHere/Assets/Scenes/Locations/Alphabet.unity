@@ -694,6 +694,10 @@ PrefabInstance:
       propertyPath: mapInfo
       value: 
       objectReference: {fileID: 707601029}
+    - target: {fileID: 3201803370709821437, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
+      propertyPath: blinkScreenDark
+      value: 
+      objectReference: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
     - target: {fileID: 4052119923410282872, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 941.60803
