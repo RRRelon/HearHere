@@ -15,6 +15,9 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected PromptSO prompt;
     [SerializeField] protected int promptNum = 0;
     
+    [Header("Broadcsting to")]
+    [SerializeField] private BoolEventChannelSO blinkScreenDark;
+    
     // Flag
     private bool isListening; // 마이크 입력을 받으면 True, 아니면 False
     private bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
@@ -91,6 +94,9 @@ public abstract class Client : MonoBehaviour
         recordingClip = Microphone.Start(microphoneDevice, false, maxRecordingDuration, 44100);
         Debug.Log("말하기 시작 감지! 녹음을 시작합니다.");
         
+        // 색을 어둡게 해야 해
+        blinkScreenDark.OnEventRaised(true);
+        
         isSpeaking = true; // 마이크 녹음 시작
     }
 
@@ -107,6 +113,9 @@ public abstract class Client : MonoBehaviour
         // STT 분석 함수 호출
         string userText = await manager.GetTextFromAudio(recordingClip);
         Debug.Log(userText);
+        
+        // 색을 다시 밝게 해야 해
+        blinkScreenDark.OnEventRaised(false);
         
         ProcessUserInput(userText);
     }

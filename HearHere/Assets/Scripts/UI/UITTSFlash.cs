@@ -1,3 +1,5 @@
+using System;
+
 namespace HH.UI
 {
     using System.Collections;
@@ -23,6 +25,12 @@ namespace HH.UI
         [SerializeField] private float minFlashInterval = 0.1f;     // 최소 깜빡임 간격
         [SerializeField] private float maxFlashInterval = 0.3f;     // 최대 깜빡임 간격
         
+        [Header("마이크 입력 시")]
+        [SerializeField] private Color blinkColor = Color.blue;
+        
+        [Header("Listening on")]
+        [SerializeField] private BoolEventChannelSO blinkScreenDark;
+        
         private Sequence flashSequence;
         private Coroutine flashCoroutine;
         private Color defaultColor;
@@ -33,7 +41,17 @@ namespace HH.UI
             targetImage = GetComponent<Image>();
             defaultColor = targetImage.color;
         }
-        
+
+        private void OnEnable()
+        {
+            blinkScreenDark.OnEventRaised += SetScreenDark;
+        }
+
+        private void OnDisable()
+        {
+            blinkScreenDark.OnEventRaised -= SetScreenDark;
+        }
+
         /// <summary>
         /// 정답/오답 시 이미지 깜빡임 애니메이션 시퀀스
         /// </summary>
@@ -53,19 +71,32 @@ namespace HH.UI
             // 시퀀스 초기화
             flashSequence = DOTween.Sequence();
 
+            var vibrateAction = new TweenCallback(() =>
+            {
+                #if UNITY_ANDROID
+                Handheld.Vibrate();
+                #endif
+            });
+            
             // 게임 클리어(성공) 시 초록색으로 짧게 3번 점등
             if (isClear)
             {
-                flashSequence.Append(
-                    targetImage.DOColor(shortFlashColor, shortFlashDuration)
-                        .SetLoops(shortFlashCount * 2, LoopType.Yoyo));
+                for (int i = 0; i < 3; ++i)
+                {
+                    flashSequence.Append(targetImage.DOColor(shortFlashColor, shortFlashDuration))
+                        .AppendCallback(vibrateAction)
+                        .Append(targetImage.DOColor(default, shortFlashDuration));
+                }
             }
             // 게임 오버(실패) 시 빨간색으로 길게 2번 점등
             else
             {
-                flashSequence.Append(
-                    targetImage.DOColor(longFlashColor, longFlashDuration)
-                        .SetLoops(longFlashCount * 2, LoopType.Yoyo));
+                for (int i = 0; i < 2; ++i)
+                {
+                    flashSequence.Append(targetImage.DOColor(longFlashColor, longFlashDuration))
+                        .AppendCallback(vibrateAction)
+                        .Append(targetImage.DOColor(default, longFlashDuration));
+                }
             }
 
             flashSequence.OnComplete(() => { targetImage.color = defaultColor; });
@@ -111,6 +142,11 @@ namespace HH.UI
             // 코루틴이 끝나면 확실하게 기본 색상으로 복원
             targetImage.color = defaultColor;
             flashCoroutine = null;
+        }
+        
+        private void SetScreenDark(bool isDark)
+        {
+            targetImage.color = isDark ? blinkColor : defaultColor;
         }
     }
 }
