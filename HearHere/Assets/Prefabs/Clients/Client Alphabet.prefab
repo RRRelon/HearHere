@@ -86,12 +86,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e390a0ad91cabd348a663778f2350e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensitivityThreshold: 0.02
+  silenceDelay: 1.5
+  maxRecordingDuration: 10
+  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
+  prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
+  promptNum: 0
   speechTest: "\uB4A4\uCABD \uB098\uBB34 \uC090\uAC71\uC774\uB294 \uC18C\uB9AC \uC774\uC0C1"
+  mapInfo: {fileID: 0}
   currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
   menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
-  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
-  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
-  prompt: {fileID: 11400000, guid: 03427a0dfd05e2f41a8a380b74e4eeaf, type: 2}
   loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
   onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
   onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}

@@ -2,34 +2,29 @@ using UnityEngine;
 
 public class MapAlphabet : MapInfo
 {
-    public override void GetNormal()
+    public override void GetDialogue()
     {
         Debug.Log("Normal 응답");
         tryCount += 1;
     }
 
-    public override void GetClue()
+    /// <summary>
+    /// 단서 소리 획득 시 알파벳 한 단어를 준다.
+    /// </summary>
+    /// <param name="alphabet"></param>
+    public override string GetClue(char alphabet)
     {
         Debug.Log("Clue 응답");
         tryCount += 1;
-    }
+        answerChar.Add(alphabet);
 
-    public override void GetHint()
-    {
-        Debug.Log("Hint 응답");
-        tryCount += 1;
-    }
+        string response = "현재까지 모인 알파벳은 ";
+        foreach (char c in answerChar)
+        {
+            response += c + ',';
+        }
+        response += " 입니다.";
 
-    public override void GetResult()
-    {
-        Debug.Log("Result 응답");
-        tryCount += 1;
-        
-        // if ()
-    }
-
-    public override void CorrectAnswer()
-    {
-        Debug.Log("Correct Answer !!!");
+        return response;
     }
 }

@@ -460,6 +460,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &707601028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707601030}
+  - component: {fileID: 707601029}
+  m_Layer: 0
+  m_Name: Map_FindingAlpabet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &707601029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707601028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2808df2795ac6064ba74e5d0e4c7d79a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  answer: 
+  totalCorrect: 0
+  tryCount: 0
+--- !u!4 &707601030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707601028}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.09023, y: -3, z: 2.44762}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &780653027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -643,6 +690,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3201803370709821437, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
+      propertyPath: mapInfo
+      value: 
+      objectReference: {fileID: 707601029}
     - target: {fileID: 4052119923410282872, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 941.60803
@@ -685,7 +736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5250185246832943763, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: m_Name
-      value: Client Prototype
+      value: Client Alphabet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1794,6 +1845,7 @@ SceneRoots:
   - {fileID: 1762100368}
   - {fileID: 1118309233}
   - {fileID: 843635829}
+  - {fileID: 707601030}
   - {fileID: 462796266}
   - {fileID: 1048397499}
   - {fileID: 586320240}
