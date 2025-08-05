@@ -6,7 +6,7 @@ using HH;
 /// Unity에서 FastAPI 백엔드 서버와 통신하는 클라이언트 스크립트입니다.
 /// TTS, STT, Chat, Voice Chat 기능을 담당합니다.
 /// </summary>
-public class GameClient : MonoBehaviour
+public class GameClient : Client
 {
     [Header("Debugging")]
     public string speechTest;
@@ -16,85 +16,11 @@ public class GameClient : MonoBehaviour
     [Header("Scene Management")]
     [SerializeField] private GameSceneSO currentlyLoadedScene;
     [SerializeField] private GameSceneSO menuToLoad;
-    // input
-    [SerializeField] private InputReader inputReader;
-    // AI
-    [Header("AI")]
-    [SerializeField] private AIConversationManagerSO manager;
-    [SerializeField] private PromptSO prompt;
-    [SerializeField] private int promptNum = 0;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private StringEventChannelSO onTextReadyForTTS;
     [SerializeField] private BoolEventChannelSO onGameClear;
-
-    // input
-    private string microphoneDevice;
-    private AudioClip recordedClip;
-    // STT    
-    private int duration = 5;
-    private AudioClip clip;
-    private bool isRecording;
-    private float time;
-     
-    
-    private void Awake()
-    {
-        // 사용 가능한 마이크 장치 확인
-        if (Microphone.devices.Length > 0)
-        {
-            microphoneDevice = Microphone.devices[0];
-            // Debug.Log($"사용할 마이크: {microphoneDevice}");
-        }
-        else
-        {
-            Debug.LogError("오류: 사용 가능한 마이크 장치를 찾을 수 없습니다!");
-        }
-    }
-    
-    private void OnEnable()
-    {
-        inputReader.SpeechEvent += StartRecording;
-        inputReader.SpeechCancelEvent += EndRecording;
-            
-        // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        // inputReader.SpeechEvent += STTTest;
-    }
-
-    private void OnDisable()
-    {
-        inputReader.SpeechEvent -= StartRecording;
-        inputReader.SpeechCancelEvent -= EndRecording;
-            
-        // // 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-        // inputReader.SpeechEvent -= STTTest;
-    }
-    
-    private void StartRecording()
-    {
-        // 마이크 입력 시작
-        Debug.Log("Start Recording");
-        clip = Microphone.Start(Microphone.devices[0], false, duration, 44100);
-    }
-
-    private async void EndRecording()
-    {
-        Debug.Log("End Recording");
-        
-        // 분석할 동안 입력받기 중단
-        inputReader.DisableAllInput();
-        
-        // STT
-        Debug.Log("응답 대기중...");
-        string userText = await manager.GetTextFromAudio(clip);
-        
-        // 사용자 입력에 대한 처리
-        ProcessUserInput(userText);
-        
-        // 다시 스페이스바 입력 받기 시작
-        inputReader.EnableGameplayInput();
-    }
 
     /// <summary>
     /// // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
@@ -107,14 +33,25 @@ public class GameClient : MonoBehaviour
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행
     /// </summary>
-    private async void ProcessUserInput(string userText)
+    protected override async void ProcessUserInput(string userText)
     {
+        if (string.IsNullOrWhiteSpace(userText))
+        {
+            Debug.Log("입력 값이 Null 입니다.");
+            base.ProcessUserInput("");
+            return;
+        }
+        
+        userText = userText.ToLower().Replace(".", "").Replace("?", "");
+        
         #region 메뉴 설명
         // string[] menuInfoTargets = { "메뉴" };
         // string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
         string[] menuInfoTargets = { "menu" };
         string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
 
+        string explainMenuStr = "Available commands are Go to Main Menu, and Exit Game.";
+        
         // --- 메뉴 설명 명령어 확인 ---
         bool isMenuInfoTargetMatch = false;
         foreach (var target in menuInfoTargets)
@@ -132,9 +69,9 @@ public class GameClient : MonoBehaviour
             {
                 if (userText.Contains(action))
                 {
-                    // 메뉴 설명 TTS 실행
-                    // onTextReadyForTTS.OnEventRaised("사용 가능한 명령어는 메인 메뉴로 가기, 게임 종료입니다.");
-                    onTextReadyForTTS.OnEventRaised("Available commands are Go to Main Menu, and Exit Game.");
+                    onTextReadyForTTS.OnEventRaised(explainMenuStr); // 메뉴 설명 TTS 실행
+                    base.ProcessUserInput(explainMenuStr);           // 다시 마이크 모니터링 시작
+                    
                     return; // 처리 완료, GPT에 보내지 않음
                 }
             }
@@ -147,6 +84,9 @@ public class GameClient : MonoBehaviour
         string[] menuTargets = { "main", "first" };
         string[] menuActions = { "menu", "screen", "move", "return", "go" };
 
+        string moveMenuStr = "Moving to the main menu.";
+        string alreadyMenuStr = "You are currently in the main menu.";
+        
         // --- 메인 메뉴 이동 명령어 확인 ---
         bool isMenuTargetMatch = false;
         foreach (var target in menuTargets)
@@ -166,16 +106,16 @@ public class GameClient : MonoBehaviour
                     // 메인 메뉴로 이동하는 명령어 처리
                     if (currentlyLoadedScene.SceneType != GameSceneType.Menu)
                     {
-                        // onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
-                        onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
+                        onTextReadyForTTS.OnEventRaised(moveMenuStr); // 메인 메뉴 이동 TTS 실행
+                        base.ProcessUserInput(moveMenuStr);           // 다시 마이크 모니터링 시작
                         
                         // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
                         StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
                     }
                     else
                     {
-                        // onTextReadyForTTS.OnEventRaised("현재 메인 메뉴입니다.");
-                        onTextReadyForTTS.OnEventRaised("You are currently in the main menu.");
+                        onTextReadyForTTS.OnEventRaised(alreadyMenuStr); // 이미 메인 메뉴라는 TTS 실행
+                        base.ProcessUserInput(alreadyMenuStr);           // 다시 마이크 모니터링 시작
                     }
                     return; // 처리 완료, GPT에 보내지 않음
                 }
@@ -186,11 +126,11 @@ public class GameClient : MonoBehaviour
         #region 게임 종료
             
         // 게임 종료 관련
-        // string[] exitTargets = { "게임", "프로그램" };
-        // string[] exitActions = { "나가기", "종료", "꺼줘", "끌래" };
         string[] exitTargets = { "game", "application", "program" };
         string[] exitActions = { "exit", "quit", "turn off", "close" };
 
+        string exitGameStr = "게임을 종료합니다.";
+        
         // --- 게임 종료 명령어 확인 ---
         bool isExitTargetMatch = false;
         foreach (var target in exitTargets)
@@ -208,9 +148,10 @@ public class GameClient : MonoBehaviour
             {
                 if (userText.Contains(action))
                 {
-                    Debug.Log("게임을 종료합니다.");
-                    // 실제 게임 종료 코드
-                    StartCoroutine(ExitGame());
+                    onTextReadyForTTS.OnEventRaised(exitGameStr);
+                    base.ProcessUserInput(exitGameStr);
+                    
+                    StartCoroutine(ExitGame()); // 실제 게임 종료 코드
                     return;
                 }
             }
@@ -222,45 +163,30 @@ public class GameClient : MonoBehaviour
         // GPT 응답에 따른 액션 수행
         switch (response.response_type)
         {
-            case "clue": // 단서 소리
-                mapInfo.GetClue();
+            case "dialogue": // 일반 상호작용(아무 소리, 오답)
+                mapInfo.GetDialogue();
                 break;
-            case "dialogue": // 일반 상호작용
-                mapInfo.GetNormal();
+            case "clue":     // 단서 소리 발견
+                response.response_type += mapInfo.GetClue(response.argument[0]);;
                 break;
-            case "result": // 일반 상호작용
-                mapInfo.GetResult();
+            case "success":  // 정답
+                GameClear();
                 break;
-            case "hint": // 일반 상호작용
-                mapInfo.GetHint();
-                break;
-            default:             
+            default:
+                Debug.LogError($"잘못된 Response type: {response.response_type}");
                 break;
         }
+        
+        Debug.Log($"GPT 응답 : {response.tts_text}");
+        
         // GPT 응답 TTS로 전환
 		onTextReadyForTTS.OnEventRaised(response.tts_text);
+        
+        // 다시 마이크 모니터링 시작
+        base.ProcessUserInput(response.tts_text);
         #endregion
     }
     
-    /// <summary>
-    /// 일반 상호작용
-    /// </summary>
-    private void OnDialogueAction(string text)
-    {
-        Debug.Log("게임 내 상호작용");
-        onTextReadyForTTS.OnEventRaised(text);
-    }
-
-    /// <summary>
-    /// 단서 소리 발견 시
-    /// </summary>
-    private void OnClueAction(string command, string arg)
-    {
-        // TODO: 일단 바로 게임 클리어 되도록
-        // 근데 그냥 이렇게 구현해도 될 것 같기도 하고? 여러 개 찾아서 해야 할까
-        GameClear();
-    }
-
     /// <summary>
     /// 게임 클리어 시 메인 메뉴로 돌아가기
     /// </summary>
@@ -269,32 +195,26 @@ public class GameClient : MonoBehaviour
         StartCoroutine(OnGameClear(3.0f, menuToLoad));
     }
 
-    private IEnumerator DelaySceneLoad(float waitTime, GameSceneSO sceneToLoad)
-    {
-        yield return new WaitForSeconds(waitTime);
-        loadMenu.OnLoadingRequested(sceneToLoad);
-    }
-
     private IEnumerator OnGameClear(float waitTime, GameSceneSO sceneToLoad)
     {
-        inputReader.DisableAllInput();
+        DisableInput();
         
         // 화면 점등
         onGameClear.OnEventRaised(true);
-        // onTextReadyForTTS.OnEventRaised("축하드립니다. 게임을 클리어 하셨습니다.");
         onTextReadyForTTS.OnEventRaised("Congratulations. You have cleared the game.");
         
         yield return new WaitForSeconds(3.0f);
         
-        inputReader.EnableGameplayInput();
+        EnableInput();
         
         // 메인 메뉴로 이동
-        // onTextReadyForTTS.OnEventRaised("메인 메뉴로 이동합니다.");
         onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
-        
         StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
     }
     
+    /// <summary>
+    /// 게임 종료 메서드
+    /// </summary>
     private IEnumerator ExitGame()
     {
         yield return new WaitForSeconds(3.0f);
@@ -303,6 +223,15 @@ public class GameClient : MonoBehaviour
     #else
         Application.Quit();
     #endif
+    }
+    
+    /// <summary>
+    /// 일정 시간 뒤 씬 로딩. TTS 끝나는걸 기다리기 위해 필요
+    /// </summary>
+    private IEnumerator DelaySceneLoad(float waitTime, GameSceneSO sceneToLoad)
+    {
+        yield return new WaitForSeconds(waitTime);
+        loadMenu.OnLoadingRequested(sceneToLoad);
     }
 }
 
