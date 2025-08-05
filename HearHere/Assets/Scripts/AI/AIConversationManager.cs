@@ -1,3 +1,5 @@
+using System;
+
 namespace HH
 {
     using OpenAI;
@@ -178,8 +180,18 @@ namespace HH
                     string gptContent = openAIResponse.choices[0].message.content;
 
                     // 3. 추출한 메시지 문자열을 우리가 원하는 GPTResponse 객체로 최종 파싱
-                    GPTResponse finalResponse = JsonUtility.FromJson<GPTResponse>(gptContent);
-                    return finalResponse;
+                    try
+                    {
+                        GPTResponse finalResponse = JsonUtility.FromJson<GPTResponse>(gptContent);
+                        return finalResponse;
+                    }
+
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parsing Error] Failed to parse GPT response. Error: {ex.Message}");
+                        Debug.LogError($"[JSON Parsing Error] Original Content: {gptContent}");
+                        return null; // 실패 시 null 반환
+                    }
                 }
             }
         }

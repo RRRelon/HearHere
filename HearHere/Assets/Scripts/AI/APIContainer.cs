@@ -124,7 +124,7 @@ namespace HH
             // 1. 요청 데이터를 담을 ChatRequest 객체를 생성합니다.
             ChatRequest requestData = new ChatRequest
             {
-                model = "gpt-3.5-turbo",
+                model = "gpt-4o-mini",
                 messages = new List<ChatMessage>
                 {
                     // 2. 시스템 메시지와 사용자 메시지를 리스트에 추가합니다.

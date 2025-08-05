@@ -160,6 +160,11 @@ public class GameClient : Client
 
         #region 게임 내용에 대한 GPT 응답
         GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompts[promptNum].Content);
+        if (response == null)
+        {
+            // 다시 마이크 모니터링 시작
+            base.ProcessUserInput("");    
+        }
         // GPT 응답에 따른 액션 수행
         switch (response.response_type)
         {

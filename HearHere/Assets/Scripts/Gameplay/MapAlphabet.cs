@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapAlphabet : MapInfo
@@ -22,6 +23,10 @@ public class MapAlphabet : MapInfo
         
         Debug.Log("Clue 응답");
         tryCount += 1;
+        totalCorrect += 1;
+
+        if (answerChar == null)
+            answerChar = new List<char>();
         answerChar.Add(alphabet);
 
         string response = "현재까지 모인 알파벳은 ";

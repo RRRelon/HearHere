@@ -95,7 +95,8 @@ public abstract class Client : MonoBehaviour
         Debug.Log("말하기 시작 감지! 녹음을 시작합니다.");
         
         // 색을 어둡게 해야 해
-        blinkScreenDark.OnEventRaised(true);
+        if (blinkScreenDark != null)
+            blinkScreenDark.OnEventRaised(true);
         
         isSpeaking = true; // 마이크 녹음 시작
     }
