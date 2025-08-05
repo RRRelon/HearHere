@@ -631,6 +631,14 @@ PrefabInstance:
       value: Client Menu
       objectReference: {fileID: 0}
     - target: {fileID: 4942838748799764914, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: prompt
+      value: 
+      objectReference: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
+    - target: {fileID: 4942838748799764914, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: loadGame
+      value: 
+      objectReference: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
+    - target: {fileID: 4942838748799764914, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: speechTest
       value: start game
       objectReference: {fileID: 0}
