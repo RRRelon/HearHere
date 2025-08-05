@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dad25f837c63c49a620ffe3dcb65ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechTest: 
+  speechTest: result
   inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}

@@ -66,7 +66,7 @@ namespace HH
                 
         public override string ToString()
         {
-            return $"Type: {response_type}, TTS: '{tts_text}', Argument: {argument}";
+            return $"Type: {response_type}, TTS: '{tts_text}', Arg: {argument}";
         }
     }
 
