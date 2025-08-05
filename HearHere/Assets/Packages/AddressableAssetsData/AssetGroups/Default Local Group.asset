@@ -26,7 +26,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5904f02b514a4ed469bfcd41a8923be8
-    m_Address: Assets/Scenes/Prototype.unity
+    m_Address: Assets/Scenes/Locations/Alphabet.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
