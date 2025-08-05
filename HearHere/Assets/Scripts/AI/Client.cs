@@ -15,7 +15,7 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected PromptSO prompt;
     [SerializeField] protected int promptNum = 0;
     
-    [Header("Broadcsting to")]
+    [Header("Broadcasting to")]
     [SerializeField] private BoolEventChannelSO blinkScreenDark;
     
     // Flag

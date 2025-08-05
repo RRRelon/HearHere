@@ -20,6 +20,7 @@ namespace HH.UI
 
         [SerializeField] private StringEventChannelSO onTextReadyForTTS;
 
+        [Header("비주얼 피드백 디버깅")]
         public bool visualFeedback;
         public bool clear;
         public bool onClear;
@@ -60,8 +61,8 @@ namespace HH.UI
             // 텍스트 길이에 따라 전체 지속 시간 계산
             float totalDuration = text.Length * durationPerCharacter;
 
-            // 새로운 깜빡임 코루틴 시작
-            ttsFlash.ActivateFlash(totalDuration);
+            // // 새로운 깜빡임 코루틴 시작
+            // ttsFlash.ActivateFlash(totalDuration);
 
             // TTS Pulse 활성화
             ttsPulse.ActivatePulse(totalDuration);
