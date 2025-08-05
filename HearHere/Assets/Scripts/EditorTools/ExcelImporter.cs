@@ -53,6 +53,8 @@ public class ExcelImporter : MonoBehaviour
             Debug.LogError($"CSV 파일을 찾을 수 없습니다: Resources/{csvResourcePath}.csv");
             return;
         }
+        
+        prompt.ResetData();
 
         // List를 직접 채웁니다. Dictionary를 직접 제어하지 않습니다.
         using (var reader = new StringReader(csvFile.text))
@@ -94,28 +96,5 @@ public class ExcelImporter : MonoBehaviour
         {
             Directory.CreateDirectory(path);
         }
-    }
-    
-    private static List<int> GetCsvIds(string csvResourcePath)
-    {
-        List<int> ids = new List<int>();
-        TextAsset csvFile = Resources.Load<TextAsset>(csvResourcePath);
-        if (csvFile == null) return ids;
-
-        using (var reader = new StringReader(csvFile.text))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        {
-            csv.Read(); csv.ReadHeader();
-            while (csv.Read())
-            {
-                if (csv.Context.Parser is not { Record: { Length: < 20 } }) continue;
-                
-                if (int.TryParse(csv.Context.Parser.Record[0], out var parsedId))
-                    ids.Add(parsedId);
-                else
-                    break;
-            }
-        }
-        return ids;
     }
 }

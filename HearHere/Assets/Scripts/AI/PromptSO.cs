@@ -13,6 +13,11 @@ public class PromptSO : ScriptableObject
             Prompts = new List<Prompt>();
         Prompts.Add(new Prompt(id, newPrompt));
     }
+
+    public void ResetData()
+    {
+        Prompts.Clear();
+    }
 }
 
 [Serializable]
