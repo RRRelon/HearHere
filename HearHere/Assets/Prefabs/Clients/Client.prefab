@@ -44,12 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75ba1b489e35964285bf81ce71920ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechTest: 
-  currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
-  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
-  gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
-  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  sensitivityThreshold: 0.02
+  silenceDelay: 3
+  maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 0}
-  loadScene: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
+  promptNum: 0
+  blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+  speechTest: 
+  currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
+  gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
+  loadLocation: {fileID: 0}
   onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
