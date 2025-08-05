@@ -20,9 +20,6 @@ public class MenuClient : Client
     [SerializeField] private LoadEventChannelSO loadLocation;
     [SerializeField] private StringEventChannelSO onTextReadyForTTS;
 
-    /// <summary>
-    /// // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-    /// </summary>
     private void STTTest()
     {
         ProcessUserInput(speechTest);

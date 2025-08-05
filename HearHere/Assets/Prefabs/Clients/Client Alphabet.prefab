@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_Name
-      value: Client Prototype
+      value: Client Alphabet
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.x
@@ -87,11 +87,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivityThreshold: 0.02
-  silenceDelay: 1.5
+  silenceDelay: 3
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
   promptNum: 0
+  blinkScreenDark: {fileID: 0}
   speechTest: "\uB4A4\uCABD \uB098\uBB34 \uC090\uAC71\uC774\uB294 \uC18C\uB9AC \uC774\uC0C1"
   mapInfo: {fileID: 0}
   currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
