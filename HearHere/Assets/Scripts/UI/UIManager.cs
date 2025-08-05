@@ -121,7 +121,6 @@ namespace HH.UI
 
             // 텍스트 길이에 따라 전체 지속 시간 계산
             float totalDuration = text.Length * durationPerCharacter;
-            Debug.Log($"total duration: {totalDuration}");
             
             // 새로운 깜빡임 코루틴 시작
             flashCoroutine = StartCoroutine(FlashRoutine(totalDuration));
