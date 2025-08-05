@@ -62,12 +62,11 @@ namespace HH
     {
         public string response_type;
         public string tts_text;
-        public string command;
-        public string command_arg;
+        public string argument;
                 
         public override string ToString()
         {
-            return $"Type: {response_type}, TTS: '{tts_text}', Command: {command}, Arg: {command_arg}";
+            return $"Type: {response_type}, TTS: '{tts_text}', Arg: {argument}";
         }
     }
 
