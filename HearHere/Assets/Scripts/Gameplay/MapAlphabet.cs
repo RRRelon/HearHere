@@ -14,6 +14,12 @@ public class MapAlphabet : MapInfo
     /// <param name="alphabet"></param>
     public override string GetClue(char alphabet)
     {
+        if (string.IsNullOrWhiteSpace(alphabet.ToString()))
+        {
+            Debug.Log($"잘못된 단서 : {alphabet}");
+            return "";
+        }
+        
         Debug.Log("Clue 응답");
         tryCount += 1;
         answerChar.Add(alphabet);
