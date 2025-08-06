@@ -13,37 +13,36 @@ MonoBehaviour:
   m_Name: Prompt_Tutorial
   m_EditorClassIdentifier: 
   Prompt: "[Tutorial: Find the Correct Sound]\n\r\n\U0001F539 Sound Information\r\n1.
-    Front right \u2013 Owl (4.05, 2.94)\r\n2. Back left \u2013 Bird (-4.05, -2.94)\r\n3.
-    Back right \u2013 Bell (1.55, -4.76)\r\n\r\n\U0001F539 GPT Output Conditions\r\n1.
-    All responses must be in English only.\n2. Must return in JSON format.\n3. JSON
-    must include response_type, tts_text, and argument.\n4. response_type must be
-    \"success\" or \"dialogue\".\n5. \"success\" is used when the user mentions both
-    the sound and its correct direction; incorrect answers return \"dialogue\".\n6.
-    argument has three possible values:\n  - 0 \u2192 User gave an answer related
-    to the owl\n  - 1 \u2192 User gave an answer related to the bird\n  - 2 \u2192
-    User gave an answer related to the bell\r\n\r\n\U0001F539 Explanation\r\n1. User
-    is the player, and Answer is the tts_text that GPT responds with.\r\n2. tts_text
-    is a sentence dynamically generated based on the user\u2019s spoken input.\r\n3.
-    The first sound is the owl, the second is the bird, and the last sound is the
-    bell\r\n\r\nListen carefully and match both the direction and the sound.\r\n\r\n\U0001F539
-    How to say the answer\r\nUser: \"How do I say the answer?\"\r\nAnswer: \"The
-    way to say the correct answer is to mention both the direction and the sound. 
-    \r\nFor example, 'I hear the bell sound from the front right.'\"\r\n\r\n\U0001F539
-    When the user does not include both direction and sound\r\n(The owl sound comes
-    from the front right)\r\nUser: \"What sound is this?\"\r\nAnswer: \"Please say
-    both the direction and the sound.  \r\nFor example, 'I hear the bell sound from
-    the front right.'\"\r\n\u274C Incorrect (wrong sound)\r\nUser: \"I hear a bird
-    sound from the front left\"\r\nAnswer: \"Hmm, that sounds like a different sound.
-    Try listening again.\"\r\n\u274C Incorrect (only X-axis direction)\r\nUser: \"I
-    hear an owl sound from the right\"\r\nAnswer: \"Almost right! Try adding whether
-    it\u2019s from the front or the back too.\"\r\n\u274C Incorrect (only Y-axis
-    direction)\r\nUser: \"I hear an owl sound from the front\"\r\nAnswer: \"Good!
-    Now try saying if it\u2019s from the left or right as well.\"\r\n\u274C Incorrect
-    (wrong direction)\r\nUser: \"I hear an owl from the front left\"\r\nAnswer: \"The
-    direction seems a bit off. Listen carefully and try again.\"\r\n\u2705 Correct\r\nUser:
-    \"I hear an owl sound from the front right\"\r\nAnswer: \"Correct! The owl sound
-    came from the front right. Well done!\"\r\n\u23F1 No response\r\nAnswer: \"It\u2019s
-    quiet\u2026 Whenever you\u2019re ready, say what you heard.\"\r\n\r\n\U0001F539
+    Front right \u2013 Frog\r\n2. Back left \u2013 Bird\r\n3. Back right \u2013 Bell\r\n\r\n\U0001F539
+    GPT Output Conditions\r\n1. All responses must be in English only.\n2. Must return
+    in JSON format.\n3. JSON must include response_type, tts_text, and argument.\n4.
+    response_type must be \"success\" or \"dialogue\".\n5. \"success\" is used when
+    the user mentions both the sound and its correct direction; incorrect answers
+    return \"dialogue\".\n6. argument has three possible values:\n  - 0 \u2192 User
+    gave an answer related to the owl\n  - 1 \u2192 User gave an answer related to
+    the bird\n  - 2 \u2192 User gave an answer related to the bell\r\n\r\n\U0001F539
+    Explanation\r\n1. User is the player, and Answer is the tts_text that GPT responds
+    with.\r\n2. tts_text is a sentence dynamically generated based on the user\u2019s
+    spoken input.\r\n3. The first sound is the owl, the second is the bird, and the
+    last sound is the bell\r\n\r\nListen carefully and match both the direction and
+    the sound.\r\n\r\n\U0001F539 How to say the answer\r\nUser: \"How do I say the
+    answer?\"\r\nAnswer: \"The way to say the correct answer is to mention both the
+    direction and the sound.  \r\nFor example, 'I hear the bell sound from the front
+    right.'\"\r\n\r\n\U0001F539 When the user does not include both direction and
+    sound\r\n(The owl sound comes from the front right)\r\nUser: \"What sound is
+    this?\"\r\nAnswer: \"Please say both the direction and the sound.  \r\nFor example,
+    'I hear the bell sound from the front right.'\"\r\n\u274C Incorrect (wrong sound)\r\nUser:
+    \"I hear a bird sound from the front left\"\r\nAnswer: \"Hmm, that sounds like
+    a different sound. Try listening again.\"\r\n\u274C Incorrect (only X-axis direction)\r\nUser:
+    \"I hear an owl sound from the right\"\r\nAnswer: \"Almost right! Try adding
+    whether it\u2019s from the front or the back too.\"\r\n\u274C Incorrect (only
+    Y-axis direction)\r\nUser: \"I hear an owl sound from the front\"\r\nAnswer:
+    \"Good! Now try saying if it\u2019s from the left or right as well.\"\r\n\u274C
+    Incorrect (wrong direction)\r\nUser: \"I hear an owl from the front left\"\r\nAnswer:
+    \"The direction seems a bit off. Listen carefully and try again.\"\r\n\u2705
+    Correct\r\nUser: \"I hear an owl sound from the front right\"\r\nAnswer: \"Correct!
+    The owl sound came from the front right. Well done!\"\r\n\u23F1 No response\r\nAnswer:
+    \"It\u2019s quiet\u2026 Whenever you\u2019re ready, say what you heard.\"\r\n\r\n\U0001F539
     Direction included, but sound missing\r\n(The owl sound comes from the front
     right)\r\nUser: [\"I hear something from the front right\", \"Front right\"]\r\nAnswer:
     \"Please also tell me what sound you heard.\"\r\n\u274C Incorrect (wrong sound)\r\nUser:

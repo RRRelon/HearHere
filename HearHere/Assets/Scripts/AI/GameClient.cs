@@ -34,8 +34,6 @@ public class GameClient : Client
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
         
         #region 메뉴 설명
-        // string[] menuInfoTargets = { "메뉴" };
-        // string[] menuInfoActions = { "알려줘", "뭐 있어", "뭐야", "설명" };
         string[] menuInfoTargets = { "menu" };
         string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
 
@@ -68,8 +66,6 @@ public class GameClient : Client
         #endregion
         
         #region 메인 메뉴 관련
-        // string[] menuTargets = { "메인", "처음" };
-        // string[] menuActions = { "메뉴", "화면", "이동", "돌아가", "가줘" };
         string[] menuTargets = { "main", "first" };
         string[] menuActions = { "menu", "screen", "move", "return", "go" };
 

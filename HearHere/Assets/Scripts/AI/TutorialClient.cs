@@ -157,7 +157,8 @@ public class TutorialClient : Client
                 break;
         }
         
-        Debug.Log($"GPT 응답 : {response.tts_text}");
+        Debug.Log($"GPT 응답 타입 : {response.response_type}");
+        Debug.Log($"GPT 응답 TTS : {response.tts_text}");
         
         // GPT 응답 TTS로 전환
         onTextReadyForTTS.OnEventRaised(response.tts_text);

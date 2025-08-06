@@ -30,6 +30,13 @@ public class MapTutorial : MonoBehaviour
         if (currentSoundIndex != argument)
             return false;
         
+        currentSoundIndex += 1;
+        
+        if (currentSoundIndex >= audioSources.Count)
+        {
+            return true;
+        }
+        
         for (int i = 0; i < audioSources.Count; ++i)
         {
             if (i == currentSoundIndex)
@@ -38,12 +45,6 @@ public class MapTutorial : MonoBehaviour
                 audioSources[i].SetActive(false);
         }
         
-        currentSoundIndex += 1;
-        
-        if (currentSoundIndex >= audioSources.Count)
-        {
-            return true;
-        }
         return false;
     }
 
