@@ -159,7 +159,7 @@ public class TestClient : MonoBehaviour
         #endregion
 
         #region 게임 내용에 대한 GPT 응답
-        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompts[promptNum].Content);
+        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
         // GPT 응답에 따른 액션 수행
         Debug.Log($"user input: {userText}, gpt response: {response}");
         #endregion

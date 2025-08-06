@@ -122,27 +122,37 @@ public class TutorialClient : Client
         #endregion
 
         #region 게임 내용에 대한 GPT 응답
-        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompts[promptNum].Content);
+        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
+        string retryStr = "Sorry. I can't understand. Try again.";
         if (response == null)
         {
             // 다시 마이크 모니터링 시작
-            string retryStr = "Sorry. I can't understand. Try again.";
             onTextReadyForTTS.OnEventRaised(retryStr);
             base.ProcessUserInput(retryStr);
             return;    
         }
         
         // GPT 응답에 따른 액션 수행
+        int soundIndex;
+        if (!int.TryParse(response.argument, out soundIndex))
+        {
+            // 다시 마이크 모니터링 시작
+            onTextReadyForTTS.OnEventRaised(retryStr);
+            base.ProcessUserInput(retryStr);
+            return;
+        }
+        
         switch (response.response_type)
         {
             case "success":  // 정답
                 // 튜토리얼 끝남
-                if (tutorial.TryAdvanceToNextSound())
+                if (tutorial.TryAdvanceToNextSound(soundIndex))
                     ExitTutorial();
                 break;
-            default:
-                Debug.LogError("정확한 방향과 소리를 다시 말해주세요.");
-                onTextReadyForTTS.OnEventRaised(playbackStr);
+            default: // 오답
+                Debug.Log("정확한 방향과 소리를 다시 말해주세요.");
+                if (!tutorial.IsSameSound(soundIndex))
+                    response.tts_text = playbackStr;
                 playbackTimer = 0;
                 break;
         }

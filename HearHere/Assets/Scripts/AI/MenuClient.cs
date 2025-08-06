@@ -19,7 +19,7 @@ public class MenuClient : Client
     [SerializeField] private LoadEventChannelSO loadLocation;
 
     [SerializeField] private float playbackInterval = 30.0f;
-    private float playbackTimer;
+    [SerializeField] private float playbackTimer;
     private string playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound.\"\n\n\"To start the tutorial, please say, 'Start tutorial'. To begin the game, please say, 'Start game'";
     
     protected override void Start()

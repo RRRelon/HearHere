@@ -13,7 +13,6 @@ public abstract class Client : MonoBehaviour
     [Header("AI")]
     [SerializeField] protected AIConversationManagerSO manager;
     [SerializeField] protected PromptSO prompt;
-    [SerializeField] protected int promptNum = 0;
     
     [Header("Broadcasting to")]
     [SerializeField] protected StringEventChannelSO onTextReadyForTTS;
