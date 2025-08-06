@@ -9,7 +9,7 @@ response_type must always be either ""clue"", ""dialogue"", or ""success""
 
 Never use any other keys (e.g., result)
 
-JSON top-level structure must always be the same
+JSON top-level structure must always be the same and You must generate tts_text only in English, regardless of the user's input.
 {
 """"response_type"""": """"clue"""" | """"dialogue"""" | """"success"""",
 """"tts_text"""": """"..."""",

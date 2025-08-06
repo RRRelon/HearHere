@@ -5,7 +5,7 @@ public class MapAlphabet : MapInfo
 {
     public override void GetDialogue()
     {
-        Debug.Log("Normal 응답");
+        Debug.Log("Normal response");
         tryCount += 1;
     }
 
@@ -17,23 +17,23 @@ public class MapAlphabet : MapInfo
     {
         if (string.IsNullOrWhiteSpace(alphabet.ToString()))
         {
-            Debug.Log($"잘못된 단서 : {alphabet}");
+            Debug.Log($"Invalid clue : {alphabet}");
             return "";
         }
         
-        Debug.Log("Clue 응답");
+        Debug.Log("Clue response");
         tryCount += 1;
 
         if (answerChar == null)
             answerChar = new List<char>();
         answerChar.Add(alphabet);
 
-        string response = "현재까지 모인 알파벳은 ";
+        string response = "The alphabets collected so far: ";
         foreach (char c in answerChar)
         {
-            response += c + ',';
+            response += $"{c},";
         }
-        response += " 입니다.";
+        response += ".";
 
         return response;
     }
