@@ -160,17 +160,19 @@ public class GameClient : Client
             case "dialogue": // 일반 상호작용(아무 소리, 오답)
                 mapInfo.GetDialogue();
                 break;
-            case "clue":     // 단서 소리 발견
+            case "clue":     // 단서 소리 
                 response.tts_text += mapInfo.GetClue(response.argument[0]);
                 break;
             case "success":  // 정답
                 // 정답 뒤에 Try 횟수 붙이기
                 response.tts_text += mapInfo.GetSuccess();
+                // 정답 뒤에 걸린 시간 넣기
+                response.tts_text += FormatPlayTime(playTime);
                 onTextReadyForTTS.OnEventRaised(response.tts_text);
                 GameClear();
                 return;
             default:
-                Debug.LogError($"잘못된 Response type: {response.response_type}");
+                Debug.LogError($"Invalid Response type: {response.response_type}");
                 break;
         }
         
