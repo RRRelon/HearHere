@@ -22,18 +22,29 @@ public class MapAlphabet : MapInfo
         }
         
         Debug.Log("Clue response");
-        tryCount += 1;
 
         if (answerChar == null)
             answerChar = new List<char>();
-        answerChar.Add(alphabet);
 
-        string response = "The alphabets collected so far: ";
-        foreach (char c in answerChar)
+        string response = "";
+        
+        // 만약 이미 수집한 단서라면, 새로 추가하지 않는다.
+        if (answerChar.Contains(alphabet))
         {
-            response += $"{c},";
+            response = "This clue has already been collected. ";
         }
-        response += ".";
+        else
+        {
+            answerChar.Add(alphabet);
+        }
+        
+        // 시도 횟수 하나 증가
+        tryCount += 1;
+        
+        response += "The alphabets collected so far: ";
+        foreach (char c in answerChar)
+            response += c.ToString() + ',';
+
 
         return response;
     }
