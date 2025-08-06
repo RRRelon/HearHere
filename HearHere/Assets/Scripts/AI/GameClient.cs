@@ -166,6 +166,8 @@ public class GameClient : Client
             case "success":  // 정답
                 // 정답 뒤에 Try 횟수 붙이기
                 response.tts_text += mapInfo.GetSuccess();
+                // 정답 뒤에 걸린 시간 넣기
+                response.tts_text += FormatPlayTime(playTime);
                 onTextReadyForTTS.OnEventRaised(response.tts_text);
                 GameClear();
                 return;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using HH;
 using UnityEngine;
@@ -28,6 +29,8 @@ public abstract class Client : MonoBehaviour
     
     private float timeSinceLastSound;
     private string microphoneDevice;
+
+    [SerializeField] protected float playTime = 0;
     
     protected virtual void Start()
     {
@@ -48,6 +51,8 @@ public abstract class Client : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
+        playTime += Time.deltaTime;
+        
         if (!isListening)
             return;
 
@@ -177,6 +182,46 @@ public abstract class Client : MonoBehaviour
             totalDuration = text.Length * 0.08f;
         
         StartCoroutine(DelayedStartMonitoring(totalDuration));
+    }
+    
+    /// <summary>
+    /// 초(float)를 "X시간 Y분 Z초 걸렸습니다." 형식의 문자열로 변환합니다.
+    /// </summary>
+    /// <param name="totalSeconds">총 경과 시간 (초)</param>
+    /// <returns>형식에 맞게 변환된 시간 문자열</returns>
+    protected string FormatPlayTime(float totalSeconds)
+    {
+        // 1. 초(float)를 TimeSpan 객체로 변환합니다.
+        TimeSpan timeSpan = TimeSpan.FromSeconds(totalSeconds);
+
+        string formattedTime;
+
+        // 2. 전체 시간이 1시간 이상인지, 1분 이상인지에 따라 다른 형식으로 만듭니다.
+        if (timeSpan.TotalHours >= 1)
+        {
+            // 1시간 이상: "1시간 5분 10초" 형식
+            formattedTime = string.Format("{0}hour {1}minute {2}second", 
+                timeSpan.Hours, 
+                timeSpan.Minutes, 
+                timeSpan.Seconds);
+        }
+        else if (timeSpan.TotalMinutes >= 1)
+        {
+            // 1분 이상 1시간 미만: "5분 10초" 형식
+            formattedTime = string.Format("{0}minute {1}second", 
+                timeSpan.Minutes, 
+                timeSpan.Seconds);
+        }
+        else
+        {
+            // 1분 미만: "10초" 형식
+            formattedTime = string.Format("{0}second", 
+                timeSpan.Seconds);
+        }
+
+        // 3. 최종 문자열을 조합하여 반환합니다.
+        Debug.Log($"it takes {formattedTime}");
+        return $"it takes {formattedTime}";
     }
 
     private IEnumerator DelayedStartMonitoring(float duration)
