@@ -8,8 +8,6 @@ using HH;
 /// </summary>
 public class GameClient : Client
 {
-    [Header("Debugging")]
-    public string speechTest;
     [Header("Map Info")]
     [SerializeField] private MapInfo mapInfo;
     // Game Management
@@ -19,16 +17,7 @@ public class GameClient : Client
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
-    [SerializeField] private StringEventChannelSO onTextReadyForTTS;
     [SerializeField] private BoolEventChannelSO onGameClear;
-
-    /// <summary>
-    /// // TODO: 테스트용 코드. 실제로는 위의 코드를 주석 해제해 사용
-    /// </summary>
-    private void STTTest()
-    {
-        ProcessUserInput(speechTest);
-    }
 
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행
@@ -163,8 +152,12 @@ public class GameClient : Client
         if (response == null)
         {
             // 다시 마이크 모니터링 시작
-            base.ProcessUserInput("");    
+            string retryStr = "Sorry. I can't understand. Try again.";
+            onTextReadyForTTS.OnEventRaised(retryStr);
+            base.ProcessUserInput(retryStr);
+            return;
         }
+        
         // GPT 응답에 따른 액션 수행
         switch (response.response_type)
         {
@@ -172,11 +165,14 @@ public class GameClient : Client
                 mapInfo.GetDialogue();
                 break;
             case "clue":     // 단서 소리 발견
-                response.response_type += mapInfo.GetClue(response.argument[0]);;
+                response.tts_text += mapInfo.GetClue(response.argument[0]);
                 break;
             case "success":  // 정답
+                // 정답 뒤에 Try 횟수 붙이기
+                response.tts_text += mapInfo.GetSuccess();
+                onTextReadyForTTS.OnEventRaised(response.tts_text);
                 GameClear();
-                break;
+                return;
             default:
                 Debug.LogError($"잘못된 Response type: {response.response_type}");
                 break;
@@ -206,7 +202,6 @@ public class GameClient : Client
         
         // 화면 점등
         onGameClear.OnEventRaised(true);
-        onTextReadyForTTS.OnEventRaised("Congratulations. You have cleared the game.");
         
         yield return new WaitForSeconds(3.0f);
         

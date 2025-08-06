@@ -44,8 +44,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     private void PlayAudio(AudioClip TTSClip)
     {
-        //AudioClip->클래스, clip->변수, DownloadHandlerAudioClip->클래스, GetContent->함수, www->변수 
-        audioSource.clip = TTSClip;    // unity의 audioSource 컴포넌트에 mp3 연결
+        audioSource.clip = TTSClip; // unity의 audioSource 컴포넌트에 mp3 연결
         audioSource.Play();         // mp3 실제로 재생
     }
 }

@@ -23,7 +23,6 @@ public class MapAlphabet : MapInfo
         
         Debug.Log("Clue 응답");
         tryCount += 1;
-        totalCorrect += 1;
 
         if (answerChar == null)
             answerChar = new List<char>();
@@ -36,6 +35,12 @@ public class MapAlphabet : MapInfo
         }
         response += " 입니다.";
 
+        return response;
+    }
+
+    public override string GetSuccess()
+    {
+        string response = $"total try is {tryCount}.";
         return response;
     }
 }

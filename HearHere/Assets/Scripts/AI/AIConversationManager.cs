@@ -64,63 +64,61 @@ namespace HH
         }
         
         /// <summary>
-        /// TTS text를 Audio Clip으로 추출해 반환
+        /// TTS text를 Audio Clip으로 추출해 반환 (OpenAI TTS 사용)
         /// </summary>
         public async Task<AudioClip> RequestTextToSpeech(string text)
         {
-            // google TTS api가 요구하는 요청 형식에 맞게 요청 객체 구성
-            var request = new GoogleCloudTextToSpeechRequest
-            {
-                input = new SynthesisInput { text = text },
-                voice = new VoiceSelectionParams { languageCode = "en-US", name = "en-US-Standard-C", ssmlGender = "MALE" },
-                // voice = new VoiceSelectionParams { languageCode = "ko-KR", name = "ko-KR-Standard-B", ssmlGender = "MALE" },
-                audioConfig = new AudioConfig { audioEncoding = "MP3", speakingRate = 0.7f }
-            };
+            string url = "https://api.openai.com/v1/audio/speech";
             
-            string json = JsonUtility.ToJson(request);      // 요청 객체를 JSON 문자열로 바꿈, unity에서는 서버로 데이터를 보낼 때 JSON형태로 변환해서 보내야함
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);  // 요청 객체를 UTF-8 바이트로 변환, 컴퓨터가 이해할 수 있는 byte로 변환
-            string url = "https://texttospeech.googleapis.com/v1/text:synthesize?key=" + googleTTSApiKey;
+            // OpenAI TTS 요청 데이터 생성
+            string requestJson = OpenAIRequestHelper.CreateTTSRequestBody(text, "ash");
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(requestJson);
             
-            using (UnityWebRequest wwwSender = new UnityWebRequest(url, "POST")) // UnityWebRequest: unity에서 HTTP요청을 보낼 수 있게 해주는 클래스임
+            using (UnityWebRequest wwwSender = new UnityWebRequest(url, "POST"))
             {
                 // HTTP POST 요청 준비
-                wwwSender.uploadHandler = new UploadHandlerRaw(bodyRaw); //UploadHandlerRaw: google 서버에 보낼 준비 
-                wwwSender.downloadHandler = new DownloadHandlerBuffer(); // 서버에서 response가 오면 그 데이터를 받기 위한 버퍼임
-                wwwSender.SetRequestHeader("Content-Type", "application/json"); // 서버에게 JSON파일을 보낸다고 알려주는 코드, 이걸 보고 어떻게 해석할지 결정 가능함
+                wwwSender.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                wwwSender.downloadHandler = new DownloadHandlerBuffer();
+                wwwSender.SetRequestHeader("Content-Type", "application/json");
+                wwwSender.SetRequestHeader("Authorization", "Bearer " + openaiApiKey);
                 
                 // UnityWebRequest가 완료될 때까지 비동기적으로 기다림
-                await wwwSender.SendWebRequest();
+                var asyncOp = wwwSender.SendWebRequest();
+                while (!asyncOp.isDone)
+                {
+                    await Task.Yield();
+                }
                 
                 // 응답이 오지 않았을 때
                 if (wwwSender.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogError($"Google TTS API 요청 실패 (HTTP {wwwSender.responseCode}): {wwwSender.error}\n서버 응답: {wwwSender.downloadHandler.text}");
+                    Debug.LogError($"OpenAI TTS API 요청 실패 (HTTP {wwwSender.responseCode}): {wwwSender.error}\n서버 응답: {wwwSender.downloadHandler.text}");
                     return null;
                 }
                 
-                // 응답이 왔을 때 
-                string responseJson = wwwSender.downloadHandler.text;
-                var response = JsonUtility.FromJson<GoogleCloudTextToSpeechResponse>(responseJson);
-                
-                // 받은 base64 오디어 데이터를 .mp3파일로 저장
-                byte[] audioData = System.Convert.FromBase64String(response.audioContent);
+                // 응답이 왔을 때 - OpenAI는 직접 MP3 바이너리 데이터를 반환
+                byte[] audioData = wwwSender.downloadHandler.data;
                 string filePath = Path.Combine(Application.persistentDataPath, "tts.mp3");
                 await File.WriteAllBytesAsync(filePath, audioData);
                 
                 // Audio Clip으로 생성해 플레이 한다.
-                using (UnityWebRequest wwwReceiver = UnityWebRequestMultimedia.GetAudioClip("file://" + filePath, AudioType.MPEG)) // 지정한 경로에 있는 mp3파일을 오디오 클립으로 불러오는 요청
+                using (UnityWebRequest wwwReceiver = UnityWebRequestMultimedia.GetAudioClip("file://" + filePath, AudioType.MPEG))
                 {
-                    await wwwReceiver.SendWebRequest();  // 실제로 mp3 파일을 비동기적으로 다운로드 시작함
+                    var asyncOp2 = wwwReceiver.SendWebRequest();
+                    while (!asyncOp2.isDone)
+                    {
+                        await Task.Yield();
+                    }
                 
                     // 요청 실패 시 에러 출력 후 함수 종료
                     if (wwwReceiver.result != UnityWebRequest.Result.Success)
                     {
-                        Debug.LogError($"Google TTS API 요청 실패 (HTTP {wwwReceiver.responseCode}): {wwwReceiver.error}\n서버 응답: {wwwReceiver.downloadHandler.text}");
+                        Debug.LogError($"오디오 파일 로드 실패 (HTTP {wwwReceiver.responseCode}): {wwwReceiver.error}");
                         return null;
                     }
                 
                     // 오디오 파일 재생
-                    AudioClip clip = DownloadHandlerAudioClip.GetContent(wwwReceiver);  // www에서 받아온 mp3 오디오 데이터를 AudioClip형식으로 바꿔서 clip 변수에 저장
+                    AudioClip clip = DownloadHandlerAudioClip.GetContent(wwwReceiver);
                     return clip;
                 }
             }

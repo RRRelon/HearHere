@@ -7,8 +7,6 @@ namespace HH.UI
     
     public class UIMenuManager : MonoBehaviour
     {
-        [SerializeField] private InputReader inputReader;
-        
         [Header("Touch Visual Feedback")]
         [SerializeField] private Image targetImage;
         [SerializeField] private Color pressColor;
@@ -32,26 +30,12 @@ namespace HH.UI
         
         private void OnEnable()
         {
-            inputReader.SpeechEvent += OnScreenPressed; 
-            inputReader.SpeechCancelEvent += OnScreenReleased;
             onTextReadyForTTS.OnEventRaised += StartTTSVisualFeedback;
         }
 
         private void OnDisable()
         {
-            inputReader.SpeechEvent -= OnScreenPressed; 
-            inputReader.SpeechCancelEvent -= OnScreenReleased;
             onTextReadyForTTS.OnEventRaised -= StartTTSVisualFeedback;
-        }
-
-        private void OnScreenPressed()
-        {
-            targetImage.DOColor(pressColor, 0.3f);
-        }
-
-        private void OnScreenReleased()
-        {
-            targetImage.DOColor(defaultColor, 0.3f);
         }
         
         /// <summary>

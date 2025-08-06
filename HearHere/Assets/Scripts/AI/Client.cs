@@ -7,7 +7,7 @@ public abstract class Client : MonoBehaviour
     // 이 값보다 큰 소리가 감지되면 '말하기 시작'으로 판단
     [SerializeField] private float sensitivityThreshold = 0.02f;
     // 말하기가 끝났다고 판단하기 전까지 기다리는 시간 (초)
-    [SerializeField] private float silenceDelay = 1.5f;
+    [SerializeField] private float silenceDelay = 3f;
     [SerializeField] private int maxRecordingDuration = 10;
 
     [Header("AI")]
@@ -16,11 +16,12 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected int promptNum = 0;
     
     [Header("Broadcasting to")]
+    [SerializeField] protected StringEventChannelSO onTextReadyForTTS;
     [SerializeField] private BoolEventChannelSO blinkScreenDark;
     
     // Flag
-    private bool isListening; // 마이크 입력을 받으면 True, 아니면 False
-    private bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
+    protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
+    protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -29,7 +30,7 @@ public abstract class Client : MonoBehaviour
     private float timeSinceLastSound;
     private string microphoneDevice;
     
-    private void Start()
+    protected virtual void Start()
     {
         if (Microphone.devices.Length == 0)
         {
@@ -46,9 +47,10 @@ public abstract class Client : MonoBehaviour
     /// 소리 감지 되면 녹음 시작(isSpeaking = true)
     /// 침묵 진행되면 녹음 종료(isSpeaking = false)
     /// </summary>
-    private void Update()
+    protected virtual void Update()
     {
-        if (!isListening) return;
+        if (!isListening)
+            return;
 
         // 현재 마이크 볼륨 측정
         float currentVolume = GetAverageVolume();

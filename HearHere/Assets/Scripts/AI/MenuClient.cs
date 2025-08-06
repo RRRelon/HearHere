@@ -9,20 +9,44 @@ using UnityEngine.Serialization;
 /// </summary>
 public class MenuClient : Client
 {
-    [Header("Debugging")]
-    public string speechTest;
     // Game Management
     [Header("Scene Management")]
     [SerializeField] private GameSceneSO currentlyLoadedScene;
     [SerializeField] private GameSceneSO gameToLoad;
+    [SerializeField] private GameSceneSO tutorialToLoad;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
-    [SerializeField] private StringEventChannelSO onTextReadyForTTS;
 
-    private void STTTest()
+    [SerializeField] private float playbackInterval = 30.0f;
+    private float playbackTimer;
+    private string playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound.\"\n\n\"To start the tutorial, please say, 'Start tutorial'. To begin the game, please say, 'Start game'";
+    
+    protected override void Start()
     {
-        ProcessUserInput(speechTest);
+        base.Start();
+        
+        playbackTimer = playbackInterval;
+    }
+    
+    protected override void Update()
+    {
+        base.Update();
+        
+        if (!isListening)
+        {
+            playbackTimer = 0;
+            return;
+        }
+        
+        // 게임 안내 playback cooltime
+        playbackTimer += Time.deltaTime;
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            onTextReadyForTTS.OnEventRaised(playbackStr);
+            playbackTimer = 0;
+        }
     }
 
     /// <summary>
@@ -72,9 +96,37 @@ public class MenuClient : Client
         }
         #endregion
         
+        #region 튜토리얼 시작
+        // 튜토리얼 시작 관련
+        string[] startKeywords = { "start", "begin", "play" };
+
+        string startTutorialStr = "Starting the tutorial.";
+        string alreadyTutorialStr = "The tutorial is already in progress.";
+
+        // --- 튜토리얼 시작 명령어 확인 ---
+        foreach (var keyword in startKeywords)
+        {
+            if (userText.Contains(keyword))
+            {
+                // 게임 씬으로 이동하는 명령어 처리
+                if (currentlyLoadedScene.SceneType != GameSceneType.Location)
+                {
+                    onTextReadyForTTS.OnEventRaised(startTutorialStr);
+                    base.ProcessUserInput(startTutorialStr);
+                    StartCoroutine(DelaySceneLoad(3.0f, tutorialToLoad)); // 씬 로딩
+                }
+                else
+                {
+                    onTextReadyForTTS.OnEventRaised(alreadyTutorialStr);
+                    base.ProcessUserInput(alreadyTutorialStr);
+                }
+                return; // 처리 완료, GPT에 보내지 않음
+            }
+        }
+        #endregion
+        
         #region 게임 시작
         // 게임 시작 관련
-        string[] startKeywords = { "start", "begin", "play" };
 
         string startGameStr = "Starting the game.";
         string alreadyGameStr = "The game is already in progress.";

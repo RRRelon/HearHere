@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6197695942613188937
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_Name
+      value: Client Tutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891909989468546243, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: prompt
+      value: 
+      objectReference: {fileID: 11400000, guid: 03427a0dfd05e2f41a8a380b74e4eeaf, type: 2}
+    - target: {fileID: 8891909989468546243, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      propertyPath: speechTest
+      value: "\uBA54\uC778 \uBA54\uB274\uB85C \uAC00"
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8891909989468546243, guid: cdc62912e357517409a18db36b56a328, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6702267658340197361}
+  m_SourcePrefab: {fileID: 100100000, guid: cdc62912e357517409a18db36b56a328, type: 3}
+--- !u!1 &5250185246832943763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
+  m_PrefabInstance: {fileID: 6197695942613188937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6702267658340197361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250185246832943763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa18e376934f9694697f1cf6969f595d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivityThreshold: 0.02
+  silenceDelay: 3
+  maxRecordingDuration: 10
+  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
+  prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
+  promptNum: 0
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+  tutorial: {fileID: 0}
+  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
+  loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
