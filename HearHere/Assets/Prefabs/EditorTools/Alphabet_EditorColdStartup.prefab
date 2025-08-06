@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 1908795145316023663, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: thisSceneSO
       value: 
-      objectReference: {fileID: 11400000, guid: 7749871f79a43a541b27bf3d4419472b, type: 2}
+      objectReference: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
     - target: {fileID: 3988095556482345560, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_Name
       value: Game_EditorColdStartup

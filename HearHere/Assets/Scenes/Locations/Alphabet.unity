@@ -809,7 +809,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2273832178029746115, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
       propertyPath: m_Name
-      value: Game_EditorColdStartup
+      value: Alphabet_EditorColdStartup
       objectReference: {fileID: 0}
     - target: {fileID: 2805078641699555020, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
       propertyPath: m_LocalPosition.x

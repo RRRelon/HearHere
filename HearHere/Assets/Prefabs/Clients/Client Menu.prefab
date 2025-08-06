@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 941.60803
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 481.04132
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7943969339901863985, guid: cdc62912e357517409a18db36b56a328, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63,5 +63,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4277417029218883873}
   m_SourcePrefab: {fileID: 100100000, guid: cdc62912e357517409a18db36b56a328, type: 3}
+--- !u!1 &2387137138091462315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2224430998671565786, guid: cdc62912e357517409a18db36b56a328, type: 3}
+  m_PrefabInstance: {fileID: 4611145752163003761}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4277417029218883873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2387137138091462315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75ba1b489e35964285bf81ce71920ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivityThreshold: 10.202
+  silenceDelay: 3
+  maxRecordingDuration: 10
+  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
+  prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
+  promptNum: 0
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+  currentlyLoadedScene: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
+  gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
+  loadLocation: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
+  playbackInterval: 5
