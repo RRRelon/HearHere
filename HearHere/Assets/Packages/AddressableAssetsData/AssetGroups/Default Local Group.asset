@@ -55,6 +55,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d80090097a7fd4e9783f708728a44dc2
+    m_Address: Assets/Scenes/Locations/AmusementPark.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e57ced222f21a47049b4262b898ee044
+    m_Address: Assets/Scenes/Locations/SpaceShip.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed3b55ac19d414640b820898a68bb41d
     m_Address: Assets/Scenes/Managers/PersistentManagers.unity
     m_ReadOnly: 0
