@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3aef65d630b876428f9ed894bef1608, type: 3}
   m_Name: Prompt_Tutorial
   m_EditorClassIdentifier: 
-  Prompt: "[Tutorial: Find the Correct Sound]\r\n\r\n\U0001F539 Sound Information\r\n1.
-    Front right \u2013 Owl (4.05, 2.94)\r\n2. Back left \u2013 Bird (-4.05, -2.94)\r\n3.
-    Back right \u2013 Bell (1.55, -4.76)\r\n\r\n\U0001F539 GPT Output Conditions\r\n1.
-    Must return in JSON format.\r\n2. JSON must include response_type, tts_text,
-    and argument.\r\n3. response_type must be \"success\" or \"dialogue\".\r\n4.
-    \"success\" is used when the user mentions both the sound and its correct direction;
-    incorrect answers return \"dialogue\".\r\n5. argument has three possible values:\r\n0
-    \u2192 User gave an answer related to the owl\r\n1 \u2192 User gave an answer
-    related to the bird\r\n2 \u2192 User gave an answer related to the bell\r\n\r\n\U0001F539
+  Prompt: "[Tutorial: Find the Correct Sound]\n\r\n\U0001F539 Sound Information\r\n1.
+    Front right \u2013 Frog\r\n2. Back left \u2013 Bird\r\n3. Back right \u2013 Bell\r\n\r\n\U0001F539
+    GPT Output Conditions\r\n1. All responses must be in English only.\n2. Must return
+    in JSON format.\n3. JSON must include response_type, tts_text, and argument.\n4.
+    response_type must be \"success\" or \"dialogue\".\n5. \"success\" is used when
+    the user mentions both the sound and its correct direction; incorrect answers
+    return \"dialogue\".\n6. argument has three possible values:\n  - 0 \u2192 User
+    gave an answer related to the owl\n  - 1 \u2192 User gave an answer related to
+    the bird\n  - 2 \u2192 User gave an answer related to the bell\r\n\r\n\U0001F539
     Explanation\r\n1. User is the player, and Answer is the tts_text that GPT responds
     with.\r\n2. tts_text is a sentence dynamically generated based on the user\u2019s
     spoken input.\r\n3. The first sound is the owl, the second is the bird, and the

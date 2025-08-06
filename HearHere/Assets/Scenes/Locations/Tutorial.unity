@@ -379,6 +379,7 @@ MonoBehaviour:
   - {fileID: 1267195209}
   - {fileID: 1857310442}
   - {fileID: 868781408}
+  currentSoundIndex: 0
 --- !u!4 &1109469251
 Transform:
   m_ObjectHideFlags: 0
@@ -404,16 +405,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1876134871336820456, guid: de6ea0b6471edf84c96b1d2bb3dbe207, type: 3}
       propertyPath: m_Name
-      value: OwlHooting
+      value: FrogCroaking
       objectReference: {fileID: 0}
     - target: {fileID: 2079885955389412972, guid: de6ea0b6471edf84c96b1d2bb3dbe207, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: fb3f0e368a9a57c44947f09742d04285, type: 3}
+      objectReference: {fileID: 8300000, guid: 93e2c1c2d7018024aaeaf781a0701388, type: 3}
     - target: {fileID: 2079885955389412972, guid: de6ea0b6471edf84c96b1d2bb3dbe207, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: fb3f0e368a9a57c44947f09742d04285, type: 3}
+      objectReference: {fileID: 8300000, guid: 93e2c1c2d7018024aaeaf781a0701388, type: 3}
     - target: {fileID: 6711075347639652080, guid: de6ea0b6471edf84c96b1d2bb3dbe207, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5

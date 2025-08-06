@@ -112,12 +112,12 @@ public abstract class Client : MonoBehaviour
         // 실제 녹음을 종료하여 speechClip에 데이터를 확정합니다.
         Microphone.End(microphoneDevice);
         
+        // 색을 다시 밝게 해야 해
+        blinkScreenDark.OnEventRaised(false);
+        
         // STT 분석 함수 호출
         string userText = await manager.GetTextFromAudio(recordingClip);
         Debug.Log(userText);
-        
-        // 색을 다시 밝게 해야 해
-        blinkScreenDark.OnEventRaised(false);
         
         ProcessUserInput(userText);
     }
