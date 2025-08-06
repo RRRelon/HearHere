@@ -5,7 +5,9 @@ using UnityEngine;
 public class MapTutorial : MonoBehaviour
 {
     [SerializeField] private List<GameObject> audioSources;
-    private int currentSoundIndex;
+    
+    // Debugging 용
+    [SerializeField] private int currentSoundIndex;
 
     private void Awake()
     {

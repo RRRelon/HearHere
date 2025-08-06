@@ -97,58 +97,85 @@ public class MenuClient : Client
         #endregion
         
         #region 튜토리얼 시작
-        // 튜토리얼 시작 관련
-        string[] startKeywords = { "start", "begin", "play" };
+        // 튜토리얼 시작 관련 키워드
+        string[] tutorialTargets = { "tutorial" };
+        string[] tutorialActions = { "start", "begin" };
 
         string startTutorialStr = "Starting the tutorial.";
         string alreadyTutorialStr = "The tutorial is already in progress.";
 
         // --- 튜토리얼 시작 명령어 확인 ---
-        foreach (var keyword in startKeywords)
+        bool isTutorialTargetMatch = false;
+        foreach (var target in tutorialTargets)
         {
-            if (userText.Contains(keyword))
+            if (userText.ToLower().Contains(target))
             {
-                // 게임 씬으로 이동하는 명령어 처리
-                if (currentlyLoadedScene.SceneType != GameSceneType.Location)
+                isTutorialTargetMatch = true;
+                break;
+            }
+        }
+        if (isTutorialTargetMatch)
+        {
+            foreach (var action in tutorialActions)
+            {
+                if (userText.ToLower().Contains(action))
                 {
-                    onTextReadyForTTS.OnEventRaised(startTutorialStr);
-                    base.ProcessUserInput(startTutorialStr);
-                    StartCoroutine(DelaySceneLoad(3.0f, tutorialToLoad)); // 씬 로딩
+                    // 튜토리얼 시작 로직 실행
+                    if (currentlyLoadedScene.SceneType != GameSceneType.Location)
+                    {
+                        onTextReadyForTTS.OnEventRaised(startTutorialStr);
+                        base.ProcessUserInput(startTutorialStr);
+                        StartCoroutine(DelaySceneLoad(3.0f, tutorialToLoad));
+                    }
+                    else
+                    {
+                        onTextReadyForTTS.OnEventRaised(alreadyTutorialStr);
+                        base.ProcessUserInput(alreadyTutorialStr);
+                    }
+                    return; // 처리 완료, GPT에 보내지 않음
                 }
-                else
-                {
-                    onTextReadyForTTS.OnEventRaised(alreadyTutorialStr);
-                    base.ProcessUserInput(alreadyTutorialStr);
-                }
-                return; // 처리 완료, GPT에 보내지 않음
             }
         }
         #endregion
         
         #region 게임 시작
-        // 게임 시작 관련
+        // 게임 시작 관련 키워드
+        string[] gameTargets = { "game" };
+        string[] gameActions = { "start", "begin", "play" };
 
         string startGameStr = "Starting the game.";
         string alreadyGameStr = "The game is already in progress.";
 
         // --- 게임 시작 명령어 확인 ---
-        foreach (var keyword in startKeywords)
+        bool isGameTargetMatch = false;
+        foreach (var target in gameTargets)
         {
-            if (userText.Contains(keyword))
+            if (userText.ToLower().Contains(target))
             {
-                // 게임 씬으로 이동하는 명령어 처리
-                if (currentlyLoadedScene.SceneType != GameSceneType.Location)
+                isGameTargetMatch = true;
+                break;
+            }
+        }
+        if (isGameTargetMatch)
+        {
+            foreach (var action in gameActions)
+            {
+                if (userText.ToLower().Contains(action))
                 {
-                    onTextReadyForTTS.OnEventRaised(startGameStr);
-                    base.ProcessUserInput(startGameStr);
-                    StartCoroutine(DelaySceneLoad(3.0f, gameToLoad)); // 씬 로딩
+                    // 게임 시작 로직 실행
+                    if (currentlyLoadedScene.SceneType != GameSceneType.Location)
+                    {
+                        onTextReadyForTTS.OnEventRaised(startGameStr);
+                        base.ProcessUserInput(startGameStr);
+                        StartCoroutine(DelaySceneLoad(3.0f, gameToLoad));
+                    }
+                    else
+                    {
+                        onTextReadyForTTS.OnEventRaised(alreadyGameStr);
+                        base.ProcessUserInput(alreadyGameStr);
+                    }
+                    return; // 처리 완료, GPT에 보내지 않음
                 }
-                else
-                {
-                    onTextReadyForTTS.OnEventRaised(alreadyGameStr);
-                    base.ProcessUserInput(alreadyGameStr);
-                }
-                return; // 처리 완료, GPT에 보내지 않음
             }
         }
         #endregion
