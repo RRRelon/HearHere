@@ -23,8 +23,11 @@ public class MapTutorial : MonoBehaviour
     /// 만약 모든 오브젝트가 한 번씩 Active 됐다면 게임을 종료한다.
     /// </summary>
     /// <returns> 튜토리얼이 끝났으면 True, 아니면 False </returns>
-    public bool TryAdvanceToNextSound()
+    public bool TryAdvanceToNextSound(int argument)
     {
+        if (currentSoundIndex != argument)
+            return false;
+        
         for (int i = 0; i < audioSources.Count; ++i)
         {
             if (i == currentSoundIndex)
@@ -40,5 +43,17 @@ public class MapTutorial : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool IsSameSound(int argument)
+    {
+        if (currentSoundIndex != argument)
+        {
+            Debug.Log("다른 토픽 말하는 중");
+            return false;
+        }
+            
+
+        return true;
     }
 }

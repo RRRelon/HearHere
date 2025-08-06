@@ -744,6 +744,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 52ac8e2ffe04f3e4283ee971a0d6041f, type: 2}
     - target: {fileID: 4277417029218883873, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: playbackInterval
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277417029218883873, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: sensitivityThreshold
       value: 0.02
       objectReference: {fileID: 0}
