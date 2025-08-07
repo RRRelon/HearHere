@@ -18,6 +18,8 @@ public class GameClient : Client
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private BoolEventChannelSO onGameClear;
+    
+    
 
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행
@@ -33,157 +35,86 @@ public class GameClient : Client
         
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
         
-        #region 메뉴 설명
-        string[] menuInfoTargets = { "menu" };
-        string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
-
-        string explainMenuStr = "Available commands are Go to Main Menu, and Exit Game.";
-        
-        // --- 메뉴 설명 명령어 확인 ---
-        bool isMenuInfoTargetMatch = false;
-        foreach (var target in menuInfoTargets)
+        // 메뉴 설명
+        if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
         {
-            if (userText.Contains(target))
-            {
-                isMenuInfoTargetMatch = true;
-                break;
-            }
-        }
-
-        if (isMenuInfoTargetMatch)
-        {
-            foreach (var action in menuInfoActions)
-            {
-                if (userText.Contains(action))
-                {
-                    onTextReadyForTTS.OnEventRaised(explainMenuStr); // 메뉴 설명 TTS 실행
-                    base.ProcessUserInput(explainMenuStr);           // 다시 마이크 모니터링 시작
-                    
-                    return; // 처리 완료, GPT에 보내지 않음
-                }
-            }
-        }
-        #endregion
-        
-        #region 메인 메뉴 관련
-        string[] menuTargets = { "main", "first" };
-        string[] menuActions = { "menu", "screen", "move", "return", "go" };
-
-        string moveMenuStr = "Moving to the main menu.";
-        string alreadyMenuStr = "You are currently in the main menu.";
-        
-        // --- 메인 메뉴 이동 명령어 확인 ---
-        bool isMenuTargetMatch = false;
-        foreach (var target in menuTargets)
-        {
-            if (userText.Contains(target))
-            {
-                isMenuTargetMatch = true;
-                break;
-            }
-        }
-        if (isMenuTargetMatch)
-        {
-            foreach (var action in menuActions)
-            {
-                if (userText.Contains(action))
-                {
-                    // 메인 메뉴로 이동하는 명령어 처리
-                    if (currentlyLoadedScene.SceneType != GameSceneType.Menu)
-                    {
-                        onTextReadyForTTS.OnEventRaised(moveMenuStr); // 메인 메뉴 이동 TTS 실행
-                        base.ProcessUserInput(moveMenuStr);           // 다시 마이크 모니터링 시작
-                        
-                        // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
-                        StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
-                    }
-                    else
-                    {
-                        onTextReadyForTTS.OnEventRaised(alreadyMenuStr); // 이미 메인 메뉴라는 TTS 실행
-                        base.ProcessUserInput(alreadyMenuStr);           // 다시 마이크 모니터링 시작
-                    }
-                    return; // 처리 완료, GPT에 보내지 않음
-                }
-            }
-        }
-        #endregion 
-
-        #region 게임 종료
-            
-        // 게임 종료 관련
-        string[] exitTargets = { "game", "application", "program" };
-        string[] exitActions = { "exit", "quit", "turn off", "close" };
-
-        string exitGameStr = "게임을 종료합니다.";
-        
-        // --- 게임 종료 명령어 확인 ---
-        bool isExitTargetMatch = false;
-        foreach (var target in exitTargets)
-        {
-            if (userText.Contains(target))
-            {
-                isExitTargetMatch = true;
-                break;
-            }
-        }
-
-        if (isExitTargetMatch)
-        {
-            foreach (var action in exitActions)
-            {
-                if (userText.Contains(action))
-                {
-                    onTextReadyForTTS.OnEventRaised(exitGameStr);
-                    base.ProcessUserInput(exitGameStr);
-                    
-                    StartCoroutine(ExitGame()); // 실제 게임 종료 코드
-                    return;
-                }
-            }
-        }
-        #endregion
-
-        #region 게임 내용에 대한 GPT 응답
-        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
-        if (response == null)
-        {
-            // 다시 마이크 모니터링 시작
-            string retryStr = "Sorry. I can't understand. Try again.";
-            onTextReadyForTTS.OnEventRaised(retryStr);
-            base.ProcessUserInput(retryStr);
+            base.ProcessUserInput("Available commands are Go to Main Menu, and Exit Game.");
             return;
         }
         
+        // 메인 메뉴 관련
+        if (CheckSystemOperationInput(userText, menuTargets, menuActions))
+        {
+            if (currentlyLoadedScene.SceneType != GameSceneType.Menu)
+            {
+                base.ProcessUserInput("Moving to the main menu.");
+                // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
+                StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
+            }
+            else
+                base.ProcessUserInput("You are currently in the main menu.");
+
+            return;
+        }
+        
+        // 게임 종료
+        if (CheckSystemOperationInput(userText, exitTargets, exitActions))
+        {
+            base.ProcessUserInput("Exit game.");
+            return;
+        }
+
+        // 게임 내용에 대한 GPT 응답
+        GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
+        if (response == null)
+        {
+            base.ProcessUserInput("Sorry. I can't understand. Try again.");
+            return;
+        }
+        
+        Debug.Log($"GPT 응답:\n{response}");
+        
         // GPT 응답에 따른 액션 수행
+        MapResult result; // 맵에서 가져온 결과
         switch (response.response_type)
         {
             case "dialogue": // 일반 상호작용(아무 소리, 오답)
                 mapInfo.GetDialogue();
-                break;
-            case "clue":     // 단서 소리 
-                response.tts_text += mapInfo.GetClue(response.argument[0]);
-                break;
+                base.ProcessUserInput(response.tts_text);
+                return;
+            case "clue":     // 단서 소리
+                // 얻은 Response에 대한 Map의 응답
+                result = mapInfo.GetClue(response.argument[0]);
+                // Map에서 전달받은 메시지를 추가
+                response.tts_text += result.Message;
+                base.ProcessUserInput(response.tts_text);
+                return;
             case "success":  // 정답
-                // 정답 뒤에 Try 횟수 붙이기
-                response.tts_text += mapInfo.GetSuccess();
-                // 정답 뒤에 걸린 시간 넣기
-                response.tts_text += FormatPlayTime(playTime);
-                onTextReadyForTTS.OnEventRaised(response.tts_text);
-                GameClear();
+                result = mapInfo.GetSuccess();
+                // 유효한 정답일 경우
+                if (result.IsValid)
+                {
+                    // 정답 뒤에 Try 횟수 붙이기
+                    response.tts_text += result.Message;
+                    // 정답 뒤에 걸린 시간 넣기
+                    response.tts_text += FormatPlayTime(playTime);
+                    onTextReadyForTTS.OnEventRaised(response.tts_text);
+                    base.ProcessUserInput(response.tts_text);
+                    GameClear();
+                    return;
+                }
+                // 유효하지 않은 정답일 경우
+                response.tts_text += result.Message;
+                base.ProcessUserInput(response.tts_text);
                 return;
             default:
                 Debug.LogError($"Invalid Response type: {response.response_type}");
+                base.ProcessUserInput(response.tts_text);
                 break;
         }
         
-        Debug.Log($"GPT 응답 : {response.tts_text}");
-        
-        // GPT 응답 TTS로 전환
-		onTextReadyForTTS.OnEventRaised(response.tts_text);
-        
-        // 다시 마이크 모니터링 시작
-        base.ProcessUserInput(response.tts_text);
-        #endregion
+        // 아무 처리도 못했을 경우
+        base.ProcessUserInput(playbackStr);
     }
     
     /// <summary>
@@ -200,7 +131,6 @@ public class GameClient : Client
         
         // 화면 점등
         onGameClear.OnEventRaised(true);
-        
         yield return new WaitForSeconds(3.0f);
         
         EnableInput();

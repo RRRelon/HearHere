@@ -20,8 +20,21 @@ public abstract class Client : MonoBehaviour
     [SerializeField] private BoolEventChannelSO blinkScreenDark;
     
     // Flag
-    protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
-    protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
+    [SerializeField] protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
+    [SerializeField] protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
+    
+    protected float playTime = 0;
+    protected const string playbackStr = "Please say that again with the correct answer.";
+    
+    // 메뉴 정보 명령어
+    protected readonly string[] menuInfoTargets = { "menu" };
+    protected readonly string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
+    // 메인 메뉴로 이동 명령어
+    protected readonly string[] menuTargets = { "main", "first" };
+    protected readonly string[] menuActions = { "menu", "screen", "move", "return", "go" };
+    // 게임 종료 명령어
+    protected readonly string[] exitTargets = { "game", "application", "program" };
+    protected readonly string[] exitActions = { "exit", "quit", "turn off", "close" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -29,17 +42,16 @@ public abstract class Client : MonoBehaviour
     
     private float timeSinceLastSound;
     private string microphoneDevice;
-
-    [SerializeField] protected float playTime = 0;
     
     protected virtual void Start()
     {
         if (Microphone.devices.Length == 0)
         {
-            Debug.LogError("마이크를 찾을 수 없습니다!");
+            Debug.LogError("There are no Microphone devices available!");
             return;
         }
         microphoneDevice = Microphone.devices[0];
+        Debug.Log(microphoneDevice);
 
         StartMonitoring();
     }
@@ -84,10 +96,10 @@ public abstract class Client : MonoBehaviour
     
     private void StartMonitoring()
     {
-        Debug.Log("음성 모니터링을 시작합니다...");
+        Debug.Log("Starting mic monitoring...");
         
         isListening = true; // 마이크 입력 받기
-        // 상시 입력을 받기 위해 1초짜리 반복 녹음을 시작합니다.
+        // 상시 입력을 받기 위해 1초짜리 반복 녹음 시작
         monitoringClip = Microphone.Start(microphoneDevice, true, 1, 44100);
     }
     
@@ -98,7 +110,7 @@ public abstract class Client : MonoBehaviour
         
         // 실제 음성을 담을 새롭고 긴 클립으로 녹음을 다시 시작합니다. (반복X)
         recordingClip = Microphone.Start(microphoneDevice, false, maxRecordingDuration, 44100);
-        Debug.Log("말하기 시작 감지! 녹음을 시작합니다.");
+        Debug.Log("Sensing mic! Start Recording.");
         
         // 색을 어둡게 해야 해
         if (blinkScreenDark != null)
@@ -109,7 +121,7 @@ public abstract class Client : MonoBehaviour
 
     private async void StopAndProcessUserInput()
     {
-        Debug.Log("말하기 끝 감지! 분석을 시작합니다. (VAD 비활성화)");
+        Debug.Log("Done recording! Try to convert. (Deactivate VAD)");
         
         isSpeaking = false; // 마이크 녹음 중지
         isListening = false; // 발화 중에는 마이크 입력 중지
@@ -126,62 +138,54 @@ public abstract class Client : MonoBehaviour
         
         ProcessUserInput(userText);
     }
-    
-    /// <summary>
-    /// 모니터링 클립의 평균 볼륨을 계산하는 함수 
-    /// </summary>
-    private float GetAverageVolume()
-    {
-        if (!Microphone.IsRecording(microphoneDevice)) return 0;
-        
-        float[] data = new float[256];
-        int micPosition = Microphone.GetPosition(microphoneDevice) - (256 + 1);
-        if (micPosition < 0) return 0;
-        
-        // 발화 중이면 녹음용 마이크 가져오기
-        if (isSpeaking)
-            recordingClip.GetData(data, micPosition);
-        // 발화 전에는 모니터링 마이크 가져오기
-        else
-            monitoringClip.GetData(data, micPosition);
-        
-        float a = 0;
-        foreach (float s in data)
-        {
-            a += Mathf.Abs(s);
-        }
-        
-        return a / 256;
-    }
 
     /// <summary>
-    /// 마이크 입력 비활성화
+    /// TTS, GPT를 거친 응답 텍스트를 TTS로 재생 
     /// </summary>
-    protected void DisableInput()
-    {
-        isListening = false;
-    }
-
-    /// <summary>
-    /// 마이크 입력 활성화
-    /// </summary>
-    protected void EnableInput()
-    {
-        isListening = true;
-    }
-
-    /// <summary>
-    /// 마이크 입력에 대한 행동 수행
-    /// </summary>
-    protected virtual void ProcessUserInput(string text)
+    protected virtual async void ProcessUserInput(string text)
     {
         float totalDuration;
         if (string.IsNullOrWhiteSpace(text))
             totalDuration = 0f;
         else
             totalDuration = text.Length * 0.08f;
-        
-        StartCoroutine(DelayedStartMonitoring(totalDuration));
+        StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
+        onTextReadyForTTS.OnEventRaised(text);
+    }
+
+    protected void EnableInput()
+    {
+        isListening = true;
+    }
+    
+    protected void DisableInput()
+    {
+        isListening = false;
+    }
+
+    protected bool CheckSystemOperationInput(string text, string[] targets, string[] actions)
+    {
+        bool isMenuInfoTargetMatch = false;
+        foreach (var target in targets)
+        {
+            if (text.Contains(target))
+            {
+                isMenuInfoTargetMatch = true;
+                break;
+            }
+        }
+        if (isMenuInfoTargetMatch)
+        {
+            foreach (var action in actions)
+            {
+                if (text.Contains(action))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
     
     /// <summary>
@@ -229,5 +233,32 @@ public abstract class Client : MonoBehaviour
         yield return new WaitForSeconds(duration);
         
         StartMonitoring();
+    }
+    
+    /// <summary>
+    /// 모니터링 클립의 평균 볼륨을 계산하는 함수 
+    /// </summary>
+    private float GetAverageVolume()
+    {
+        if (!Microphone.IsRecording(microphoneDevice)) return 0;
+        
+        float[] data = new float[256];
+        int micPosition = Microphone.GetPosition(microphoneDevice) - (256 + 1);
+        if (micPosition < 0) return 0;
+        
+        // 발화 중이면 녹음용 마이크 가져오기
+        if (isSpeaking)
+            recordingClip.GetData(data, micPosition);
+        // 발화 전에는 모니터링 마이크 가져오기
+        else
+            monitoringClip.GetData(data, micPosition);
+        
+        float a = 0;
+        foreach (float s in data)
+        {
+            a += Mathf.Abs(s);
+        }
+        
+        return a / 256;
     }
 }
