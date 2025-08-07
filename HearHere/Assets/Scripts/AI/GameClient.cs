@@ -15,6 +15,9 @@ public class GameClient : Client
     [SerializeField] private GameSceneSO currentlyLoadedScene;
     [SerializeField] private GameSceneSO sceneToLoadOnClear;
     
+    [Header("Player Data")]
+    [SerializeField] private PlayerDataSO playerData;
+    
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private BoolEventChannelSO onGameClear;
@@ -82,6 +85,8 @@ public class GameClient : Client
                 return;
             case "clue":     // 단서 소리
                 // 얻은 Response에 대한 Map의 응답
+                if (response.argument.Length <= 0)
+                    return;
                 result = mapInfo.GetClue(response.argument[0]);
                 // Map에서 전달받은 메시지를 추가
                 response.tts_text += result.Message;
@@ -117,9 +122,11 @@ public class GameClient : Client
     
     /// <summary>
     /// 게임 클리어 시 메인 메뉴로 돌아가기
+    /// 데이터 저장
     /// </summary>
     private void GameClear()
     {
+        playerData.AddGameResult(playTime, mapInfo.GetTryCount());
         StartCoroutine(OnGameClear(3.0f, sceneToLoadOnClear));
     }
 

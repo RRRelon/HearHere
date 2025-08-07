@@ -1,5 +1,7 @@
+    using System;
     using System.Collections;
-using UnityEngine;
+    using System.Data;
+    using UnityEngine;
 using HH;
 using UnityEngine.Serialization;
 
@@ -15,19 +17,15 @@ public class MenuClient : Client
     [SerializeField] private GameSceneSO gameToLoad;
     [SerializeField] private GameSceneSO tutorialToLoad;
     
+    [Header("Player Data")]
+    [SerializeField] private PlayerDataSO playerData;
+    
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
 
     [SerializeField] private float playbackInterval = 30.0f;
     [SerializeField] private float playbackTimer;
     private string playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound.\"\n\n\"To start the tutorial, please say, 'Start tutorial'. To begin the game, please say, 'Start game'";
-    
-    protected override void Start()
-    {
-        base.Start();
-        
-        playbackTimer = playbackInterval;
-    }
     
     protected override void Update()
     {
@@ -47,6 +45,62 @@ public class MenuClient : Client
             onTextReadyForTTS.OnEventRaised(playbackStr);
             playbackTimer = 0;
         }
+    }
+
+    /// <summary>
+    /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
+    /// 처음 기록 대비 최근 기록을 TTS로 안내한다.
+    /// </summary>
+    protected override void OnEnable()
+    {
+        foreach (var data in playerData.Datas)
+        {
+            Debug.Log($"current player datas : {data.Time}, {data.TryCount}");
+        }
+        
+        // 1. 첫 기록이 없고, 최근 기록도 없다면 그냥 넘어가기
+        // 첫 기록(playerData.Datas[0])만 있고 다른 기록이 없는 경우 그냥 넘어가기
+        if (playerData.Datas.Count <= 1)
+        {
+            // 먼저 말할 기록이 없으면 기본 안내 문장 TTS
+            onTextReadyForTTS.OnEventRaised(playbackStr);
+            return;   
+        }
+        
+        // 2. 첫 기록(playerData.Datas[0])과 그 외 기록이 있는 경우 TTS로 안내
+
+        float firstRecord = playerData.Datas[0].GetAverage();
+        float lastRecord  = playerData.Datas[^1].GetAverage();
+
+        string message;
+        
+        // 능력이 향상이 된 경우
+        if (lastRecord < firstRecord)
+        {
+            // 성능 향상됨 -> 퍼센트 계산 및 칭찬 메시지 생성
+            // firstRecord == 0인 경우 예외 처리
+            if (firstRecord > 0)
+            {
+                // 향상률(%) = (이전 값 - 현재 값) / 이전 값 * 100
+                float improvement = ((firstRecord - lastRecord) / firstRecord) * 100f;
+                int improvementPercentage = Mathf.RoundToInt(improvement);
+
+                message = $"You're {improvementPercentage}% faster than your first record. That's amazing!";
+            }
+            else
+            {
+                // 퍼센트를 계산할 수 없는 경우, 간단한 칭찬 메시지
+                message = "Your recent record has improved. Keep up the great work!";
+            }
+        }
+        // 능력이 향상이 된 경우
+        else
+        {
+            // 성능이 그대로거나 나빠짐 -> 격려 메시지 생성
+            message = "It's not your best record, but consistency is key. You can do better next time!";
+        }
+
+        onTextReadyForTTS.OnEventRaised(message);
     }
 
     /// <summary>

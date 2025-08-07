@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace HH
 {
@@ -39,13 +40,21 @@ namespace HH
         public async Task<string> GetTextFromAudio(AudioClip audioClip)
         {
             // 1. STT: 오디오를 텍스트로 변환
-            string userText = await TranscribeAudioAsync(audioClip);
-            if (string.IsNullOrWhiteSpace(userText))
+            try
             {
-                Debug.LogError("STT 변환에 실패했거나 음성 입력이 없습니다.");
-                return null;
+                string userText = await TranscribeAudioAsync(audioClip);
+                return userText;
             }
-            return userText;
+            catch (JsonSerializationException jsonEx)
+            {
+                Debug.LogError($"STT Error: {jsonEx.Message}");
+                return string.Empty;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"STT Error: {e.Message}");
+                return string.Empty;
+            }
         }
         
         /// <summary>
