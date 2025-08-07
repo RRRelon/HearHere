@@ -12,7 +12,7 @@ public class TutorialClient : Client
 
     [SerializeField] private float playbackInterval = 20.0f;
     [SerializeField] private float playbackTimer;
-    private string playbackStr = "Please describe exactly where the sound is coming from and what it is.";
+    
 
     protected override void Start()
     {
