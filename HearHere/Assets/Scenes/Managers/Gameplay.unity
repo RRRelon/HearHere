@@ -509,7 +509,7 @@ MonoBehaviour:
   durationPerCharacter: 0.06
   minFlashInterval: 0.1
   maxFlashInterval: 0.3
-  blinkColor: {r: 0.1745283, g: 0.1745283, b: 0.1745283, a: 1}
+  blinkColor: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

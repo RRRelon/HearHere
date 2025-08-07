@@ -13,7 +13,7 @@ public class GameClient : Client
     // Game Management
     [Header("Scene Management")]
     [SerializeField] private GameSceneSO currentlyLoadedScene;
-    [SerializeField] private GameSceneSO menuToLoad;
+    [SerializeField] private GameSceneSO sceneToLoadOnClear;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
@@ -49,7 +49,7 @@ public class GameClient : Client
             {
                 base.ProcessUserInput("Moving to the main menu.");
                 // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
-                StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
+                StartCoroutine(DelaySceneLoad(5.0f, sceneToLoadOnClear));
             }
             else
                 base.ProcessUserInput("You are currently in the main menu.");
@@ -122,7 +122,7 @@ public class GameClient : Client
     /// </summary>
     private void GameClear()
     {
-        StartCoroutine(OnGameClear(3.0f, menuToLoad));
+        StartCoroutine(OnGameClear(3.0f, sceneToLoadOnClear));
     }
 
     private IEnumerator OnGameClear(float waitTime, GameSceneSO sceneToLoad)
@@ -137,7 +137,7 @@ public class GameClient : Client
         
         // 메인 메뉴로 이동
         onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
-        StartCoroutine(DelaySceneLoad(3.0f, menuToLoad));
+        StartCoroutine(DelaySceneLoad(3.0f, sceneToLoadOnClear));
     }
     
     /// <summary>
