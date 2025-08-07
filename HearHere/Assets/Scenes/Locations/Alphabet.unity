@@ -434,9 +434,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 707601029}
     - target: {fileID: 3201803370709821437, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
+      propertyPath: loadMenu
+      value: 
+      objectReference: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
+    - target: {fileID: 3201803370709821437, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: blinkScreenDark
       value: 
       objectReference: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+    - target: {fileID: 3201803370709821437, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
+      propertyPath: sceneToLoadOnClear
+      value: 
+      objectReference: {fileID: 11400000, guid: c27c2d1c115fe43dabd97518c54429e1, type: 2}
     - target: {fileID: 4052119923410282872, guid: b0ac8e954905f6e49aa81b04c91b04dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 941.60803
@@ -1151,6 +1159,10 @@ PrefabInstance:
     - target: {fileID: 4546920943712996715, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117509750431486392, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
+      propertyPath: answer
+      value: HOPE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

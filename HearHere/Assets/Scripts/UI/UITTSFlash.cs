@@ -19,11 +19,11 @@ namespace HH.UI
         [SerializeField] private float longFlashDuration = 0.8f;    // 긴 깜빡임의 속도
         [SerializeField] private int longFlashCount = 2;
         
-        [Header("TTS Visual Feedback")]
-        [SerializeField] private Color flashColor = Color.white;                  // 깜빡일 색상
-        [SerializeField] private float durationPerCharacter = 0.06f; // 텍스트 한 글자당 깜빡임이 지속될 시간 (초)
-        [SerializeField] private float minFlashInterval = 0.1f;     // 최소 깜빡임 간격
-        [SerializeField] private float maxFlashInterval = 0.3f;     // 최대 깜빡임 간격
+        // [Header("TTS Visual Feedback")]
+        // [SerializeField] private Color flashColor = Color.white;                  // 깜빡일 색상
+        // [SerializeField] private float durationPerCharacter = 0.06f; // 텍스트 한 글자당 깜빡임이 지속될 시간 (초)
+        // [SerializeField] private float minFlashInterval = 0.1f;     // 최소 깜빡임 간격
+        // [SerializeField] private float maxFlashInterval = 0.3f;     // 최대 깜빡임 간격
         
         [Header("마이크 입력 시")]
         [SerializeField] private Color blinkColor = Color.blue;
@@ -101,48 +101,48 @@ namespace HH.UI
 
             flashSequence.OnComplete(() => { targetImage.color = defaultColor; });
         }
-        
-        /// <summary>
-        /// 정답/오답 시 화면 깜빡임 실행
-        /// </summary>
-        public void ActivateFlash(float duration)
-        {
-            // 만약 이미 정답/오답 깜빡임 코루틴이 진행 중이라면 중지
-            if (flashCoroutine != null)
-            {
-                StopCoroutine(flashCoroutine);
-                flashCoroutine = null;
-            }
-            
-            flashCoroutine = StartCoroutine(FlashRoutine(duration));
-        }
-        
-        /// <summary>
-        /// 지정된 시간 동안 이미지를 랜덤하게 깜빡이는 코루틴
-        /// </summary>
-        private IEnumerator FlashRoutine(float totalDuration)
-        {
-            float elapsedTime = 0f;
-
-            while (elapsedTime < totalDuration)
-            {
-                // 어두운 색으로 변경
-                targetImage.DOColor(flashColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
-                float waitTime1 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
-                yield return new WaitForSeconds(waitTime1);
-                elapsedTime += waitTime1;
-
-                // 다시 원래 색으로 변경
-                targetImage.DOColor(defaultColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
-                float waitTime2 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
-                yield return new WaitForSeconds(waitTime2);
-                elapsedTime += waitTime2;
-            }
-
-            // 코루틴이 끝나면 확실하게 기본 색상으로 복원
-            targetImage.color = defaultColor;
-            flashCoroutine = null;
-        }
+        //
+        // /// <summary>
+        // /// 정답/오답 시 화면 깜빡임 실행
+        // /// </summary>
+        // public void ActivateFlash(float duration)
+        // {
+        //     // 만약 이미 정답/오답 깜빡임 코루틴이 진행 중이라면 중지
+        //     if (flashCoroutine != null)
+        //     {
+        //         StopCoroutine(flashCoroutine);
+        //         flashCoroutine = null;
+        //     }
+        //     
+        //     flashCoroutine = StartCoroutine(FlashRoutine(duration));
+        // }
+        //
+        // /// <summary>
+        // /// 지정된 시간 동안 이미지를 랜덤하게 깜빡이는 코루틴
+        // /// </summary>
+        // private IEnumerator FlashRoutine(float totalDuration)
+        // {
+        //     float elapsedTime = 0f;
+        //
+        //     while (elapsedTime < totalDuration)
+        //     {
+        //         // 어두운 색으로 변경
+        //         targetImage.DOColor(flashColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
+        //         float waitTime1 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
+        //         yield return new WaitForSeconds(waitTime1);
+        //         elapsedTime += waitTime1;
+        //
+        //         // 다시 원래 색으로 변경
+        //         targetImage.DOColor(defaultColor, minFlashInterval / 2).SetEase(Ease.OutQuad);
+        //         float waitTime2 = UnityEngine.Random.Range(minFlashInterval, maxFlashInterval);
+        //         yield return new WaitForSeconds(waitTime2);
+        //         elapsedTime += waitTime2;
+        //     }
+        //
+        //     // 코루틴이 끝나면 확실하게 기본 색상으로 복원
+        //     targetImage.color = defaultColor;
+        //     flashCoroutine = null;
+        // }
         
         private void SetScreenDark(bool isDark)
         {
