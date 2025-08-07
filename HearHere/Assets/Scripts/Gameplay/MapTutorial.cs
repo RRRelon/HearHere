@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapTutorial : MonoBehaviour
+public class MapTutorial : MapInfo
 {
     [SerializeField] private List<GameObject> audioSources;
     
-    // Debugging 용
     [SerializeField] private int currentSoundIndex;
 
     private void Awake()
@@ -20,23 +19,45 @@ public class MapTutorial : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 현재 sound index에 맞는 오브젝트만 Active하고 나머지는 Deactive 한다.
-    /// 만약 모든 오브젝트가 한 번씩 Active 됐다면 게임을 종료한다.
-    /// </summary>
-    /// <returns> 튜토리얼이 끝났으면 True, 아니면 False </returns>
-    public bool TryAdvanceToNextSound(int argument)
+    public override void GetDialogue()
     {
-        if (currentSoundIndex != argument)
-            return false;
         
-        currentSoundIndex += 1;
+    }
+
+    public override MapResult GetClue(char sequenceChar)
+    {
+        MapResult result; // 반환한 응답 결과
+        int sequenceNum = 0;  // sequence character를 int로 바꿀 변수
         
-        if (currentSoundIndex >= audioSources.Count)
+        // 1. Clue 유효성 검사
+        if (!int.TryParse(sequenceChar.ToString(), out sequenceNum))
         {
-            return true;
+            Debug.Log($"Invalid clue: {sequenceChar}");
+            result = new MapResult(false, "");
+            return result;
         }
         
+        // 2. 중복 처리 & 현재 순서가 아닌 단서가 왔을 경우
+        if (answerChar.Contains(sequenceChar))
+        {
+            Debug.Log($"Duplicated clue: {sequenceChar}");
+            result = new MapResult(false, "");
+            return result;
+        }
+
+        if (sequenceNum != currentSoundIndex)
+        {
+            Debug.Log($"Not this time: {sequenceChar}, squence num: {sequenceNum}, current squence num: {currentSoundIndex}");
+            result = new MapResult(false, "");
+            return result;
+        }
+        
+        // 3. 단서 수집 및 현재 시퀀스 증가
+        answerChar.Add(sequenceChar);
+        tryCount += 1;        // 시도 횟수 하나 증가
+        currentSoundIndex += 1; // 시퀀스 하나 추가
+        
+        // 4. 다음 오디오 소스 틀기
         for (int i = 0; i < audioSources.Count; ++i)
         {
             if (i == currentSoundIndex)
@@ -44,19 +65,23 @@ public class MapTutorial : MonoBehaviour
             else
                 audioSources[i].SetActive(false);
         }
-        
-        return false;
+
+        result = new MapResult(true, $"Collected so far: {answerChar.Count}");
+        return result;
     }
 
-    public bool IsSameSound(int argument)
+    public override MapResult GetSuccess()
     {
-        if (currentSoundIndex != argument)
+        MapResult result;
+        
+        // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
+        if (currentSoundIndex < answer.Length)
         {
-            Debug.Log("다른 토픽 말하는 중");
-            return false;
+            result = new MapResult(false, "");
+            return result;
         }
-            
-
-        return true;
+        // 2. 모든 단서를 수집한 경우, True 반환
+        result = new MapResult(true, $"Tutorial Success");
+        return result;
     }
 }
