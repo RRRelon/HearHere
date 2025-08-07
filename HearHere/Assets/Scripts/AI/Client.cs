@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using HH;
 using UnityEngine;
@@ -19,8 +20,21 @@ public abstract class Client : MonoBehaviour
     [SerializeField] private BoolEventChannelSO blinkScreenDark;
     
     // Flag
-    protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
-    protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
+    [SerializeField] protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
+    [SerializeField] protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
+    
+    protected float playTime = 0;
+    protected const string playbackStr = "Please say that again with the correct answer.";
+    
+    // 메뉴 정보 명령어
+    protected readonly string[] menuInfoTargets = { "menu" };
+    protected readonly string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
+    // 메인 메뉴로 이동 명령어
+    protected readonly string[] menuTargets = { "main", "first" };
+    protected readonly string[] menuActions = { "menu", "screen", "move", "return", "go" };
+    // 게임 종료 명령어
+    protected readonly string[] exitTargets = { "game", "application", "program" };
+    protected readonly string[] exitActions = { "exit", "quit", "turn off", "close" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -33,10 +47,11 @@ public abstract class Client : MonoBehaviour
     {
         if (Microphone.devices.Length == 0)
         {
-            Debug.LogError("마이크를 찾을 수 없습니다!");
+            Debug.LogError("There are no Microphone devices available!");
             return;
         }
         microphoneDevice = Microphone.devices[0];
+        Debug.Log(microphoneDevice);
 
         StartMonitoring();
     }
@@ -48,6 +63,8 @@ public abstract class Client : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
+        playTime += Time.deltaTime;
+        
         if (!isListening)
             return;
 
@@ -79,10 +96,10 @@ public abstract class Client : MonoBehaviour
     
     private void StartMonitoring()
     {
-        Debug.Log("음성 모니터링을 시작합니다...");
+        Debug.Log("Starting mic monitoring...");
         
         isListening = true; // 마이크 입력 받기
-        // 상시 입력을 받기 위해 1초짜리 반복 녹음을 시작합니다.
+        // 상시 입력을 받기 위해 1초짜리 반복 녹음 시작
         monitoringClip = Microphone.Start(microphoneDevice, true, 1, 44100);
     }
     
@@ -93,7 +110,7 @@ public abstract class Client : MonoBehaviour
         
         // 실제 음성을 담을 새롭고 긴 클립으로 녹음을 다시 시작합니다. (반복X)
         recordingClip = Microphone.Start(microphoneDevice, false, maxRecordingDuration, 44100);
-        Debug.Log("말하기 시작 감지! 녹음을 시작합니다.");
+        Debug.Log("Sensing mic! Start Recording.");
         
         // 색을 어둡게 해야 해
         if (blinkScreenDark != null)
@@ -104,7 +121,7 @@ public abstract class Client : MonoBehaviour
 
     private async void StopAndProcessUserInput()
     {
-        Debug.Log("말하기 끝 감지! 분석을 시작합니다. (VAD 비활성화)");
+        Debug.Log("Done recording! Try to convert. (Deactivate VAD)");
         
         isSpeaking = false; // 마이크 녹음 중지
         isListening = false; // 발화 중에는 마이크 입력 중지
@@ -112,14 +129,110 @@ public abstract class Client : MonoBehaviour
         // 실제 녹음을 종료하여 speechClip에 데이터를 확정합니다.
         Microphone.End(microphoneDevice);
         
+        // 색을 다시 밝게 해야 해
+        blinkScreenDark.OnEventRaised(false);
+        
         // STT 분석 함수 호출
         string userText = await manager.GetTextFromAudio(recordingClip);
         Debug.Log(userText);
         
-        // 색을 다시 밝게 해야 해
-        blinkScreenDark.OnEventRaised(false);
-        
         ProcessUserInput(userText);
+    }
+
+    /// <summary>
+    /// TTS, GPT를 거친 응답 텍스트를 TTS로 재생 
+    /// </summary>
+    protected virtual async void ProcessUserInput(string text)
+    {
+        float totalDuration;
+        if (string.IsNullOrWhiteSpace(text))
+            totalDuration = 0f;
+        else
+            totalDuration = text.Length * 0.08f;
+        StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
+        onTextReadyForTTS.OnEventRaised(text);
+    }
+
+    protected void EnableInput()
+    {
+        isListening = true;
+    }
+    
+    protected void DisableInput()
+    {
+        isListening = false;
+    }
+
+    protected bool CheckSystemOperationInput(string text, string[] targets, string[] actions)
+    {
+        bool isMenuInfoTargetMatch = false;
+        foreach (var target in targets)
+        {
+            if (text.Contains(target))
+            {
+                isMenuInfoTargetMatch = true;
+                break;
+            }
+        }
+        if (isMenuInfoTargetMatch)
+        {
+            foreach (var action in actions)
+            {
+                if (text.Contains(action))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    /// <summary>
+    /// 초(float)를 "X시간 Y분 Z초 걸렸습니다." 형식의 문자열로 변환합니다.
+    /// </summary>
+    /// <param name="totalSeconds">총 경과 시간 (초)</param>
+    /// <returns>형식에 맞게 변환된 시간 문자열</returns>
+    protected string FormatPlayTime(float totalSeconds)
+    {
+        // 1. 초(float)를 TimeSpan 객체로 변환합니다.
+        TimeSpan timeSpan = TimeSpan.FromSeconds(totalSeconds);
+
+        string formattedTime;
+
+        // 2. 전체 시간이 1시간 이상인지, 1분 이상인지에 따라 다른 형식으로 만듭니다.
+        if (timeSpan.TotalHours >= 1)
+        {
+            // 1시간 이상: "1시간 5분 10초" 형식
+            formattedTime = string.Format("{0}hour {1}minute {2}second", 
+                timeSpan.Hours, 
+                timeSpan.Minutes, 
+                timeSpan.Seconds);
+        }
+        else if (timeSpan.TotalMinutes >= 1)
+        {
+            // 1분 이상 1시간 미만: "5분 10초" 형식
+            formattedTime = string.Format("{0}minute {1}second", 
+                timeSpan.Minutes, 
+                timeSpan.Seconds);
+        }
+        else
+        {
+            // 1분 미만: "10초" 형식
+            formattedTime = string.Format("{0}second", 
+                timeSpan.Seconds);
+        }
+
+        // 3. 최종 문자열을 조합하여 반환합니다.
+        Debug.Log($"it takes {formattedTime}");
+        return $"it takes {formattedTime}";
+    }
+
+    private IEnumerator DelayedStartMonitoring(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        
+        StartMonitoring();
     }
     
     /// <summary>
@@ -147,42 +260,5 @@ public abstract class Client : MonoBehaviour
         }
         
         return a / 256;
-    }
-
-    /// <summary>
-    /// 마이크 입력 비활성화
-    /// </summary>
-    protected void DisableInput()
-    {
-        isListening = false;
-    }
-
-    /// <summary>
-    /// 마이크 입력 활성화
-    /// </summary>
-    protected void EnableInput()
-    {
-        isListening = true;
-    }
-
-    /// <summary>
-    /// 마이크 입력에 대한 행동 수행
-    /// </summary>
-    protected virtual void ProcessUserInput(string text)
-    {
-        float totalDuration;
-        if (string.IsNullOrWhiteSpace(text))
-            totalDuration = 0f;
-        else
-            totalDuration = text.Length * 0.08f;
-        
-        StartCoroutine(DelayedStartMonitoring(totalDuration));
-    }
-
-    private IEnumerator DelayedStartMonitoring(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        
-        StartMonitoring();
     }
 }
