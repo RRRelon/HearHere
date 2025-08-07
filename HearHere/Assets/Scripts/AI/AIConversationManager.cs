@@ -176,6 +176,7 @@ namespace HH
                     
                     // 2. 실제 AI가 생성한 메시지(JSON 형식의 문자열)를 추출
                     string gptContent = openAIResponse.choices[0].message.content;
+                    gptContent = gptContent.Replace("```json", "").Replace("```", "").Trim();
 
                     // 3. 추출한 메시지 문자열을 우리가 원하는 GPTResponse 객체로 최종 파싱
                     try
