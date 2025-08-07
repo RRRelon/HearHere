@@ -91,12 +91,13 @@ MonoBehaviour:
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
-  promptNum: 0
-  blinkScreenDark: {fileID: 0}
-  speechTest: "\uB4A4\uCABD \uB098\uBB34 \uC090\uAC71\uC774\uB294 \uC18C\uB9AC \uC774\uC0C1"
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+  isListening: 0
+  isSpeaking: 0
   mapInfo: {fileID: 0}
   currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
-  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
+  sceneToLoadOnClear: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 108ddc99fea98a9439867f17b53cc9fe, type: 2}
   loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
-  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
   onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}

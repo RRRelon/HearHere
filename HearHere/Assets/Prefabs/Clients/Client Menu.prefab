@@ -89,11 +89,15 @@ MonoBehaviour:
   silenceDelay: 3
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
-  prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
-  promptNum: 0
+  prompt: {fileID: 0}
   onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
+  isListening: 0
+  isSpeaking: 0
   currentlyLoadedScene: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
   gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
+  tutorialToLoad: {fileID: 11400000, guid: 52ac8e2ffe04f3e4283ee971a0d6041f, type: 2}
+  playerData: {fileID: 11400000, guid: 108ddc99fea98a9439867f17b53cc9fe, type: 2}
   loadLocation: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
-  playbackInterval: 5
+  playbackInterval: 30
+  playbackTimer: 0

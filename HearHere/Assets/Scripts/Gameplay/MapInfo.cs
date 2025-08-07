@@ -18,6 +18,7 @@ public abstract class MapInfo : MonoBehaviour
     public abstract void GetDialogue();
     public abstract MapResult GetClue(char sequenceNum);
     public abstract MapResult GetSuccess();
+    public int GetTryCount() => tryCount;
 }
 
 /// <summary>

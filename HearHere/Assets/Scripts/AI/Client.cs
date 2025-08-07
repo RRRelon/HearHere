@@ -9,7 +9,7 @@ public abstract class Client : MonoBehaviour
     [SerializeField] private float sensitivityThreshold = 0.02f;
     // 말하기가 끝났다고 판단하기 전까지 기다리는 시간 (초)
     [SerializeField] private float silenceDelay = 3f;
-    [SerializeField] private int maxRecordingDuration = 10;
+    [SerializeField] private int maxRecordingDuration = 15;
 
     [Header("AI")]
     [SerializeField] protected AIConversationManagerSO manager;
@@ -42,7 +42,9 @@ public abstract class Client : MonoBehaviour
     
     private float timeSinceLastSound;
     private string microphoneDevice;
-    
+
+    protected virtual void OnEnable() { }
+
     protected virtual void Start()
     {
         if (Microphone.devices.Length == 0)
@@ -51,7 +53,6 @@ public abstract class Client : MonoBehaviour
             return;
         }
         microphoneDevice = Microphone.devices[0];
-        Debug.Log(microphoneDevice);
 
         StartMonitoring();
     }
