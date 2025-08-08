@@ -55,6 +55,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd557a8ae3aa6dd41a6ca0bc66ff87af
+    m_Address: Assets/Scenes/Locations/School.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e57ced222f21a47049b4262b898ee044
     m_Address: Assets/Scenes/Locations/SpaceShip.unity
     m_ReadOnly: 0

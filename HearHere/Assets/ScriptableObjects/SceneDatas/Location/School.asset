@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70857a07eba685e4d87df655c2b64381, type: 3}
+  m_Name: School
+  m_EditorClassIdentifier: 
+  Description: "\uD559\uAD50\uB9F5. \uCD5C\uC885\uB9F5\uC774\uB2E4. \uB05D\uB098\uBA74
+    \uBA54\uC778 \uBA54\uB274\uB85C \uC774\uB3D9"
+  SceneType: 0
+  SceneReference:
+    m_AssetGUID: dd557a8ae3aa6dd41a6ca0bc66ff87af
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

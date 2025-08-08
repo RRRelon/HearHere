@@ -9,7 +9,7 @@ public class PlayerDataSO : ScriptableObject
     public List<PlayerData> Datas = new List<PlayerData>();
     
     private List<PlayerData> temporaryGameData = new List<PlayerData>();
-    private const int gameStageCount = 2; // 총 3개의 게임을 진행
+    [SerializeField] private const int gameStageCount = 3; // 총 3개의 게임을 진행
 
     private void OnEnable()
     {

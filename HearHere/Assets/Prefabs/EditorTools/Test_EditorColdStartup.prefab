@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1025534009035782999, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 324.43533
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1025534009035782999, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 224.93788
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1025534009035782999, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
     - target: {fileID: 3988095556482345560, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_Name
-      value: Menu_EditorColdStartup
+      value: Test_EditorColdStartup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

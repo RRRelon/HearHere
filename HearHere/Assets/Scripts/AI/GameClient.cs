@@ -14,6 +14,7 @@ public class GameClient : Client
     [Header("Scene Management")]
     [SerializeField] private GameSceneSO currentlyLoadedScene;
     [SerializeField] private GameSceneSO sceneToLoadOnClear;
+    [SerializeField] private GameSceneSO menuToLoad;
     
     [Header("Player Data")]
     [SerializeField] private PlayerDataSO playerData;
@@ -21,7 +22,32 @@ public class GameClient : Client
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private BoolEventChannelSO onGameClear;
+    
+    [TextArea(5,20)]
+    [SerializeField] private string mapDescription;
+    [SerializeField] private float playbackInterval = 60.0f;
+    [SerializeField] private float playbackTimer;
 
+    protected override void Update()
+    {
+        base.Update();
+        
+        if (!isListening)
+        {
+            playbackTimer = 0;
+            return;
+        }
+        
+        // 게임 안내 playback cooltime
+        playbackTimer += Time.deltaTime;
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            onTextReadyForTTS.OnEventRaised(mapDescription);
+            playbackTimer = 0;
+        }
+    }
+    
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행
     /// </summary>
@@ -50,7 +76,7 @@ public class GameClient : Client
             {
                 base.ProcessUserInput("Moving to the main menu.");
                 // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
-                StartCoroutine(DelaySceneLoad(5.0f, sceneToLoadOnClear));
+                StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
             }
             else
                 base.ProcessUserInput("You are currently in the main menu.");
@@ -100,7 +126,7 @@ public class GameClient : Client
                     // 정답 뒤에 Try 횟수 붙이기
                     response.tts_text += result.Message;
                     // 정답 뒤에 걸린 시간 넣기
-                    response.tts_text += FormatPlayTime(playTime);
+                    response.tts_text += FormatPlayTime(totalPlayTime);
                     onTextReadyForTTS.OnEventRaised(response.tts_text);
                     base.ProcessUserInput(response.tts_text);
                     GameClear();
@@ -126,7 +152,7 @@ public class GameClient : Client
     /// </summary>
     private void GameClear()
     {
-        playerData.AddGameResult(playTime, mapInfo.GetTryCount());
+        playerData.AddGameResult(totalPlayTime, mapInfo.GetTryCount());
         StartCoroutine(OnGameClear(8.0f, sceneToLoadOnClear));
     }
 

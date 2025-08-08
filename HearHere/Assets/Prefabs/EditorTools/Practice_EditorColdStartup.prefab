@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
     - target: {fileID: 3988095556482345560, guid: 14e715ef53679a7478382d74d5c822ce, type: 3}
       propertyPath: m_Name
-      value: Game_EditorColdStartup
+      value: Practice_EditorColdStartup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
