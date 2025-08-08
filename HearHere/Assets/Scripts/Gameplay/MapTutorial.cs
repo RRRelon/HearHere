@@ -70,7 +70,7 @@ public class MapTutorial : MapInfo
         return result;
     }
 
-    public override MapResult GetSuccess()
+    public override MapResult GetSuccess(char c)
     {
         MapResult result;
         

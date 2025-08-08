@@ -22,9 +22,6 @@ public class MenuClient : Client
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
-
-    [SerializeField] private float playbackInterval = 30.0f;
-    [SerializeField] private float playbackTimer;
     
     /// <summary>
     /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
@@ -34,10 +31,6 @@ public class MenuClient : Client
     {
         base.Start();
         
-        playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound. " +
-                      "To start the tutorial, please say, 'Start tutorial'. " +
-                      "To begin the game, please say, 'Start game'";
-
         if (playerData.Datas.Count > 0)
         {
             foreach (var data in playerData.Datas)

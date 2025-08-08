@@ -964,6 +964,16 @@ PrefabInstance:
       propertyPath: mapInfo
       value: 
       objectReference: {fileID: 9067055830513977914}
+    - target: {fileID: 1591177751221058042, guid: 5a089e53e9436424e946fd4cc3acdbd3, type: 3}
+      propertyPath: playbackStr
+      value: You must repair the spaceship by finding the damaged parts in order.
+        Listen for the sounds around you, identify their exact direction, and describe
+        what they are to fix the ship.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1591177751221058042, guid: 5a089e53e9436424e946fd4cc3acdbd3, type: 3}
+      propertyPath: playbackInterval
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 3759625960214148675, guid: 5a089e53e9436424e946fd4cc3acdbd3, type: 3}
       propertyPath: m_Name
       value: Client SpaceShip

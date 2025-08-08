@@ -22,12 +22,12 @@ public class GameClient : Client
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private BoolEventChannelSO onGameClear;
-    
-    [TextArea(5,20)]
-    [SerializeField] private string mapDescription;
-    [SerializeField] private float playbackInterval = 60.0f;
-    [SerializeField] private float playbackTimer;
 
+    protected override void Start()
+    {
+        base.Start();
+    }
+    
     protected override void Update()
     {
         base.Update();
@@ -43,7 +43,7 @@ public class GameClient : Client
         
         if (playbackTimer >= playbackInterval)
         {
-            onTextReadyForTTS.OnEventRaised(mapDescription);
+            onTextReadyForTTS.OnEventRaised(playbackStr);
             playbackTimer = 0;
         }
     }
@@ -88,6 +88,7 @@ public class GameClient : Client
         if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
             base.ProcessUserInput("Exit game.");
+            StartCoroutine(ExitGame(5.0f));
             return;
         }
 
@@ -119,7 +120,7 @@ public class GameClient : Client
                 base.ProcessUserInput(response.tts_text);
                 return;
             case "success":  // 정답
-                result = mapInfo.GetSuccess();
+                result = mapInfo.GetSuccess(response.argument[0]);
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {
@@ -132,6 +133,10 @@ public class GameClient : Client
                     GameClear();
                     return;
                 }
+                else
+                {
+                    onGameClear.OnEventRaised(false);
+                }
                 // 유효하지 않은 정답일 경우
                 response.tts_text += result.Message;
                 base.ProcessUserInput(response.tts_text);
@@ -143,7 +148,7 @@ public class GameClient : Client
         }
         
         // 아무 처리도 못했을 경우
-        base.ProcessUserInput(playbackStr);
+        base.ProcessUserInput("Please say that again with the correct answer.");
     }
     
     /// <summary>
@@ -162,7 +167,7 @@ public class GameClient : Client
         
         // 화면 점등
         onGameClear.OnEventRaised(true);
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(waitTime);
         
         EnableInput();
         
@@ -173,9 +178,9 @@ public class GameClient : Client
     /// <summary>
     /// 게임 종료 메서드
     /// </summary>
-    private IEnumerator ExitGame()
+    private IEnumerator ExitGame(float waitTime)
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(waitTime);
     #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
     #else

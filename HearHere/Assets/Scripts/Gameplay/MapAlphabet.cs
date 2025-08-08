@@ -47,7 +47,7 @@ public class MapAlphabet : MapInfo
         return result;
     }
 
-    public override MapResult GetSuccess()
+    public override MapResult GetSuccess(char isSuccess)
     {
         MapResult result;
         

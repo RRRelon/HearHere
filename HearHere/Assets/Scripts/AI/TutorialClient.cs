@@ -88,7 +88,7 @@ public class TutorialClient : Client
                 base.ProcessUserInput(response.tts_text);
                 return;
             case "success":  // 정답
-                result = mapInfo.GetSuccess();
+                result = mapInfo.GetSuccess(response.argument[0]);
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {

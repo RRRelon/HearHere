@@ -5,8 +5,11 @@ using UnityEngine;
 
 public abstract class Client : MonoBehaviour
 {
+    [Header("Playback Sound")]
     [TextArea(5, 30)]
     [SerializeField] protected string playbackStr = "Please say that again with the correct answer.";
+    [SerializeField] protected float playbackInterval = 30.0f;
+    [SerializeField] protected float playbackTimer;
     
     // 마이크 사용 여부 설정
     [SerializeField] private string userInputByText;
@@ -55,9 +58,6 @@ public abstract class Client : MonoBehaviour
     private AudioClip recordingClip;
     private float timeSinceLastSound;
     private string microphoneDevice;
-    
-    // Playback sound
-    private float playbackTimer;
 
     protected virtual void OnEnable()
     {
@@ -83,10 +83,14 @@ public abstract class Client : MonoBehaviour
 
     protected virtual void Start()
     {
+        // 1. Playback 재생
+        onTextReadyForTTS.OnEventRaised(playbackStr);
+        
+        // 2. 텍스트로 입력 넣으면 여기서 리턴
         if (!useMic)
             return;
         
-        // 1. 마이크 설정
+        // 3. 마이크 설정
         if (Microphone.devices.Length == 0)
         {
             Debug.LogError("There are no Microphone devices available!");
@@ -95,10 +99,11 @@ public abstract class Client : MonoBehaviour
         }
         microphoneDevice = Microphone.devices[0];
         
-        // Playback 재생
+        // 4. Playback 재생
+        Debug.Log("플레이 백 재생");
         onTextReadyForTTS.OnEventRaised(playbackStr);
         
-        // 3. 마이크 입력 대기
+        // 5. 마이크 입력 대기
         StartMonitoring();
     }
 
@@ -109,6 +114,18 @@ public abstract class Client : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
+        // 전체 플레이 시간
+        totalPlayTime += Time.deltaTime;
+        
+        // 게임 안내 playback cooltime
+        playbackTimer += Time.deltaTime;
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            onTextReadyForTTS.OnEventRaised(playbackStr);
+            playbackTimer = 0;
+        }
+        
         if (!useMic) return;
         
         // 만약 마이크를 못 찾았을 시, 재할당 시도
@@ -121,18 +138,6 @@ public abstract class Client : MonoBehaviour
                 return;
             }
             microphoneDevice = Microphone.devices[0];
-        }
-        
-        // 전체 플레이 시간
-        totalPlayTime += Time.deltaTime;
-        
-        // 게임 안내 playback cooltime
-        playbackTimer += Time.deltaTime;
-        
-        if (playbackTimer >= playbackInterval)
-        {
-            onTextReadyForTTS.OnEventRaised(playbackStr);
-            playbackTimer = 0;
         }
         
         // 만약, isListening이 True면 마이크 입력 받지 않음 
@@ -215,6 +220,10 @@ public abstract class Client : MonoBehaviour
     /// </summary>
     protected virtual async void ProcessUserInput(string text)
     {
+        // 1. Playback 쿨타임 다시 돌리기
+        playbackTimer = 0f;
+        
+        // 2. TTS 길이 계산
         float totalDuration;
         if (string.IsNullOrWhiteSpace(text))
             totalDuration = 0f;
@@ -297,7 +306,7 @@ public abstract class Client : MonoBehaviour
         }
 
         // 3. 최종 문자열을 조합하여 반환합니다.
-        Debug.Log($"it takes {formattedTime}");
+        Debug.Log($"it takes {formattedTime}, {timeSpan.Seconds} seconds");
         return $"it takes {formattedTime}";
     }
 

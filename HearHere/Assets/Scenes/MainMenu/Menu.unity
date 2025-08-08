@@ -859,6 +859,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: playbackStr
+      value: Welcome to Hear, Here!, the escape room game where you find the target
+        sound. To start the tutorial, please say, 'Start tutorial'. To begin the
+        game, please say, 'Start game'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: userInputByText
       value: start game
       objectReference: {fileID: 0}
