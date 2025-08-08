@@ -13,6 +13,7 @@ public class GameClient : Client
 {
     [Header("Clue/Answer Setting")]
     [SerializeField] private List<ClueSound> soundSettings;
+    [SerializeField] private string[] answerTargets;
     [SerializeField] private string answer;
     
     [Header("Map Info")]
@@ -78,7 +79,7 @@ public class GameClient : Client
         MapResult result; // 맵에서 가져온 결과
         
         // 정답 소리 따로 처리
-        if (userText.Contains(answer))
+        if (userText.Contains(answer) && ContainsAny(userText, answerTargets))
         {
             result = mapInfo.GetSuccess('1');
             // 정답 뒤에 Try 횟수 붙이기
