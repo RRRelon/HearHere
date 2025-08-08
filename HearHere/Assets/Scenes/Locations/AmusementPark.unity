@@ -301,67 +301,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 574990e911d55429a8293399d3d83eec, type: 3}
---- !u!1001 &1240446388
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3201803370709821437, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: mapInfo
-      value: 
-      objectReference: {fileID: 1438488337}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.89519
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 5.92701
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4052119923410282872, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5250185246832943763, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
-      propertyPath: m_Name
-      value: Client AmusementPark
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 42e36897f2400421b9f2868b2f68f275, type: 3}
 --- !u!1001 &1293509851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -852,6 +791,68 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de6ea0b6471edf84c96b1d2bb3dbe207, type: 3}
+--- !u!114 &3201803371889627721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250185245912127271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e390a0ad91cabd348a663778f2350e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  userInputByText: 
+  sensitivityThreshold: 0.02
+  silenceDelay: 3
+  maxRecordingDuration: 10
+  manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
+  prompt: {fileID: 11400000, guid: 1e7e454b7e0164b8b9b9c2d17f9b11f5, type: 2}
+  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  blinkScreenDark: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}
+  isListening: 0
+  isSpeaking: 0
+  useMic: 1
+  mapInfo: {fileID: 1438488337}
+  currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
+  sceneToLoadOnClear: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 108ddc99fea98a9439867f17b53cc9fe, type: 2}
+  loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
+  onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}
+--- !u!4 &4052119922229681356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250185245912127271}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.89519, y: 0, z: 5.92701}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5250185245912127271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4052119922229681356}
+  - component: {fileID: 3201803371889627721}
+  m_Layer: 0
+  m_Name: Client AmusementPark
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -859,7 +860,7 @@ SceneRoots:
   - {fileID: 1377465267}
   - {fileID: 642518347}
   - {fileID: 767279766}
-  - {fileID: 1240446388}
+  - {fileID: 4052119922229681356}
   - {fileID: 1438488336}
   - {fileID: 1293509851}
   - {fileID: 1836417064}

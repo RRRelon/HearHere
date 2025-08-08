@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3518272959927537182
+--- !u!1 &2824894681201633666
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3444315039682371218}
-  - component: {fileID: 712008358822385608}
+  - component: {fileID: 1572648323962806760}
+  - component: {fileID: 363712816471238203}
   m_Layer: 0
-  m_Name: Client Tutorial
+  m_Name: Client Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3444315039682371218
+--- !u!4 &1572648323962806760
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518272959927537182}
+  m_GameObject: {fileID: 2824894681201633666}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,32 +32,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &712008358822385608
+--- !u!114 &363712816471238203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518272959927537182}
+  m_GameObject: {fileID: 2824894681201633666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa18e376934f9694697f1cf6969f595d, type: 3}
+  m_Script: {fileID: 11500000, guid: e390a0ad91cabd348a663778f2350e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputReader: {fileID: 0}
+  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
   userInputByText: 
   sensitivityThreshold: 0.02
   silenceDelay: 3
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
-  prompt: {fileID: 11400000, guid: 459090017dcb6ed4dbb4f8737f07fc73, type: 2}
+  prompt: {fileID: 11400000, guid: 30b4a15ebe06d454190864e1789d39d9, type: 2}
   onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
   isListening: 0
   isSpeaking: 0
   useMic: 1
   mapInfo: {fileID: 0}
-  menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
-  loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
-  playbackInterval: 30
-  playbackTimer: 0
+  currentlyLoadedScene: {fileID: 11400000, guid: 2036f7a514a81744291c967944ab112e, type: 2}
+  sceneToLoadOnClear: {fileID: 11400000, guid: c27c2d1c115fe43dabd97518c54429e1, type: 2}
+  playerData: {fileID: 11400000, guid: 108ddc99fea98a9439867f17b53cc9fe, type: 2}
+  loadMenu: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
+  onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}

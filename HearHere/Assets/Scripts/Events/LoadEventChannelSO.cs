@@ -5,13 +5,13 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = "Events/Load Event Channel")]
 public class LoadEventChannelSO : ScriptableObject
 {
-    public UnityAction<GameSceneSO> OnLoadingRequested;
+    public UnityAction<GameSceneSO, bool, bool> OnLoadingRequested;
 
-    public void RaiseEvent(GameSceneSO sceneToLoad)
+    public void RaiseEvent(GameSceneSO sceneToLoad, bool showLoadingScreen = false, bool fadeScreen = false)
     {
         if (OnLoadingRequested != null)
         {
-            OnLoadingRequested.Invoke(sceneToLoad);
+            OnLoadingRequested.Invoke(sceneToLoad, showLoadingScreen, fadeScreen);
         }
         else
         {
