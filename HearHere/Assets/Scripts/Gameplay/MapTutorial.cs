@@ -69,19 +69,37 @@ public class MapTutorial : MapInfo
         result = new MapResult(true, $"Collected so far: {answerChar.Count}");
         return result;
     }
-
-    public override MapResult GetSuccess()
+    
+    public override MapResult GetSuccess(char isSuccessChar)
     {
         MapResult result;
+        int isSuccess = 0;  // 0이면 오답, 1이면 정답
         
-        // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
-        if (currentSoundIndex < answer.Length)
+        // 1. Clue 유효성 검사
+        if (!int.TryParse(isSuccessChar.ToString(), out isSuccess))
         {
-            result = new MapResult(false, "");
+            Debug.Log($"Invalid clue: {isSuccessChar}");
+            result = new MapResult(false, "You don't have all the clues yet.");
             return result;
         }
-        // 2. 모든 단서를 수집한 경우, True 반환
-        result = new MapResult(true, $"Tutorial Success");
-        return result;
+        
+        // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
+        if (answerChar.Count < answer.Length)
+        {
+            result = new MapResult(false, "You don't have all the clues yet.");
+            return result;
+        }
+        // 2. 만약 오답이라면,
+        if (isSuccess == 0)
+        {
+            result = new MapResult(false, $"That's not answer");
+            return result;
+        }
+        // 3. 만약 정답이라면,
+        else
+        {
+            result = new MapResult(true, $"Tutorial Success");
+            return result;
+        }
     }
 }

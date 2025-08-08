@@ -13,6 +13,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b04cd889a02d45a42958d02cc906fa48, type: 2}
     - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: playbackInterval
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: sceneToLoadOnClear
       value: 
       objectReference: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}

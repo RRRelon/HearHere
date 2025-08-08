@@ -22,9 +22,6 @@ public class MenuClient : Client
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
-
-    [SerializeField] private float playbackInterval = 30.0f;
-    [SerializeField] private float playbackTimer;
     
     /// <summary>
     /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
@@ -32,12 +29,10 @@ public class MenuClient : Client
     /// </summary>
     protected override void Start()
     {
+        playbackTimer = playbackInterval;
+        
         base.Start();
         
-        playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound. " +
-                      "To start the tutorial, please say, 'Start tutorial'. " +
-                      "To begin the game, please say, 'Start game'";
-
         if (playerData.Datas.Count > 0)
         {
             foreach (var data in playerData.Datas)
@@ -55,19 +50,20 @@ public class MenuClient : Client
         // 첫 기록(playerData.Datas[0])만 있고 다른 기록이 없는 경우 그냥 넘어가기
         if (playerData.Datas.Count <= 1)
         {
-            // 먼저 말할 기록이 없으면 기본 안내 문장 TTS
-            onTextReadyForTTS.OnEventRaised(playbackStr);
             return;   
         }
         
         // 2. 첫 기록(playerData.Datas[0])과 그 외 기록이 있는 경우 TTS로 안내
 
         float firstRecord = playerData.Datas[0].GetAverage();
+        float previousRecord = playerData.Datas[^2].GetAverage();
         float lastRecord  = playerData.Datas[^1].GetAverage();
 
-        string message;
+        string message1 = ""; // 처음 vs 현재
+        string message2 = ""; // 이전 vs 현재
+        string message3 = ""; // 종합 평가
         
-        // 능력이 향상이 된 경우
+        // 처음 vs 현재. 능력이 향상이 된 경우
         if (lastRecord < firstRecord)
         {
             // 성능 향상됨 -> 퍼센트 계산 및 칭찬 메시지 생성
@@ -78,22 +74,55 @@ public class MenuClient : Client
                 float improvement = ((firstRecord - lastRecord) / firstRecord) * 100f;
                 int improvementPercentage = Mathf.RoundToInt(improvement);
 
-                message = $"You're {improvementPercentage}% faster than your first record. That's amazing!";
+                message1 = $"You're {improvementPercentage}% faster than your first record. That's amazing!";
             }
             else
             {
                 // 퍼센트를 계산할 수 없는 경우, 간단한 칭찬 메시지
-                message = "Your recent record has improved. Keep up the great work!";
+                message1 = "Your recent record has improved. Keep up the great work!";
             }
         }
-        // 능력이 향상이 된 경우
+        
+        // 처음 vs 현재. 능력이 향상이 된 경우
+        if (lastRecord < previousRecord)
+        {
+            // 성능 향상됨 -> 퍼센트 계산 및 칭찬 메시지 생성
+            // previousRecord == 0인 경우 예외 처리
+            if (previousRecord > 0)
+            {
+                // 연속 감소 정도 초기화
+                playerData.SequentialDecrease = 0;
+                
+                // 향상률(%) = (이전 값 - 현재 값) / 이전 값 * 100
+                float improvement = ((previousRecord - lastRecord) / previousRecord) * 100f;
+                int improvementPercentage = Mathf.RoundToInt(improvement);
+
+                message2 = $"You're {improvementPercentage}% faster than your before record. That's amazing!";
+            }
+            else
+            {
+                // 퍼센트를 계산할 수 없는 경우, 간단한 칭찬 메시지
+                message2 = "Your recent record has improved. Keep up the great work!";
+            }
+        }
+        // 하락 시
         else
         {
-            // 성능이 그대로거나 나빠짐 -> 격려 메시지 생성
-            message = "It's not your best record, but consistency is key. You can do better next time!";
+            playerData.SequentialDecrease += 1;
+            if (playerData.SequentialDecrease < 5)
+            {
+                // 격려 메시지
+                message3 = "It's not your best record, but consistency is key. You can do better next time!";
+            }
+            // 5번 연속 하강 시, 능력이 악화 된 경우
+            else
+            {
+                // 의료진 만나보세요
+                message3 = "It might be a good idea to speak with a healthcare professional.";
+            }
         }
-
-        onTextReadyForTTS.OnEventRaised(message);
+        
+        StartCoroutine(PlayTTS(message1 + message2 + message3));
     }
     
     protected override void Update()
@@ -111,7 +140,7 @@ public class MenuClient : Client
         
         if (playbackTimer >= playbackInterval)
         {
-            onTextReadyForTTS.OnEventRaised(playbackStr);
+            StartCoroutine(PlayTTS(playbackStr));
             playbackTimer = 0;
         }
     }
@@ -129,6 +158,8 @@ public class MenuClient : Client
         }
         
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
+        
+        Debug.Log($"user input : {userText}");
 
         // 메뉴 설명
         if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
@@ -147,7 +178,7 @@ public class MenuClient : Client
         }
         
         // 게임 시작
-        if (CheckSystemOperationInput(userText, gameTargets, gameActions))
+        if (CheckSystemOperationInput(userText, startGameTargets, startGameActions))
         {
             base.ProcessUserInput( "Starting the game.");
             // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 

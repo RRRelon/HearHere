@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Gameplay/PlayerDataSO")]
 public class PlayerDataSO : ScriptableObject
 {
     public List<PlayerData> Datas = new List<PlayerData>();
+    public int SequentialDecrease = 0;
     
     private List<PlayerData> temporaryGameData = new List<PlayerData>();
     [SerializeField] private const int gameStageCount = 3; // 총 3개의 게임을 진행
