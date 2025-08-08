@@ -725,6 +725,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!83 &1269203923
+AudioClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_LoadType: 0
+  m_Channels: 0
+  m_Frequency: 0
+  m_BitsPerSample: 0
+  m_Length: 0
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 0
+  m_Resource:
+    m_Source: 
+    m_Offset: 0
+    m_Size: 0
+  m_CompressionFormat: 0
+  m_EditorResource:
+    m_Source: 
+    m_Offset: 0
+    m_Size: 0
+  m_EditorCompressionFormat: 0
 --- !u!1001 &1367119290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -777,6 +805,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7227486694842233010, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 1269203923}
+    - target: {fileID: 7227486694842233010, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 1269203923}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1221,6 +1257,14 @@ PrefabInstance:
     - target: {fileID: 8117509750431486392, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
       propertyPath: answer
       value: HOPE
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117509750431486392, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
+      propertyPath: tryCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117509750431486392, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
+      propertyPath: answerChar.Array.size
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
