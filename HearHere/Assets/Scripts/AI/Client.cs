@@ -5,6 +5,9 @@ using UnityEngine;
 
 public abstract class Client : MonoBehaviour
 {
+    [TextArea(5, 30)]
+    [SerializeField] protected string playbackStr = "Please say that again with the correct answer.";
+    
     // 마이크 사용 여부 설정
     [SerializeField] private string userInputByText;
     [SerializeField] private bool useMic = true;
@@ -29,8 +32,7 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
     [SerializeField] protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
     
-    protected float playTime = 0;
-    protected string playbackStr = "Please say that again with the correct answer.";
+    protected float totalPlayTime = 0;
     
     // 메뉴 정보 명령어
     protected readonly string[] menuInfoTargets = { "menu" };
@@ -51,13 +53,14 @@ public abstract class Client : MonoBehaviour
     // 마이크 입력 관련
     private AudioClip monitoringClip;
     private AudioClip recordingClip;
-    
     private float timeSinceLastSound;
     private string microphoneDevice;
+    
+    // Playback sound
+    private float playbackTimer;
 
     protected virtual void OnEnable()
     {
-        Debug.Log("Enable Client");
         if (!useMic)
         {
             inputReader.SpeechEvent += ProcessUserInputByText;
@@ -66,7 +69,6 @@ public abstract class Client : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        Debug.Log("OnDisable Client");
         if (!useMic)
         {
             inputReader.SpeechEvent -= ProcessUserInputByText;
@@ -84,6 +86,7 @@ public abstract class Client : MonoBehaviour
         if (!useMic)
             return;
         
+        // 1. 마이크 설정
         if (Microphone.devices.Length == 0)
         {
             Debug.LogError("There are no Microphone devices available!");
@@ -92,6 +95,10 @@ public abstract class Client : MonoBehaviour
         }
         microphoneDevice = Microphone.devices[0];
         
+        // Playback 재생
+        onTextReadyForTTS.OnEventRaised(playbackStr);
+        
+        // 3. 마이크 입력 대기
         StartMonitoring();
     }
 
@@ -104,6 +111,7 @@ public abstract class Client : MonoBehaviour
     {
         if (!useMic) return;
         
+        // 만약 마이크를 못 찾았을 시, 재할당 시도
         if (microphoneDevice == null)
         {
             if (Microphone.devices.Length == 0)
@@ -115,8 +123,19 @@ public abstract class Client : MonoBehaviour
             microphoneDevice = Microphone.devices[0];
         }
         
-        playTime += Time.deltaTime;
+        // 전체 플레이 시간
+        totalPlayTime += Time.deltaTime;
         
+        // 게임 안내 playback cooltime
+        playbackTimer += Time.deltaTime;
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            onTextReadyForTTS.OnEventRaised(playbackStr);
+            playbackTimer = 0;
+        }
+        
+        // 만약, isListening이 True면 마이크 입력 받지 않음 
         if (!isListening)
             return;
 

@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: mapDescription
+      value: You are in a forest. Identify the strange sound around you, pinpoint
+        its exact direction, and describe what it is to escape the forest.
+      objectReference: {fileID: 0}
     - target: {fileID: 1572648323962806760, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,7 +55,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2824894681201633666, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: m_Name
-      value: Client Game
+      value: Client Alphabet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

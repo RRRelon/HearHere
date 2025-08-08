@@ -25,7 +25,7 @@ public class SceneLoader : MonoBehaviour
     private AsyncOperationHandle<SceneInstance> gameplayManagerLoadingOpHandle;
     
     private SceneInstance gameplayManagerSceneInstance = new SceneInstance();
-    private float fadeDuration = 0.5f;
+    private float fadeDuration = 0.8f;
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
     private bool showLoadingScreen;
 
