@@ -43,6 +43,13 @@ public class MapSequence : MapInfo
             return result;
         }
         
+        // Success 처리 여기서
+        if (sequenceNum == 2)
+        {
+            result = new MapResult(true, "-1");
+            return result;
+        }
+        
         // 3. 단서 수집 및 현재 시퀀스 증가
         answerChar.Add(sequenceChar);
         tryCount += 1;        // 시도 횟수 하나 증가
