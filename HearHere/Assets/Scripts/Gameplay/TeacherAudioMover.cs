@@ -184,56 +184,56 @@ namespace HH
             return Vector3.Distance(teacherAudioSource.transform.position, listener.transform.position);
         }
         
-        /// <summary>
-        /// 디버그 정보 표시 (게임 실행 중 화면에 표시)
-        /// </summary>
-        void OnGUI()
-        {
-            if (!Application.isPlaying || teacherAudioSource == null) return;
-            
-            // 화면 오른쪽 상단에 디버그 정보 표시
-            GUILayout.BeginArea(new Rect(Screen.width - 250, 10, 240, 200));
-            
-            GUILayout.Label("=== Teacher Audio Debug ===");
-            GUILayout.Label($"움직임 활성화: {enableMovement}");
-            GUILayout.Label($"오디오 재생 중: {teacherAudioSource.isPlaying}");
-            GUILayout.Label($"현재 방향: {GetTeacherDirection()}");
-            GUILayout.Label($"플레이어와 거리: {GetDistanceToPlayer():F1}m");
-            
-            GUILayout.Space(10);
-            
-            // 제어 버튼들
-            if (enableMovement)
-            {
-                if (GUILayout.Button("움직임 정지"))
-                {
-                    StopMovement();
-                }
-            }
-            else
-            {
-                if (GUILayout.Button("움직임 시작"))
-                {
-                    StartMovement();
-                }
-            }
-            
-            if (GUILayout.Button("오디오 재생/정지"))
-            {
-                if (teacherAudioSource.isPlaying)
-                    teacherAudioSource.Stop();
-                else
-                    teacherAudioSource.Play();
-            }
-            
-            // 설정 조절
-            GUILayout.Label("이동 속도:");
-            moveSpeed = GUILayout.HorizontalSlider(moveSpeed, 0.5f, 5f);
-            
-            GUILayout.Label("이동 범위:");
-            moveRange = GUILayout.HorizontalSlider(moveRange, 1f, 10f);
-            
-            GUILayout.EndArea();
-        }
+        // /// <summary>
+        // /// 디버그 정보 표시 (게임 실행 중 화면에 표시)
+        // /// </summary>
+        // void OnGUI()
+        // {
+        //     if (!Application.isPlaying || teacherAudioSource == null) return;
+        //     
+        //     // 화면 오른쪽 상단에 디버그 정보 표시
+        //     GUILayout.BeginArea(new Rect(Screen.width - 250, 10, 240, 200));
+        //     
+        //     GUILayout.Label("=== Teacher Audio Debug ===");
+        //     GUILayout.Label($"움직임 활성화: {enableMovement}");
+        //     GUILayout.Label($"오디오 재생 중: {teacherAudioSource.isPlaying}");
+        //     GUILayout.Label($"현재 방향: {GetTeacherDirection()}");
+        //     GUILayout.Label($"플레이어와 거리: {GetDistanceToPlayer():F1}m");
+        //     
+        //     GUILayout.Space(10);
+        //     
+        //     // 제어 버튼들
+        //     if (enableMovement)
+        //     {
+        //         if (GUILayout.Button("움직임 정지"))
+        //         {
+        //             StopMovement();
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (GUILayout.Button("움직임 시작"))
+        //         {
+        //             StartMovement();
+        //         }
+        //     }
+        //     
+        //     if (GUILayout.Button("오디오 재생/정지"))
+        //     {
+        //         if (teacherAudioSource.isPlaying)
+        //             teacherAudioSource.Stop();
+        //         else
+        //             teacherAudioSource.Play();
+        //     }
+        //     
+        //     // 설정 조절
+        //     GUILayout.Label("이동 속도:");
+        //     moveSpeed = GUILayout.HorizontalSlider(moveSpeed, 0.5f, 5f);
+        //     
+        //     GUILayout.Label("이동 범위:");
+        //     moveRange = GUILayout.HorizontalSlider(moveRange, 1f, 10f);
+        //     
+        //     GUILayout.EndArea();
+        // }
     }
 }

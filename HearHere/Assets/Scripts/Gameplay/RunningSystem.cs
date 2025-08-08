@@ -417,61 +417,61 @@ namespace HH
             return "unknown";
         }
         
-        /// <summary>
-        /// 디버그 정보 표시 (running만 표시)
-        /// </summary>
-        void OnGUI()
-        {
-            if (!Application.isPlaying) return;
-            
-            GUILayout.BeginArea(new Rect(10, 300, 300, 250));
-            GUILayout.Label("=== Running Sound Control ===");
-            
-            // running 소리만 표시
-            if (runningSounds.Count > 0 && runningSounds[0].audioSource != null)
-            {
-                var runner = runningSounds[0];
-                string direction = GetRunnerDirection(runner.name);
-                float distance = Vector3.Distance(runner.audioSource.transform.position, playerTransform.position);
-                
-                GUILayout.Label($"🏃 {runner.name}:");
-                GUILayout.Label($"  패턴: {runner.movementPattern}");
-                GUILayout.Label($"  방향: {direction}");
-                GUILayout.Label($"  거리: {distance:F1}m");
-                GUILayout.Label($"  활성: {runner.isActive}");
-                GUILayout.Label($"  재생 중: {runner.audioSource.isPlaying}");
-            }
-            else
-            {
-                GUILayout.Label("❌ 'running' AudioSource를 찾을 수 없음");
-            }
-            
-            GUILayout.Space(10);
-            
-            if (GUILayout.Button("Running 시작"))
-            {
-                StartAllRunners();
-            }
-            
-            if (GUILayout.Button("Running 정지"))
-            {
-                StopAllRunners();
-            }
-            
-            GUILayout.Space(10);
-            GUILayout.Label("설정:");
-            GUILayout.Label("뛰는 속도:");
-            runningSpeed = GUILayout.HorizontalSlider(runningSpeed, 1f, 6f);
-            
-            GUILayout.Label("최소 거리:");
-            minDistance = GUILayout.HorizontalSlider(minDistance, 1f, 5f);
-            
-            GUILayout.Label("최대 거리:");
-            maxDistance = GUILayout.HorizontalSlider(maxDistance, 5f, 15f);
-            
-            GUILayout.Label("📝 다른 소리들(chattering, teacher 등)은 고정 위치");
-            
-            GUILayout.EndArea();
-        }
+        // /// <summary>
+        // /// 디버그 정보 표시 (running만 표시)
+        // /// </summary>
+        // void OnGUI()
+        // {
+        //     if (!Application.isPlaying) return;
+        //     
+        //     GUILayout.BeginArea(new Rect(10, 300, 300, 250));
+        //     GUILayout.Label("=== Running Sound Control ===");
+        //     
+        //     // running 소리만 표시
+        //     if (runningSounds.Count > 0 && runningSounds[0].audioSource != null)
+        //     {
+        //         var runner = runningSounds[0];
+        //         string direction = GetRunnerDirection(runner.name);
+        //         float distance = Vector3.Distance(runner.audioSource.transform.position, playerTransform.position);
+        //         
+        //         GUILayout.Label($"🏃 {runner.name}:");
+        //         GUILayout.Label($"  패턴: {runner.movementPattern}");
+        //         GUILayout.Label($"  방향: {direction}");
+        //         GUILayout.Label($"  거리: {distance:F1}m");
+        //         GUILayout.Label($"  활성: {runner.isActive}");
+        //         GUILayout.Label($"  재생 중: {runner.audioSource.isPlaying}");
+        //     }
+        //     else
+        //     {
+        //         GUILayout.Label("❌ 'running' AudioSource를 찾을 수 없음");
+        //     }
+        //     
+        //     GUILayout.Space(10);
+        //     
+        //     if (GUILayout.Button("Running 시작"))
+        //     {
+        //         StartAllRunners();
+        //     }
+        //     
+        //     if (GUILayout.Button("Running 정지"))
+        //     {
+        //         StopAllRunners();
+        //     }
+        //     
+        //     GUILayout.Space(10);
+        //     GUILayout.Label("설정:");
+        //     GUILayout.Label("뛰는 속도:");
+        //     runningSpeed = GUILayout.HorizontalSlider(runningSpeed, 1f, 6f);
+        //     
+        //     GUILayout.Label("최소 거리:");
+        //     minDistance = GUILayout.HorizontalSlider(minDistance, 1f, 5f);
+        //     
+        //     GUILayout.Label("최대 거리:");
+        //     maxDistance = GUILayout.HorizontalSlider(maxDistance, 5f, 15f);
+        //     
+        //     GUILayout.Label("📝 다른 소리들(chattering, teacher 등)은 고정 위치");
+        //     
+        //     GUILayout.EndArea();
+        // }
     }
 }

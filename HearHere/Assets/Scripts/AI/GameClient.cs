@@ -82,23 +82,44 @@ public class GameClient : Client
         if (userText.Contains(answer) && ContainsAny(userText, answerTargets))
         {
             result = mapInfo.GetSuccess('1');
-            // 정답 뒤에 Try 횟수 붙이기
-            string ttsText = "Congratulations! You did it!" + result.Message + FormatPlayTime(totalPlayTime); 
-            base.ProcessUserInput(ttsText);
-            GameClear();
+            string ttsText;
+            // 유효한 정답일 경우
+            if (result.IsValid)
+            {
+                // 정답 뒤에 Try 횟수 붙이기
+                ttsText = "Congratulations! You did it!" + result.Message + FormatPlayTime(totalPlayTime); 
+                base.ProcessUserInput(ttsText);
+                GameClear();
+                return;
+            }
+            else
+            {
+                onGameClear.OnEventRaised(false);
+            }
+            // 유효하지 않은 정답일 경우
+            base.ProcessUserInput(result.Message);
             return;
         }
         
         // 단서 소리는 따로 처리
         foreach (ClueSound clue in soundSettings)
         {
-            bool hasX = ContainsAny(userText, clue.X);
-            bool hasY = ContainsAny(userText, clue.Y);
+            bool hasX    = ContainsAny(userText, clue.X);
+            bool hasY    = ContainsAny(userText, clue.Y);
             bool hasName = ContainsAny(userText, clue.Name);
 
             if (hasX && hasY && hasName)
             {
                 result = mapInfo.GetClue(clue.Argument);
+                
+                // 정답일 경우
+                if (result.Message == "-1")
+                {
+                    base.ProcessUserInput("Congratulations! You did it!" + result.Message + FormatPlayTime(totalPlayTime));
+                    GameClear();
+                    return;
+                }
+                
                 // Map에서 전달받은 메시지를 추가
                 if (result.IsValid)
                 {
@@ -108,7 +129,7 @@ public class GameClient : Client
                 {
                     onGameClear.OnEventRaised(false);
                 }
-                string ttsText = $"You correctly identified the {clue.Name} sound." + result.Message;
+                string ttsText = $"You correctly identified the {clue.Name[0]} sound." + result.Message;
                 base.ProcessUserInput(ttsText);
                 return;
             }
@@ -166,7 +187,6 @@ public class GameClient : Client
                     response.tts_text += result.Message;
                     // 정답 뒤에 걸린 시간 넣기
                     response.tts_text += FormatPlayTime(totalPlayTime);
-                    StartCoroutine(PlayTTS(response.tts_text));
                     base.ProcessUserInput(response.tts_text);
                     GameClear();
                     return;
