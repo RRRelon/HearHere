@@ -1,44 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using HH;
 using UnityEngine;
 
 public class TutorialClient : Client
 {
+    [Header("Clue/Answer Setting")]
+    [SerializeField] private List<ClueSound> soundSettings;
+    [SerializeField] private string[] answerTargets;
+    [SerializeField] private string answer;
+    
     [SerializeField] private MapInfo mapInfo;
     [SerializeField] private GameSceneSO menuToLoad;
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
-
-    [SerializeField] private float playbackInterval = 20.0f;
-    [SerializeField] private float playbackTimer;
-    
-
-    protected override void Start()
-    {
-        base.Start();
-        playbackTimer = playbackInterval - 5.0f;
-    }
-    
-    protected override void Update()
-    {
-        base.Update();
-        
-        if (!isListening)
-        {
-            playbackTimer = 0;
-            return;
-        }
-        
-        // 게임 안내 playback cooltime
-        playbackTimer += Time.deltaTime;
-        
-        if (playbackTimer >= playbackInterval)
-        {
-            StartCoroutine(PlayTTS(playbackStr));
-            playbackTimer = 0;
-        }
-    }
+    [SerializeField] private BoolEventChannelSO onGameClear;
     
     protected override async void ProcessUserInput(string userText)
     {
@@ -64,6 +41,55 @@ public class TutorialClient : Client
             base.ProcessUserInput("Exit game.");
             return;
         }
+        
+        // 게임 내 적용
+        MapResult result; // 맵에서 가져온 결과
+        
+        // 정답 소리 따로 처리
+        if (userText.Contains(answer) && ContainsAny(userText, answerTargets))
+        {
+            result = mapInfo.GetSuccess('1');
+            // 정답 뒤에 Try 횟수 붙이기
+            string ttsText = "Congratulations! You did it!" + result.Message + "Going to the main menu"; 
+            base.ProcessUserInput(ttsText);
+            ExitTutorial();
+            return;
+        }
+        
+        // 단서 소리는 따로 처리
+        foreach (ClueSound clue in soundSettings)
+        {
+            bool hasX = ContainsAny(userText, clue.X);
+            bool hasY = ContainsAny(userText, clue.Y);
+            bool hasName = ContainsAny(userText, clue.Name);
+
+            if (hasX && hasY && hasName)
+            {
+                result = mapInfo.GetClue(clue.Argument);
+                
+                // 정답일 경우
+                if (result.Message == "-1")
+                {
+                    base.ProcessUserInput("Congratulations! You did it!" + result.Message + "Going to the main menu");
+                    ExitTutorial();
+                    return;
+                }
+                    
+                // Map에서 전달받은 메시지를 추가
+                if (result.IsValid)
+                {
+                    onGameClear.OnEventRaised(true);
+                }
+                else
+                {
+                    onGameClear.OnEventRaised(false);
+                }
+                
+                string ttsText = $"You correctly identified the {clue.Name} sound." + result.Message;
+                base.ProcessUserInput(ttsText);
+                return;
+            }
+        }
 
         // 게임 내용에 대한 GPT 응답
         GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
@@ -75,7 +101,6 @@ public class TutorialClient : Client
         
         Debug.Log($"GPT 응답:\n{response}");
         
-        MapResult result; // 맵에서 가져온 결과
         switch (response.response_type)
         {
             case "dialogue": // 일반 상호작용(아무 소리, 오답)
@@ -92,8 +117,8 @@ public class TutorialClient : Client
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {
-                    StartCoroutine(PlayTTS(response.tts_text));
-                    base.ProcessUserInput(response.tts_text);
+                    string ttsText = "Congratulations! You did it!" + result.Message + "Going to the main menu";
+                    base.ProcessUserInput(ttsText);
                     ExitTutorial();
                     return;
                 }

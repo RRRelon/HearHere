@@ -51,6 +51,13 @@ public class MapTutorial : MapInfo
             result = new MapResult(false, "");
             return result;
         }
+
+        // Success 처리 여기서
+        if (sequenceNum == 3)
+        {
+            result = new MapResult(true, "-1");
+            return result;
+        }
         
         // 3. 단서 수집 및 현재 시퀀스 증가
         answerChar.Add(sequenceChar);
@@ -66,7 +73,7 @@ public class MapTutorial : MapInfo
                 audioSources[i].SetActive(false);
         }
 
-        result = new MapResult(true, $"Collected so far: {answerChar.Count}");
+        result = new MapResult(true, "");
         return result;
     }
     

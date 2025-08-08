@@ -234,25 +234,4 @@ public class GameClient : Client
         yield return new WaitForSeconds(waitTime);
         loadMenu.OnLoadingRequested(sceneToLoad, true, true);
     }
-
-    /// <summary>
-    /// keywords 중 text를 찾는 함수이다. 있으면 True, 없으면 False 반환
-    /// </summary>
-    private bool ContainsAny(string text, string[] keywords)
-    {
-        // keywords가 비어있다면 조건이 없는 것, True를 반환한다.
-        if (keywords == null || keywords.Length == 0) return true;
-        string lowerText = text.ToLower();
-        return keywords.Any(keyword => lowerText.Contains(keyword.ToLower()));
-    }
-}
-
-[Serializable]
-public struct ClueSound
-{
-    // X, Y, Name의 요소 중 하나씩은 말해야 옳게 말한 것으로 인정한다.
-    public string[] X;
-    public string[] Y;
-    public string[] Name;
-    public char Argument;
 }
