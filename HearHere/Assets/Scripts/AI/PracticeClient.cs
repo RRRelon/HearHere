@@ -44,7 +44,7 @@ public class PracticeClient : Client
                 if (userText.Contains(action))
                 {
                     // 메인 메뉴로 이동하는 명령어 처리
-                    onTextReadyForTTS.OnEventRaised(moveMenuStr); // 메인 메뉴 이동 TTS 실행
+                    StartCoroutine(PlayTTS(moveMenuStr));  // 메인 메뉴 이동 TTS 실행
                     base.ProcessUserInput(moveMenuStr);           // 다시 마이크 모니터링 시작
                     
                     // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
@@ -81,7 +81,7 @@ public class PracticeClient : Client
             {
                 if (userText.Contains(action))
                 {
-                    onTextReadyForTTS.OnEventRaised(exitGameStr);
+                    StartCoroutine(PlayTTS(exitGameStr));
                     base.ProcessUserInput(exitGameStr);
                     
                     StartCoroutine(ExitGame()); // 실제 게임 종료 코드
@@ -97,7 +97,7 @@ public class PracticeClient : Client
         {
             // 다시 마이크 모니터링 시작
             string retryStr = "Sorry. I can't understand. Try again.";
-            onTextReadyForTTS.OnEventRaised(retryStr);
+            StartCoroutine(PlayTTS(retryStr));
             base.ProcessUserInput(retryStr);
             return;    
         }
@@ -116,7 +116,7 @@ public class PracticeClient : Client
         Debug.Log($"GPT 응답 : {response.tts_text}");
         
         // GPT 응답 TTS로 전환
-        onTextReadyForTTS.OnEventRaised(response.tts_text);
+        StartCoroutine(PlayTTS(response.tts_text));
         
         // 다시 마이크 모니터링 시작
         base.ProcessUserInput(response.tts_text);

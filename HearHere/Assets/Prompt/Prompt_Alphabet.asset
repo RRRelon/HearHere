@@ -14,15 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prompt: "Bell sound (Right) => argument = 'H'\r\nPiano key sound (Left + Front)
     => argument = 'O'\r\nCamera shutter sound  (Right + Front) => argument = 'P'\r\nkeyboard
-    sound (Right + Back) => argument = 'E'\r\n\r\n> \uC232\uACFC \uAD00\uB828\uB418\uC9C0
-    \uC54A\uB294 \uC18C\uB9AC\r\n\uBCA8\uC18C\uB9AC, \uD53C\uC544\uB178 \uD0A4 \uC18C\uB9AC,
-    \uCE74\uBA54\uB77C \uC154\uD130 \uC18C\uB9AC, \uD0A4\uBCF4\uB4DC \uC18C\uB9AC\r\n===============\r\nYou
-    are the evaluator for a 3D auditory puzzle game designed for visually impaired
-    players.\r\nAll outputs must be strictly in JSON format.\r\nNever output any
-    text outside of JSON.\r\n\r\nAll outputs must be in English only.\r\nresponse_type
-    must always be either \"clue\", \"dialogue\", or \"success\".\r\nThe JSON top-level
-    structure must always be the same:\r\n{\r\n\"response_type\": \"clue\" | \"dialogue\"
-    | \"success\",\r\n\"tts_text\": \"...\",\r\n\"argument\": \"(A letter from the
+    sound (Right + Back) => argument = 'E'\r\n\r\r\n===============\r\nYou are the
+    evaluator for a 3D auditory puzzle game designed for visually impaired players.\r\nAll
+    outputs must be strictly in JSON format.\r\nNever output any text outside of
+    JSON.\r\n\r\nAll outputs must be in English only.\r\nresponse_type must always
+    be either \"clue\", \"dialogue\", or \"success\".\r\nThe JSON top-level structure
+    must always be the same:\r\n{\r\n\"response_type\": \"clue\" | \"dialogue\" |
+    \"success\",\r\n\"tts_text\": \"...\",\r\n\"argument\": \"(A letter from the
     clue list or result number)\"\r\n}\r\n\r\nArgument Field Rule:\r\nWhen response_type
     is \"clue\", the argument field must be populated with the corresponding letter
     as defined in the Correct Clue Sounds section.\r\nWhen response_type is \"success\",

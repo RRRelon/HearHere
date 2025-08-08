@@ -39,7 +39,7 @@ public class MapAlphabet : MapInfo
         tryCount += 1;        // 시도 횟수 하나 증가
 
         string message = "";
-        message += "The alphabets collected so far: ";
+        message += "The alphabets collected so far is ";
         foreach (char c in answerChar)
             message += c.ToString() + ',';
 

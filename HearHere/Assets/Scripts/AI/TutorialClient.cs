@@ -35,7 +35,7 @@ public class TutorialClient : Client
         
         if (playbackTimer >= playbackInterval)
         {
-            onTextReadyForTTS.OnEventRaised(playbackStr);
+            StartCoroutine(PlayTTS(playbackStr));
             playbackTimer = 0;
         }
     }
@@ -92,7 +92,7 @@ public class TutorialClient : Client
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {
-                    onTextReadyForTTS.OnEventRaised(response.tts_text);
+                    StartCoroutine(PlayTTS(response.tts_text));
                     base.ProcessUserInput(response.tts_text);
                     ExitTutorial();
                     return;
@@ -113,7 +113,7 @@ public class TutorialClient : Client
 
     private void ExitTutorial()
     {
-        onTextReadyForTTS.OnEventRaised("Tutorial complete! Now returning to the main menu.");
+        StartCoroutine(PlayTTS("Tutorial complete! Now returning to the main menu."));
         StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
     }
     

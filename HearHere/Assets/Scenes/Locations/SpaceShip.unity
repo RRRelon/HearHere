@@ -958,7 +958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1591177751221058042, guid: 5a089e53e9436424e946fd4cc3acdbd3, type: 3}
       propertyPath: useMic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1591177751221058042, guid: 5a089e53e9436424e946fd4cc3acdbd3, type: 3}
       propertyPath: mapInfo

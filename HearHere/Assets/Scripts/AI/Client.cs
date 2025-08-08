@@ -47,17 +47,20 @@ public abstract class Client : MonoBehaviour
     protected readonly string[] exitTargets = { "game", "application", "program" };
     protected readonly string[] exitActions = { "exit", "quit", "turn off", "close" };
     // 튜토리얼 시작 관련 키워드
-    protected string[] tutorialTargets = { "tutorial" };
-    protected string[] tutorialActions = { "start", "begin" };
+    protected readonly string[] tutorialTargets = { "tutorial" };
+    protected readonly string[] tutorialActions = { "start", "begin" };
     // 게임 시작 관련 키워드
-    protected string[] gameTargets = { "game" };
-    protected string[] gameActions = { "start", "begin", "play" };
+    protected readonly string[] startGameTargets = { "game" };
+    protected readonly string[] startGameActions = { "start", "begin", "play" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
     private AudioClip recordingClip;
     private float timeSinceLastSound;
     private string microphoneDevice;
+    
+    // TTS 중복 안 되게 하는 Flag
+    protected bool isTTSPlayed;
 
     protected virtual void OnEnable()
     {
@@ -84,7 +87,13 @@ public abstract class Client : MonoBehaviour
     protected virtual void Start()
     {
         // 1. Playback 재생
-        onTextReadyForTTS.OnEventRaised(playbackStr);
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            StartCoroutine(PlayTTS(playbackStr));
+            playbackTimer = 0;
+        }
+        
         
         // 2. 텍스트로 입력 넣으면 여기서 리턴
         if (!useMic)
@@ -99,11 +108,7 @@ public abstract class Client : MonoBehaviour
         }
         microphoneDevice = Microphone.devices[0];
         
-        // 4. Playback 재생
-        Debug.Log("플레이 백 재생");
-        onTextReadyForTTS.OnEventRaised(playbackStr);
-        
-        // 5. 마이크 입력 대기
+        // 4. 마이크 입력 대기
         StartMonitoring();
     }
 
@@ -122,7 +127,7 @@ public abstract class Client : MonoBehaviour
         
         if (playbackTimer >= playbackInterval)
         {
-            onTextReadyForTTS.OnEventRaised(playbackStr);
+            StartCoroutine(PlayTTS(playbackStr));
             playbackTimer = 0;
         }
         
@@ -168,6 +173,24 @@ public abstract class Client : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// TTS가 중복 실행 된다면 3초 딜레이 후 TTS 실행하도록 진행
+    /// </summary>
+    protected IEnumerator PlayTTS(string text, string org = "")
+    {
+        // 만약 이미 TTS가 플레이 중이라면 딜레이 후 시작
+        if (isTTSPlayed)
+            yield return new WaitForSeconds(3.0f);
+        
+        isTTSPlayed = true;
+        Debug.Log($"TTS 실행 : {text}, 실행 위치: {org}");
+        onTextReadyForTTS.OnEventRaised(text);
+        
+        // 일정 시간 뒤 재생 플래그 종료
+        yield return new WaitForSeconds(3.0f);
+        isTTSPlayed = false;
     }
     
     private void StartMonitoring()
@@ -232,7 +255,7 @@ public abstract class Client : MonoBehaviour
         
         if (useMic)
             StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
-        onTextReadyForTTS.OnEventRaised(text);
+        StartCoroutine(PlayTTS(text));
     }
 
     protected void EnableInput()
