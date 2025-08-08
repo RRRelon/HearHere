@@ -85,6 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75ba1b489e35964285bf81ce71920ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  userInputByText: 
   sensitivityThreshold: 10.202
   silenceDelay: 3
   maxRecordingDuration: 10
@@ -94,6 +96,7 @@ MonoBehaviour:
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
   isListening: 0
   isSpeaking: 0
+  useMic: 1
   currentlyLoadedScene: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
   gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
   tutorialToLoad: {fileID: 11400000, guid: 52ac8e2ffe04f3e4283ee971a0d6041f, type: 2}

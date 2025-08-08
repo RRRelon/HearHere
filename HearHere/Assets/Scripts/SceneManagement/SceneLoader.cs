@@ -15,13 +15,19 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private LoadEventChannelSO loadLocation;
     [SerializeField] private LoadEventChannelSO coldStartup;
 
+    [Header("Broadcasting on")]
+    [SerializeField] private BoolEventChannelSO toggleLoadingScreen;
+    [SerializeField] private FadeChannelSO fadeRequestChannel;
+    
     private GameSceneSO currentlyLoadedScene;
     private GameSceneSO sceneToLoad;
     private AsyncOperationHandle<SceneInstance> loadingOperationHandle;
     private AsyncOperationHandle<SceneInstance> gameplayManagerLoadingOpHandle;
     
     private SceneInstance gameplayManagerSceneInstance = new SceneInstance();
+    private float fadeDuration = 0.5f;
     private bool isLoading = false; // 씬을 중복 로딩하지 않게 하는 flag
+    private bool showLoadingScreen;
 
     private void OnEnable()
     {
@@ -45,7 +51,7 @@ public class SceneLoader : MonoBehaviour
     /// <summary>
     /// This special loading function is only used in the editor, when the developer presses Play in a Location scene, without passing by Initialisation.
     /// </summary>
-    private void ColdStartup(GameSceneSO currentlyOpenedScene)
+    private void ColdStartup(GameSceneSO currentlyOpenedScene, bool showLoadingScreen, bool fadeScreen)
     {
         currentlyLoadedScene = currentlyOpenedScene;
         
@@ -61,12 +67,13 @@ public class SceneLoader : MonoBehaviour
     }
 #endif
     
-    private void LoadMenu(GameSceneSO menuToLoad)
+    private void LoadMenu(GameSceneSO menuToLoad, bool showLoadingScreen, bool fadeScreen)
     {
         if (isLoading)
             return;
 
         sceneToLoad = menuToLoad;
+        this.showLoadingScreen = showLoadingScreen;
         isLoading = true;
 
         if (gameplayManagerSceneInstance.Scene != null && gameplayManagerSceneInstance.Scene.isLoaded)
@@ -77,12 +84,13 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(UnloadPreviousScene());
     }
 
-    private void LoadLocation(GameSceneSO locationToLoad)
+    private void LoadLocation(GameSceneSO locationToLoad, bool showLoadingScreen, bool fadeScreen)
     {
         if (isLoading)
             return;
         
         sceneToLoad = locationToLoad;
+        this.showLoadingScreen = showLoadingScreen;
         isLoading = true;
 
         if (gameplayManagerSceneInstance.Scene == null || !gameplayManagerSceneInstance.Scene.isLoaded)
@@ -107,7 +115,8 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     private IEnumerator UnloadPreviousScene()
     {
-        yield return new WaitForSeconds(0.2f);
+        fadeRequestChannel.FadeOut(fadeDuration);
+        yield return new WaitForSeconds(fadeDuration);
 
         if (currentlyLoadedScene != null)
         {
@@ -135,6 +144,11 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     private void LoadNewScene()
     {
+        if (showLoadingScreen)
+        {
+            toggleLoadingScreen.RaiseEvent(true);
+        }
+        
         loadingOperationHandle = sceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true, 0);
         loadingOperationHandle.Completed += OnNewSceneLoad;
     }
@@ -153,5 +167,19 @@ public class SceneLoader : MonoBehaviour
         SceneManager.SetActiveScene(s);
 
         isLoading = false;
+
+        if (showLoadingScreen)
+        {
+            toggleLoadingScreen.RaiseEvent(false);
+        }
+
+        StartCoroutine(FadeInTimer(1.5f));
+    }
+
+    private IEnumerator FadeInTimer(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        
+        fadeRequestChannel.FadeIn(fadeDuration);
     }
 }

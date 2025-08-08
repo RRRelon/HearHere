@@ -127,7 +127,7 @@ public class GameClient : Client
     private void GameClear()
     {
         playerData.AddGameResult(playTime, mapInfo.GetTryCount());
-        StartCoroutine(OnGameClear(3.0f, sceneToLoadOnClear));
+        StartCoroutine(OnGameClear(8.0f, sceneToLoadOnClear));
     }
 
     private IEnumerator OnGameClear(float waitTime, GameSceneSO sceneToLoad)
@@ -141,7 +141,6 @@ public class GameClient : Client
         EnableInput();
         
         // 메인 메뉴로 이동
-        onTextReadyForTTS.OnEventRaised("Moving to the main menu.");
         StartCoroutine(DelaySceneLoad(3.0f, sceneToLoadOnClear));
     }
     
@@ -164,7 +163,7 @@ public class GameClient : Client
     private IEnumerator DelaySceneLoad(float waitTime, GameSceneSO sceneToLoad)
     {
         yield return new WaitForSeconds(waitTime);
-        loadMenu.OnLoadingRequested(sceneToLoad);
+        loadMenu.OnLoadingRequested(sceneToLoad, true, true);
     }
 }
 

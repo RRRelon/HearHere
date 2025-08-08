@@ -5,6 +5,12 @@ using UnityEngine;
 
 public abstract class Client : MonoBehaviour
 {
+    // 마이크 사용 여부 설정
+    [SerializeField] private string userInputByText;
+    [SerializeField] private bool useMic = true;
+    // Input
+    [SerializeField] private InputReader inputReader;
+    
     // 이 값보다 큰 소리가 감지되면 '말하기 시작'으로 판단
     [SerializeField] private float sensitivityThreshold = 0.02f;
     // 말하기가 끝났다고 판단하기 전까지 기다리는 시간 (초)
@@ -24,7 +30,7 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
     
     protected float playTime = 0;
-    protected const string playbackStr = "Please say that again with the correct answer.";
+    protected string playbackStr = "Please say that again with the correct answer.";
     
     // 메뉴 정보 명령어
     protected readonly string[] menuInfoTargets = { "menu" };
@@ -35,6 +41,12 @@ public abstract class Client : MonoBehaviour
     // 게임 종료 명령어
     protected readonly string[] exitTargets = { "game", "application", "program" };
     protected readonly string[] exitActions = { "exit", "quit", "turn off", "close" };
+    // 튜토리얼 시작 관련 키워드
+    protected string[] tutorialTargets = { "tutorial" };
+    protected string[] tutorialActions = { "start", "begin" };
+    // 게임 시작 관련 키워드
+    protected string[] gameTargets = { "game" };
+    protected string[] gameActions = { "start", "begin", "play" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -43,17 +55,43 @@ public abstract class Client : MonoBehaviour
     private float timeSinceLastSound;
     private string microphoneDevice;
 
-    protected virtual void OnEnable() { }
+    protected virtual void OnEnable()
+    {
+        Debug.Log("Enable Client");
+        if (!useMic)
+        {
+            inputReader.SpeechEvent += ProcessUserInputByText;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        Debug.Log("OnDisable Client");
+        if (!useMic)
+        {
+            inputReader.SpeechEvent -= ProcessUserInputByText;
+        }
+    }
+
+    private void ProcessUserInputByText()
+    {
+        ProcessUserInput(userInputByText);
+    }
+    
 
     protected virtual void Start()
     {
+        if (!useMic)
+            return;
+        
         if (Microphone.devices.Length == 0)
         {
             Debug.LogError("There are no Microphone devices available!");
+            microphoneDevice = null;
             return;
         }
         microphoneDevice = Microphone.devices[0];
-
+        
         StartMonitoring();
     }
 
@@ -64,6 +102,19 @@ public abstract class Client : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
+        if (!useMic) return;
+        
+        if (microphoneDevice == null)
+        {
+            if (Microphone.devices.Length == 0)
+            {
+                Debug.LogError("There are no Microphone devices available!");
+                microphoneDevice = null;
+                return;
+            }
+            microphoneDevice = Microphone.devices[0];
+        }
+        
         playTime += Time.deltaTime;
         
         if (!isListening)
@@ -150,7 +201,9 @@ public abstract class Client : MonoBehaviour
             totalDuration = 0f;
         else
             totalDuration = text.Length * 0.08f;
-        StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
+        
+        if (useMic)
+            StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
         onTextReadyForTTS.OnEventRaised(text);
     }
 

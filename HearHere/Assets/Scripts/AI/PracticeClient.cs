@@ -147,6 +147,6 @@ public class PracticeClient : Client
     private IEnumerator DelaySceneLoad(float waitTime, GameSceneSO sceneToLoad)
     {
         yield return new WaitForSeconds(waitTime);
-        loadMenu.OnLoadingRequested(sceneToLoad);
+        loadMenu.OnLoadingRequested(sceneToLoad, true, true);
     }
 }

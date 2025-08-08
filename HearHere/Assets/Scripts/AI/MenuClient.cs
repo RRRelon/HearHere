@@ -25,38 +25,31 @@ public class MenuClient : Client
 
     [SerializeField] private float playbackInterval = 30.0f;
     [SerializeField] private float playbackTimer;
-    private string playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound.\"\n\n\"To start the tutorial, please say, 'Start tutorial'. To begin the game, please say, 'Start game'";
     
-    protected override void Update()
-    {
-        base.Update();
-        
-        if (!isListening)
-        {
-            playbackTimer = 0;
-            return;
-        }
-        
-        // 게임 안내 playback cooltime
-        playbackTimer += Time.deltaTime;
-        
-        if (playbackTimer >= playbackInterval)
-        {
-            onTextReadyForTTS.OnEventRaised(playbackStr);
-            playbackTimer = 0;
-        }
-    }
-
     /// <summary>
     /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
     /// 처음 기록 대비 최근 기록을 TTS로 안내한다.
     /// </summary>
-    protected override void OnEnable()
+    protected override void Start()
     {
-        foreach (var data in playerData.Datas)
+        base.Start();
+        
+        playbackStr = "Welcome to Hear, Here!, the escape room game where you find the target sound. " +
+                      "To start the tutorial, please say, 'Start tutorial'. " +
+                      "To begin the game, please say, 'Start game'";
+
+        if (playerData.Datas.Count > 0)
         {
-            Debug.Log($"current player datas : {data.Time}, {data.TryCount}");
+            foreach (var data in playerData.Datas)
+            {
+                Debug.Log($"current player datas : {data.Time}, {data.TryCount}");
+            }    
         }
+        else
+        {
+            Debug.Log("There is no player data");
+        }
+        
         
         // 1. 첫 기록이 없고, 최근 기록도 없다면 그냥 넘어가기
         // 첫 기록(playerData.Datas[0])만 있고 다른 기록이 없는 경우 그냥 넘어가기
@@ -102,6 +95,26 @@ public class MenuClient : Client
 
         onTextReadyForTTS.OnEventRaised(message);
     }
+    
+    protected override void Update()
+    {
+        base.Update();
+        
+        if (!isListening)
+        {
+            playbackTimer = 0;
+            return;
+        }
+        
+        // 게임 안내 playback cooltime
+        playbackTimer += Time.deltaTime;
+        
+        if (playbackTimer >= playbackInterval)
+        {
+            onTextReadyForTTS.OnEventRaised(playbackStr);
+            playbackTimer = 0;
+        }
+    }
 
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행
@@ -116,160 +129,43 @@ public class MenuClient : Client
         }
         
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
+
+        // 메뉴 설명
+        if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
+        {
+            base.ProcessUserInput("Available commands are Start Game and Exit Game.");
+            return;
+        }
         
-        #region 메뉴 설명
-        string[] menuInfoTargets = { "menu" };
-        string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
-
-        string explainMenuStr = "Available commands are Start Game and Exit Game.";
+        // 튜토리얼 시작
+        if (CheckSystemOperationInput(userText, tutorialTargets, tutorialActions))
+        {
+            base.ProcessUserInput( "Starting the tutorial.");
+            // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
+            StartCoroutine(DelaySceneLoad(5.0f, tutorialToLoad));
+            return;
+        }
         
-        // --- 메뉴 설명 명령어 확인 ---
-        bool isMenuInfoTargetMatch = false;
-        foreach (var target in menuInfoTargets)
+        // 게임 시작
+        if (CheckSystemOperationInput(userText, gameTargets, gameActions))
         {
-            if (userText.Contains(target))
-            {
-                isMenuInfoTargetMatch = true;
-                break;
-            }
+            base.ProcessUserInput( "Starting the game.");
+            // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
+            StartCoroutine(DelaySceneLoad(5.0f, gameToLoad));
+            return;
         }
-
-        if (isMenuInfoTargetMatch)
-        {
-            foreach (var action in menuInfoActions)
-            {
-                if (userText.Contains(action))
-                {
-                    
-                    // 메뉴 설명 TTS 실행
-                    onTextReadyForTTS.OnEventRaised(explainMenuStr);
-                    base.ProcessUserInput(explainMenuStr);
-                    return; // 처리 완료, GPT에 보내지 않음
-                }
-            }
-        }
-        #endregion
-        
-        #region 튜토리얼 시작
-        // 튜토리얼 시작 관련 키워드
-        string[] tutorialTargets = { "tutorial" };
-        string[] tutorialActions = { "start", "begin" };
-
-        string startTutorialStr = "Starting the tutorial.";
-        string alreadyTutorialStr = "The tutorial is already in progress.";
-
-        // --- 튜토리얼 시작 명령어 확인 ---
-        bool isTutorialTargetMatch = false;
-        foreach (var target in tutorialTargets)
-        {
-            if (userText.ToLower().Contains(target))
-            {
-                isTutorialTargetMatch = true;
-                break;
-            }
-        }
-        if (isTutorialTargetMatch)
-        {
-            foreach (var action in tutorialActions)
-            {
-                if (userText.ToLower().Contains(action))
-                {
-                    // 튜토리얼 시작 로직 실행
-                    if (currentlyLoadedScene.SceneType != GameSceneType.Location)
-                    {
-                        onTextReadyForTTS.OnEventRaised(startTutorialStr);
-                        base.ProcessUserInput(startTutorialStr);
-                        StartCoroutine(DelaySceneLoad(3.0f, tutorialToLoad));
-                    }
-                    else
-                    {
-                        onTextReadyForTTS.OnEventRaised(alreadyTutorialStr);
-                        base.ProcessUserInput(alreadyTutorialStr);
-                    }
-                    return; // 처리 완료, GPT에 보내지 않음
-                }
-            }
-        }
-        #endregion
-        
-        #region 게임 시작
-        // 게임 시작 관련 키워드
-        string[] gameTargets = { "game" };
-        string[] gameActions = { "start", "begin", "play" };
-
-        string startGameStr = "Starting the game.";
-        string alreadyGameStr = "The game is already in progress.";
-
-        // --- 게임 시작 명령어 확인 ---
-        bool isGameTargetMatch = false;
-        foreach (var target in gameTargets)
-        {
-            if (userText.ToLower().Contains(target))
-            {
-                isGameTargetMatch = true;
-                break;
-            }
-        }
-        if (isGameTargetMatch)
-        {
-            foreach (var action in gameActions)
-            {
-                if (userText.ToLower().Contains(action))
-                {
-                    // 게임 시작 로직 실행
-                    if (currentlyLoadedScene.SceneType != GameSceneType.Location)
-                    {
-                        onTextReadyForTTS.OnEventRaised(startGameStr);
-                        base.ProcessUserInput(startGameStr);
-                        StartCoroutine(DelaySceneLoad(3.0f, gameToLoad));
-                    }
-                    else
-                    {
-                        onTextReadyForTTS.OnEventRaised(alreadyGameStr);
-                        base.ProcessUserInput(alreadyGameStr);
-                    }
-                    return; // 처리 완료, GPT에 보내지 않음
-                }
-            }
-        }
-        #endregion
-
-        #region 게임 종료
             
-        // 게임 종료 관련
-        string[] exitTargets = { "game", "application", "program" };
-        string[] exitActions = { "exit", "quit", "turn off", "close" };
-
-        string exitGameStr = "게임을 종료합니다.";
-        
-        // --- 게임 종료 명령어 확인 ---
-        bool isExitTargetMatch = false;
-        foreach (var target in exitTargets)
+        // 게임 종료
+        if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
-            if (userText.Contains(target))
-            {
-                isExitTargetMatch = true;
-                break;
-            }
+            base.ProcessUserInput("Exit game.");
+            StartCoroutine(ExitGame());
+            return;
         }
-
-        if (isExitTargetMatch)
-        {
-            foreach (var action in exitActions)
-            {
-                if (userText.Contains(action))
-                {
-                    onTextReadyForTTS.OnEventRaised(exitGameStr);
-                    base.ProcessUserInput(exitGameStr);
-                    
-                    StartCoroutine(ExitGame()); // 실제 게임 종료 코드
-                    return;
-                }
-            }
-        }
-        #endregion
         
-        base.ProcessUserInput("");
+        // 아무 처리도 못했을 경우
+        Debug.Log("아무 처리도 못함");
+        base.ProcessUserInput(playbackStr);
     }
     
     /// <summary>
@@ -277,7 +173,7 @@ public class MenuClient : Client
     /// </summary>
     private IEnumerator ExitGame()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
     #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
     #else
@@ -291,6 +187,6 @@ public class MenuClient : Client
     private IEnumerator DelaySceneLoad(float waitTime, GameSceneSO sceneToLoad)
     {
         yield return new WaitForSeconds(waitTime);
-        loadLocation.OnLoadingRequested(sceneToLoad);
+        loadLocation.OnLoadingRequested(sceneToLoad, true, true);
     }
 }
