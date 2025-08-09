@@ -6,22 +6,14 @@ using UnityEngine;
 
 public abstract class Client : MonoBehaviour
 {
-    [Header("Playback Sound")]
-    [TextArea(5, 30)]
+    [Header("Playback Sound")] [TextArea(5, 30)]
     [SerializeField] protected string playbackStr = "Please say that again with the correct answer.";
     [SerializeField] protected float playbackInterval = 30.0f;
     [SerializeField] protected float playbackTimer;
     
-    // 마이크 사용 여부 설정
-    [SerializeField] private string userInputByText;
-    [SerializeField] private bool useMic = true;
-    // Input
-    [SerializeField] private InputReader inputReader;
-    
-    // 이 값보다 큰 소리가 감지되면 '말하기 시작'으로 판단
-    [SerializeField] private float sensitivityThreshold = 0.02f;
-    // 말하기가 끝났다고 판단하기 전까지 기다리는 시간 (초)
-    [SerializeField] private float silenceDelay = 3f;
+    [Header("Mic Settings")]
+    [SerializeField] private float sensitivityThreshold = 0.02f; // 이 값보다 큰 소리가 감지되면 '말하기 시작'으로 판단
+    [SerializeField] private float silenceDelay = 3f;            // 말하기가 끝났다고 판단하기 전까지 기다리는 시간 (초) 
     [SerializeField] private int maxRecordingDuration = 15;
 
     [Header("AI")]
@@ -29,12 +21,9 @@ public abstract class Client : MonoBehaviour
     [SerializeField] protected PromptSO prompt;
     
     [Header("Broadcasting to")]
-    [SerializeField] protected StringEventChannelSO onTextReadyForTTS;
+    [SerializeField] protected TTSEventChannelSO onTextReadyForTTS;
+    [SerializeField] private AudioClipEventChannelSO onAudioClipReadyForTTS;
     [SerializeField] private BoolEventChannelSO blinkScreenDark;
-    
-    // Flag
-    [SerializeField] protected bool isListening; // 마이크 입력을 받으면 True, 아니면 False
-    [SerializeField] protected bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
     
     protected float totalPlayTime = 0;
     
@@ -59,48 +48,19 @@ public abstract class Client : MonoBehaviour
     private AudioClip recordingClip;
     private float timeSinceLastSound;
     private string microphoneDevice;
+    // Flag
+    private bool isListening; // 마이크 입력을 받으면 True, 아니면 False
+    private bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
     
-    // TTS 중복 안 되게 하는 Flag
-    protected bool isTTSPlayed;
-
-    protected virtual void OnEnable()
-    {
-        if (!useMic)
-        {
-            inputReader.SpeechEvent += ProcessUserInputByText;
-        }
-    }
-
-    protected virtual void OnDisable()
-    {
-        if (!useMic)
-        {
-            inputReader.SpeechEvent -= ProcessUserInputByText;
-        }
-    }
-
-    private void ProcessUserInputByText()
-    {
-        ProcessUserInput(userInputByText);
-    }
-    
-
     protected virtual void Start()
     {
         // 1. Playback 재생
-        
         if (playbackTimer >= playbackInterval)
         {
-            StartCoroutine(PlayTTS(playbackStr));
-            playbackTimer = 0;
+            EnqueueRequestTTS(playbackStr, false);
         }
         
-        
-        // 2. 텍스트로 입력 넣으면 여기서 리턴
-        if (!useMic)
-            return;
-        
-        // 3. 마이크 설정
+        // 2. 마이크 설정
         if (Microphone.devices.Length == 0)
         {
             Debug.LogError("There are no Microphone devices available!");
@@ -109,7 +69,7 @@ public abstract class Client : MonoBehaviour
         }
         microphoneDevice = Microphone.devices[0];
         
-        // 4. 마이크 입력 대기
+        // 3. 마이크 입력 대기
         StartMonitoring();
     }
 
@@ -128,14 +88,12 @@ public abstract class Client : MonoBehaviour
         
         if (playbackTimer >= playbackInterval)
         {
-            StartCoroutine(PlayTTS(playbackStr));
-            playbackTimer = 0;
+            Debug.Log("플레이 백 추가");
+            EnqueueRequestTTS(playbackStr, false);
         }
         
-        if (!useMic) return;
-        
         // 만약 마이크를 못 찾았을 시, 재할당 시도
-        if (microphoneDevice == null)
+        if (microphoneDevice != Microphone.devices[0])
         {
             if (Microphone.devices.Length == 0)
             {
@@ -176,24 +134,6 @@ public abstract class Client : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// TTS가 중복 실행 된다면 3초 딜레이 후 TTS 실행하도록 진행
-    /// </summary>
-    protected IEnumerator PlayTTS(string text, string org = "")
-    {
-        // 만약 이미 TTS가 플레이 중이라면 딜레이 후 시작
-        if (isTTSPlayed)
-            yield return new WaitForSeconds(3.0f);
-        
-        isTTSPlayed = true;
-        Debug.Log($"TTS 실행 : {text}, 실행 위치: {org}");
-        onTextReadyForTTS.OnEventRaised(text);
-        
-        // 일정 시간 뒤 재생 플래그 종료
-        yield return new WaitForSeconds(3.0f);
-        isTTSPlayed = false;
-    }
-    
     private void StartMonitoring()
     {
         Debug.Log("Starting mic monitoring...");
@@ -239,25 +179,22 @@ public abstract class Client : MonoBehaviour
         ProcessUserInput(userText);
     }
 
+    protected void EnqueueRequestTTS(string text, bool isPriority)
+    {
+        onTextReadyForTTS.OnEventRaised(text, isPriority);
+        playbackTimer = 0;
+    }
+
+    protected void EnqueueRequestTTS(AudioClip clip, bool isPriority)
+    {
+        onAudioClipReadyForTTS.OnEventRaised(clip, isPriority);
+        playbackTimer = 0;
+    }
+
     /// <summary>
     /// TTS, GPT를 거친 응답 텍스트를 TTS로 재생 
     /// </summary>
-    protected virtual async void ProcessUserInput(string text)
-    {
-        // 1. Playback 쿨타임 다시 돌리기
-        playbackTimer = 0f;
-        
-        // 2. TTS 길이 계산
-        float totalDuration;
-        if (string.IsNullOrWhiteSpace(text))
-            totalDuration = 0f;
-        else
-            totalDuration = text.Length * 0.08f;
-        
-        if (useMic)
-            StartCoroutine(DelayedStartMonitoring(totalDuration + 2.0f));
-        StartCoroutine(PlayTTS(text));
-    }
+    protected abstract void ProcessUserInput(string text);
 
     protected void EnableInput()
     {

@@ -23,6 +23,11 @@ namespace HH
         private string googleTTSApiKey;
         private string openaiApiKey;
         
+        [Header("AI Settings")]
+        [Range(0.0f, 2.0f)]
+        [Tooltip("낮을수록 일관된 답변, 높을수록 창의적 답변 (지침 준수: 0.1~0.3 권장)")]
+        public float temperature = 0.1f;
+        
         private void OnEnable()
         {
             // Resources/secret.json에서 API Key 읽기
@@ -155,7 +160,7 @@ namespace HH
         /// </summary>
         private async Task<GPTResponse> GetGPTResponseAsync(string userInput, string prompt)
         {
-            string requestJson = OpenAIRequestHelper.CreateChatRequestBody(userInput, prompt);
+            string requestJson = OpenAIRequestHelper.CreateChatRequestBody(userInput, prompt, temperature);
             byte[] bodyRaw = Encoding.UTF8.GetBytes(requestJson);
 
             using (var request = new UnityWebRequest(OPEN_AI_API_URL, "POST"))
@@ -198,6 +203,7 @@ namespace HH
                     {
                         Debug.LogError($"[JSON Parsing Error] Failed to parse GPT response. Error: {ex.Message}");
                         Debug.LogError($"[JSON Parsing Error] Original Content: {gptContent}");
+                        Debug.LogError($"[Temperature Setting] Current temperature: {temperature}");
                         return null; // 실패 시 null 반환
                     }
                 }

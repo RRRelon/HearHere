@@ -40,11 +40,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b33a1bf46e83710449ba5871e775c6cb
-    m_Address: Assets/Scenes/GPTTest.unity
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b37eb2a504ca62947b1ee1e91f3b3743
     m_Address: Assets/ScriptableObjects/Events/Scene_LoadEventChannel.asset
     m_ReadOnly: 0

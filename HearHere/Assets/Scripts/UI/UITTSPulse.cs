@@ -13,35 +13,39 @@ public class UITTSPulse : MonoBehaviour
     [SerializeField] private float maxPulseInterval = 0.5f; // 한 번 커졌다 작아지는 최대 시간
 
     private Tween pulseTween; // 실행 중인 Tween 제어
-    private Image circle;     // 실제 움직일 이미지 
+    private Image circle;     // 실제 움직일 이미지
+    private Vector3 originalScale;
     private Coroutine pulseCoroutine;
 
     private void Awake()
     {
         circle = GetComponent<Image>();
+        originalScale = circle.transform.localScale;
     }
 
-    public void ActivatePulse(float duration)
+    public void ActivatePulse()
     {
-        // 만약 이미 깜빡임 코루틴이 진행 중이라면 중지
+        if (pulseCoroutine == null)
+        {
+            pulseCoroutine = StartCoroutine(PulseRoutine());    
+        }
+    }
+
+    public void DeactivatePulse()
+    {
         if (pulseCoroutine != null)
         {
             StopCoroutine(pulseCoroutine);
-            pulseCoroutine = null;
+            // 코루틴이 끝나면 크기를 원래대로 복구
+            circle.transform.localScale = originalScale;
+            pulseCoroutine = null;    
         }
-        
-        pulseCoroutine = StartCoroutine(PulseRoutine(duration));
     }
     
-    private IEnumerator PulseRoutine(float duration)
+    private IEnumerator PulseRoutine()
     {
         // 기존에 실행되던 Pulse가 있다면 중지
-        pulseTween?.Kill();
-
-        float elapsedTime = 0f;
-        Vector3 originalScale = circle.transform.localScale;
-
-        while (elapsedTime < duration)
+        while (true)
         {
             // 이번 Pulse에 사용할 랜덤 값 설정
             float pulseDuration = Random.Range(minPulseInterval, maxPulseInterval);
@@ -54,13 +58,6 @@ public class UITTSPulse : MonoBehaviour
 
             // 이번 Pulse 애니메이션이 끝날 때까지 대기
             yield return pulseTween.WaitForCompletion();
-
-            elapsedTime += pulseDuration;
         }
-
-        // 코루틴이 끝나면 크기를 원래대로 복구
-        circle.transform.localScale = originalScale;
-
-        pulseCoroutine = null;
     }
 }

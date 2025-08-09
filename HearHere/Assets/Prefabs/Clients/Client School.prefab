@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b04cd889a02d45a42958d02cc906fa48, type: 2}
     - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: playbackStr
+      value: You're trapped in a classroom and the lights went out completely. You
+        must find 3 important school sounds by listening only, to escape the classroom.
+        Good luck!
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: playbackInterval
       value: 60
       objectReference: {fileID: 0}
@@ -20,6 +26,126 @@ PrefabInstance:
       propertyPath: sceneToLoadOnClear
       value: 
       objectReference: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].Argument
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].Argument
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].Argument
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].X.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].X.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].X.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].Name.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].X.Array.data[0]'
+      value: left
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].Name.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].X.Array.data[0]'
+      value: left
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].X.Array.data[1]'
+      value: right
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].Name.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].X.Array.data[0]'
+      value: right
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[0]'
+      value: bell
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[1]'
+      value: ringing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[2]'
+      value: Ring-ring
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[3]'
+      value: Class start
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[4]'
+      value: Recess
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[5]'
+      value: Lunch bell
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[0]'
+      value: Teacher talking
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[1]'
+      value: 'voice '
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[2]'
+      value: talking
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[3]'
+      value: Lesson time
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[4]'
+      value: explaining
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[0]'
+      value: Chalk
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[1]'
+      value: Chalkboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[2]'
+      value: Scratchy
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[3]'
+      value: Squeaky
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[4]'
+      value: Tapping
+      objectReference: {fileID: 0}
     - target: {fileID: 1572648323962806760, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

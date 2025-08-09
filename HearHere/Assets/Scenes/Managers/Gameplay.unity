@@ -193,7 +193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 846af7f574b18594f95d3bc709b1f77f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61e37a3ec57850442895fa06f253a8ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -505,10 +505,6 @@ MonoBehaviour:
   longFlashColor: {r: 1, g: 0, b: 0, a: 1}
   longFlashDuration: 0.8
   longFlashCount: 2
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  durationPerCharacter: 0.06
-  minFlashInterval: 0.1
-  maxFlashInterval: 0.3
   blinkColor: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
 --- !u!1660057539 &9223372036854775807

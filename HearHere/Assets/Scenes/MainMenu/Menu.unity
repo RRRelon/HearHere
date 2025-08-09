@@ -174,7 +174,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 846af7f574b18594f95d3bc709b1f77f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61e37a3ec57850442895fa06f253a8ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -211,6 +211,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &313958772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7555691111406052289, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
+  m_PrefabInstance: {fileID: 1597844912}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d860600cdf95ecd4bad8d3754847d319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &372690756
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,10 +491,7 @@ MonoBehaviour:
   ttsFlash: {fileID: 1600904132}
   durationPerCharacter: 0.07
   onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}
-  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
-  visualFeedback: 0
-  clear: 0
-  onClear: 0
+  audioManager: {fileID: 313958772}
 --- !u!114 &1005019595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -745,7 +753,12 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 1382392435}
-    m_RemovedComponents: []
+    - target: {fileID: 7555691111406052289, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
+      propertyPath: onAudioClipReadyForTTS
+      value: 
+      objectReference: {fileID: 11400000, guid: d55e7764819fa2141bd690d737c9c2fb, type: 2}
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -893,24 +906,6 @@ PrefabInstance:
     - target: {fileID: 1382257585348740656, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
-      propertyPath: useMic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
-      propertyPath: playbackStr
-      value: Welcome to Hear, Here!, the escape room game where you find the target
-        sound. To start the tutorial, please say, 'Start tutorial'. To begin the
-        game, please say, 'Start game'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
-      propertyPath: userInputByText
-      value: start game
-      objectReference: {fileID: 0}
-    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
-      propertyPath: playbackInterval
-      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8722921288919927692, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: m_Name

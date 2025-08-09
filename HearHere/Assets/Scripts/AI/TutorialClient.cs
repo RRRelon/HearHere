@@ -22,7 +22,6 @@ public class TutorialClient : Client
         if (string.IsNullOrWhiteSpace(userText))
         {
             Debug.Log("입력 값이 Null 입니다.");
-            base.ProcessUserInput("");
             return;
         }
         
@@ -31,14 +30,23 @@ public class TutorialClient : Client
         // 메뉴 설명
         if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
         {
-            base.ProcessUserInput("Available commands are Go to Main Menu, and Exit Game.");
+            EnqueueRequestTTS("Available commands are Go to Main Menu, and Exit Game.", false);
             return;
         }
         
         // 게임 종료
         if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
-            base.ProcessUserInput("Exit game.");
+            EnqueueRequestTTS("Exit game.", false);
+            return;
+        }
+        
+        // 메인 메뉴 관련
+        if (CheckSystemOperationInput(userText, menuTargets, menuActions))
+        {
+            EnqueueRequestTTS("Moving to the main menu.", false);
+            // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
+            StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
             return;
         }
         
@@ -50,8 +58,8 @@ public class TutorialClient : Client
         {
             result = mapInfo.GetSuccess('1');
             // 정답 뒤에 Try 횟수 붙이기
-            string ttsText = "Congratulations! You did it!" + result.Message + "Going to the main menu"; 
-            base.ProcessUserInput(ttsText);
+            string ttsText = "Congratulations! You did it!" + result.Message + "Going to the main menu";
+            EnqueueRequestTTS(ttsText, false);
             ExitTutorial();
             return;
         }
@@ -70,7 +78,7 @@ public class TutorialClient : Client
                 // 정답일 경우
                 if (result.Message == "-1")
                 {
-                    base.ProcessUserInput("Congratulations! You did it!" + result.Message + "Going to the main menu");
+                    EnqueueRequestTTS("Congratulations! You did it!" + result.Message + "Going to the main menu", false);
                     ExitTutorial();
                     return;
                 }
@@ -86,7 +94,7 @@ public class TutorialClient : Client
                 }
                 
                 string ttsText = $"You correctly identified the {clue.Name} sound." + result.Message;
-                base.ProcessUserInput(ttsText);
+                EnqueueRequestTTS(ttsText, false);
                 return;
             }
         }
@@ -95,7 +103,7 @@ public class TutorialClient : Client
         GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
         if (response == null)
         {
-            base.ProcessUserInput("Sorry. I can't understand. Try again.");
+            EnqueueRequestTTS("Sorry. I can't understand. Try again.", false);
             return;    
         }
         
@@ -105,40 +113,40 @@ public class TutorialClient : Client
         {
             case "dialogue": // 일반 상호작용(아무 소리, 오답)
                 mapInfo.GetDialogue();
-                base.ProcessUserInput(response.tts_text);
+                EnqueueRequestTTS(response.tts_text, false);
                 return;
             case "clue":
                 result = mapInfo.GetClue(response.argument[0]);
                 response.tts_text += result.Message;
-                base.ProcessUserInput(response.tts_text);
+                EnqueueRequestTTS(response.tts_text, false);
                 return;
             case "success":  // 정답
                 result = mapInfo.GetSuccess(response.argument[0]);
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {
-                    string ttsText = "Congratulations! You did it!" + result.Message + "Going to the main menu";
-                    base.ProcessUserInput(ttsText);
+                    string ttsText = "Congratulations! You did it!" + result.Message;
+                    EnqueueRequestTTS(ttsText, true);
                     ExitTutorial();
                     return;
                 }
                 // 유효하지 않은 정답일 경우
                 response.tts_text += result.Message;
-                base.ProcessUserInput(response.tts_text);
+                EnqueueRequestTTS(response.tts_text, false);
                 return;
             default: // 오답
                 Debug.LogError($"Invalid Response type: {response.response_type}");
-                base.ProcessUserInput(response.tts_text);
+                EnqueueRequestTTS(response.tts_text, false);
                 break;
         }
         
         // 아무 처리도 못했을 경우
-        base.ProcessUserInput(playbackStr);
+        EnqueueRequestTTS(playbackStr, false);
     }
 
     private void ExitTutorial()
     {
-        StartCoroutine(PlayTTS("Tutorial complete! Now returning to the main menu."));
+        EnqueueRequestTTS("Tutorial complete! Now returning to the main menu.", true);
         StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
     }
     
