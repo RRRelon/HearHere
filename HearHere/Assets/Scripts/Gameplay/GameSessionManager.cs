@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameSessionManager : MonoBehaviour
+public static class GameSessionManager  
 {
     // 앱이 처음 메모리에 로드될 때 단 한 번 true로 초기화
     public static bool IsFirstLaunchOfSession { get; private set; } = true;
