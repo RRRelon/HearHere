@@ -13,9 +13,307 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e9378468b84d640efa2b91f180e6b423, type: 2}
     - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: playbackStr
+      value: You must repair the spaceship by finding the damaged parts in order.
+        Listen for the sounds around you, identify their exact direction, and describe
+        what they are to fix the ship.
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: playbackInterval
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: sceneToLoadOnClear
       value: 
       objectReference: {fileID: 11400000, guid: 1e7119a9d32ff194381273a38e9b83dd, type: 2}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: answerTargets.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[0]'
+      value: answer
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[1]'
+      value: correct
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[2]'
+      value: answer
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[3]'
+      value: final answer
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[4]'
+      value: final
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[5]'
+      value: solution
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[6]'
+      value: that is
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[7]'
+      value: that's
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[8]'
+      value: that would be
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[9]'
+      value: i think it's
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[10]'
+      value: guess
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'answerTargets.Array.data[11]'
+      value: result
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].Argument
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].Argument
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].Argument
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].X.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].X.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].X.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[0].Name.Array.size
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].X.Array.data[0]'
+      value: left
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[1].Name.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].X.Array.data[0]'
+      value: right
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: soundSettings.Array.data[2].Name.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].X.Array.data[0]'
+      value: left
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[0]'
+      value: Oxygen leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[1]'
+      value: Air leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[2]'
+      value: Hissing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[3]'
+      value: Gas leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[4]'
+      value: Pressure leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[5]'
+      value: leaking oxygen
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[6]'
+      value: Air hissing out
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[7]'
+      value: A hissing noise
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[8]'
+      value: a hull breach
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[9]'
+      value: Depressurization
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[0]'
+      value: Electric spark
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[1]'
+      value: Sparking
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[2]'
+      value: Electrical arcing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[3]'
+      value: Short circuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[4]'
+      value: Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[5]'
+      value: Buzzing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[6]'
+      value: Live wire
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[7]'
+      value: Crackling noise
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[8]'
+      value: Electrical crackle
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[9]'
+      value: Popping electricity
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[0]'
+      value: Thruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[1]'
+      value: Jet
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[2]'
+      value: Engine roar
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[3]'
+      value: Booster
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[4]'
+      value: Boosting
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[5]'
+      value: Rocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[6]'
+      value: Rocket firing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[7]'
+      value: Propulsion
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[8]'
+      value: Powerful blast
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[9]'
+      value: Engine hum
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[10]'
+      value: Atmosphere leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[11]'
+      value: Oxygen venting
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[12]'
+      value: Life support leak
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[0].Name.Array.data[13]'
+      value: Air escaping
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[10]'
+      value: Failing power
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[11]'
+      value: Zap
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[12]'
+      value: Electrical discharge
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[13]'
+      value: Power surge
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[14]'
+      value: Faulty wiring
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[1].Name.Array.data[15]'
+      value: Conduit arcing
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[10]'
+      value: Ignition
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[11]'
+      value: Deep rumble
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[12]'
+      value: Main engine burn
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[13]'
+      value: RCS thrusters
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[14]'
+      value: Afterburner
+      objectReference: {fileID: 0}
+    - target: {fileID: 363712816471238203, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
+      propertyPath: 'soundSettings.Array.data[2].Name.Array.data[15]'
+      value: Ignition sequence
+      objectReference: {fileID: 0}
     - target: {fileID: 1572648323962806760, guid: b0f7a1d42d4aed54e8aef5008e433e96, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -125,12 +125,13 @@ namespace HH
        {
            public string model;
            public List<ChatMessage> messages;
+           public float temperature;
        }
 
        /// <summary>
        /// 사용자 입력과 프롬프트를 받아 JSON 요청 본문을 생성
        /// </summary>
-       public static string CreateChatRequestBody(string userInput, string systemPrompt)
+       public static string CreateChatRequestBody(string userInput, string systemPrompt, float temperature = 0.3f)
        {
            // 1. 요청 데이터를 담을 ChatRequest 객체를 생성합니다.
            ChatRequest requestData = new ChatRequest
@@ -141,7 +142,8 @@ namespace HH
                    // 2. 시스템 메시지와 사용자 메시지를 리스트에 추가합니다.
                    new ChatMessage("system", systemPrompt),
                    new ChatMessage("user", userInput)
-               }
+               },
+               temperature = temperature
            };
 
            // 3. C# 클래스 객체를 JSON 형식의 문자열로 변환합니다.

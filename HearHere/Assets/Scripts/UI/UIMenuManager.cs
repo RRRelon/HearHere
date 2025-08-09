@@ -1,3 +1,5 @@
+using System;
+
 namespace HH.UI
 {
     using System.Collections;
@@ -17,8 +19,7 @@ namespace HH.UI
         [SerializeField] private float minFlashInterval = 0.1f;     // 최소 깜빡임 간격
         [SerializeField] private float maxFlashInterval = 0.3f;     // 최대 깜빡임 간격
         
-        [Header("Listening to")]
-        [SerializeField] private StringEventChannelSO onTextReadyForTTS;
+        [SerializeField] private AudioManager audioManager;
         
         private Coroutine flashCoroutine;
         private Color defaultColor;
@@ -27,21 +28,19 @@ namespace HH.UI
         {
             defaultColor = targetImage.color;
         }
-        
-        private void OnEnable()
+
+        private void Update()
         {
-            onTextReadyForTTS.OnEventRaised += StartTTSVisualFeedback;
+            if (audioManager.IsPlayingTTS())
+            {
+                
+            }
         }
 
-        private void OnDisable()
-        {
-            onTextReadyForTTS.OnEventRaised -= StartTTSVisualFeedback;
-        }
-        
         /// <summary>
         /// StringEventChannelSO에서 호출할 공개 메소드. 시각적 피드백을 시작합니다.
         /// </summary>
-        private void StartTTSVisualFeedback(string text)
+        private void StartTTSVisualFeedback(string text, bool _)
         {
             // 이전에 실행 중인 코루틴이 있다면 중지
             if (flashCoroutine != null)

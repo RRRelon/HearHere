@@ -44,20 +44,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa18e376934f9694697f1cf6969f595d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userInputByText: 
-  useMic: 0
-  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  playbackStr: 'Welcome to the sound tutorial! Listen carefully. To get it right,
+    you''ll need to say two things: where the sound is coming from, and what it is.'
+  playbackInterval: 60
+  playbackTimer: 0
   sensitivityThreshold: 0.02
   silenceDelay: 3
-  maxRecordingDuration: 10
+  maxRecordingDuration: 15
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 11400000, guid: 459090017dcb6ed4dbb4f8737f07fc73, type: 2}
-  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  onTextReadyForTTS: {fileID: 11400000, guid: ebf49ef2f9159f14ab64bd1682c6b104, type: 2}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
-  isListening: 0
-  isSpeaking: 0
+  soundSettings:
+  - X:
+    - right
+    Y: []
+    Name:
+    - frog
+    Argument: 48
+  - X:
+    - left
+    Y: []
+    Name:
+    - bird
+    Argument: 49
+  - X:
+    - right
+    Y:
+    - front
+    - forward
+    - ahead
+    Name:
+    - bell
+    Argument: 50
+  answerTargets: []
+  answer: 
   mapInfo: {fileID: 0}
   menuToLoad: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
   loadMenu: {fileID: 11400000, guid: b37eb2a504ca62947b1ee1e91f3b3743, type: 2}
-  playbackInterval: 30
-  playbackTimer: 0
+  onGameClear: {fileID: 11400000, guid: 988ea3dafeaf3ac4180a32e16194f2ce, type: 2}

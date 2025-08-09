@@ -18,54 +18,30 @@ namespace HH.UI
         [Header("Listening to")] [SerializeField]
         private BoolEventChannelSO onGameClear;
 
-        [SerializeField] private StringEventChannelSO onTextReadyForTTS;
-
-        [Header("비주얼 피드백 디버깅")]
-        public bool visualFeedback;
-        public bool clear;
-        public bool onClear;
+        [SerializeField] private AudioManager audioManager;
         
         private void OnEnable()
         {
-            onTextReadyForTTS.OnEventRaised += StartTTSVisualFeedback;
             onGameClear.OnEventRaised += ttsFlash.StartFlashSequence;
         }
 
         private void OnDisable()
         {
-            onTextReadyForTTS.OnEventRaised -= StartTTSVisualFeedback;
             onGameClear.OnEventRaised -= ttsFlash.StartFlashSequence;
         }
 
         private void Update()
         {
-            if (visualFeedback)
+            // TTS 실행 중 처리
+            if (audioManager.IsPlayingTTS())
             {
-                visualFeedback = false;
-                StartTTSVisualFeedback("Hello World Hello World Hello World Hello World");
+                ttsPulse.ActivatePulse();
             }
-
-            if (clear)
+            // TTS 실행 아닐 시
+            else
             {
-                clear = false;
-                ttsFlash.StartFlashSequence(onClear);
+                ttsPulse.DeactivatePulse();
             }
-        }
-
-        /// <summary>
-        /// StringEventChannelSO에서 호출할 공개 메소드. 시각적 피드백을 시작합니다.
-        /// Pulse(일렁임), Flash(깜빡임)
-        /// </summary>
-        private void StartTTSVisualFeedback(string text)
-        {
-            // 텍스트 길이에 따라 전체 지속 시간 계산
-            float totalDuration = text.Length * durationPerCharacter;
-
-            // // 새로운 깜빡임 코루틴 시작
-            // ttsFlash.ActivateFlash(totalDuration);
-
-            // TTS Pulse 활성화
-            ttsPulse.ActivatePulse(totalDuration);
         }
     }
 }

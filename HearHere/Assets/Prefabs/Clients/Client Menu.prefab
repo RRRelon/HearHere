@@ -44,22 +44,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c75ba1b489e35964285bf81ce71920ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userInputByText: 
-  useMic: 0
-  inputReader: {fileID: 11400000, guid: 80e2d4df0d301f344a49073424c92c59, type: 2}
+  playbackStr: Welcome to Hear, Here!, the escape room game where you find the target
+    sound. To start the tutorial, please say, 'Start tutorial'. To begin the game,
+    please say, 'Start game'
+  playbackInterval: 60
+  playbackTimer: 0
   sensitivityThreshold: 0.02
   silenceDelay: 3
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 0}
-  onTextReadyForTTS: {fileID: 11400000, guid: 2ea4a4e2ff11995438ea7814d817b156, type: 2}
+  onTextReadyForTTS: {fileID: 11400000, guid: ebf49ef2f9159f14ab64bd1682c6b104, type: 2}
+  onAudioClipReadyForTTS: {fileID: 11400000, guid: d55e7764819fa2141bd690d737c9c2fb, type: 2}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}
-  isListening: 0
-  isSpeaking: 0
+  audioScaleManager: {fileID: 11400000, guid: 08077c232608e104ba677e22239dd8bf, type: 2}
+  sourceNoteClip: {fileID: 8300000, guid: 6b30b9f7ec8f4eb47b3ddc04cffc31fc, type: 3}
+  noteDuration: 0.3
   currentlyLoadedScene: {fileID: 11400000, guid: 47d03fbc9bfc36149bc660517a8a8327, type: 2}
   gameToLoad: {fileID: 11400000, guid: 59eba7cfee33cb843890dd87b624fead, type: 2}
   tutorialToLoad: {fileID: 11400000, guid: 52ac8e2ffe04f3e4283ee971a0d6041f, type: 2}
   playerData: {fileID: 11400000, guid: 108ddc99fea98a9439867f17b53cc9fe, type: 2}
   loadLocation: {fileID: 11400000, guid: 5aa5a7b04ee78da41b92ffdcc6698cbf, type: 2}
-  playbackInterval: 30
-  playbackTimer: 0

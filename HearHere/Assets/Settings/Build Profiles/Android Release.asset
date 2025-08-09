@@ -35,7 +35,7 @@ MonoBehaviour:
     - line: '|   useOnDemandResources: 0'
     - line: '|   accelerometerFrequency: 60'
     - line: '|   companyName: Relon'
-    - line: '|   productName: HearHere'
+    - line: '|   productName: Hear, Here!'
     - line: '|   defaultCursor: {instanceID: 0}'
     - line: '|   cursorHotspot: {x: 0, y: 0}'
     - line: '|   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}'
@@ -323,7 +323,7 @@ MonoBehaviour:
     - line: '|   - m_BuildTarget: '
     - line: '|     m_Icons:'
     - line: '|     - serializedVersion: 2'
-    - line: '|       m_Icon: {fileID: 2800000, guid: 58b542e1b24f1c142990fc83bff9f951,
+    - line: '|       m_Icon: {fileID: 2800000, guid: 5d8a796543181c246968bba11bb43f46,
         type: 3}'
     - line: '|       m_Width: 128'
     - line: '|       m_Height: 128'
