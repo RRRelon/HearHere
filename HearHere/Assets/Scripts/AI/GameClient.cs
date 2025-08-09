@@ -228,6 +228,9 @@ public class GameClient : Client
         
         EnableInput();
         
+        saveLoadSystem.SaveData.PlayerData = playerData;
+        saveLoadSystem.SaveDataToDisk();
+        
         // 메인 메뉴로 이동
         StartCoroutine(DelaySceneLoad(3.0f, sceneToLoadOnClear));
     }

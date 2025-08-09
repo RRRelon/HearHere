@@ -27,6 +27,19 @@ public class MenuClient : Client
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        // 첫 시작 때는 환영 TTS를 뱉는다.
+        if (GameSessionManager.IsFirstLaunchOfSession)
+        {
+            EnqueueRequestTTS(playbackStr, true);
+            
+            GameSessionManager.CompleteFirstLaunch();
+        }
+    }
     
     /// <summary>
     /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
@@ -47,9 +60,9 @@ public class MenuClient : Client
             if (playerData.IsImproveThanFirst())
             {
                 int improvementPercentage = playerData.GetImprovementPercentageThanFirst();
-                message1 = improvementPercentage > 0                                                    // firstRecord == 0인 경우 예외 처리
-                    ? $"You're {improvementPercentage}% faster than your first record." // 향상도
-                    : "Keep up the great work!";                                                        // 간단한 격려
+                message1 = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
+                    ? $"s"                           // 향상도
+                    : "Keep up the great work!";     // 간단한 격려
             }
             
             // 3. 이전 vs 현재. 능력이 향상이 된 경우
@@ -88,6 +101,10 @@ public class MenuClient : Client
             
             EnqueueRequestTTS(message1 + message2 + message3 + message4, true);
             EnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false);
+        }
+        else
+        {
+            EnqueueRequestTTS(playbackStr, true);
         }
         
         base.Start();

@@ -54,6 +54,7 @@ MonoBehaviour:
   maxRecordingDuration: 10
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   prompt: {fileID: 0}
+  saveLoadSystem: {fileID: 11400000, guid: c205dde066f64e448badc63a4148f534, type: 2}
   onTextReadyForTTS: {fileID: 11400000, guid: ebf49ef2f9159f14ab64bd1682c6b104, type: 2}
   onAudioClipReadyForTTS: {fileID: 11400000, guid: d55e7764819fa2141bd690d737c9c2fb, type: 2}
   blinkScreenDark: {fileID: 11400000, guid: b6f92606ddbe5d541acea8f2f415c7f6, type: 2}

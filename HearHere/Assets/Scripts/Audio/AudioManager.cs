@@ -50,7 +50,6 @@ public class AudioManager : MonoBehaviour
         else if (!isPlaying && ttsRequest.Count > 0)
         {
             isPlaying = true;
-            Debug.Log("하나 꺼내기~");
             AudioClip nextClip = ttsRequest.Dequeue();
             StartCoroutine(PlayAudio(nextClip));
         }
@@ -63,7 +62,7 @@ public class AudioManager : MonoBehaviour
     {
         if (!string.IsNullOrWhiteSpace(text))
         {
-            Debug.Log($"{text} 추가");
+            Debug.Log($"TTS Request: {text}");
             AudioClip textToSpeech = await manager.RequestTextToSpeech(text);
             if (isPriority)
                 ttsPrioirtyRequest.Enqueue(textToSpeech);
@@ -76,7 +75,7 @@ public class AudioManager : MonoBehaviour
     {
         if (clip != null)
         {
-            Debug.Log($"{clip} 추가");
+            Debug.Log($"TTS Request: {clip}");
             if (isPriority)
                 ttsPrioirtyRequest.Enqueue(clip);
             else

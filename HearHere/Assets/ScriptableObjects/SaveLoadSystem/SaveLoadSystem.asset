@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22652dc91e5d4a44d98d812a3f25ef34, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: 563105b41db5aed4999b59977906c756, type: 3}
+  m_Name: SaveLoadSystem
   m_EditorClassIdentifier: 
-  Datas:
-  - Time: 0
-    TryCount: 0
-  - Time: 0
-    TryCount: 0
-  SequentialRecords: 0000000001000000
-  SequentialDecrease: 0
-  gameStageCount: 3
+  SaveFileName: save.ctr
+  BackupSaveFileName: save.ctr.bak
+  SaveData:
+    IsPrologueCompleted: 0
