@@ -58,7 +58,7 @@ public abstract class Client : MonoBehaviour
 
     private bool hasData;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         hasData = saveLoadSystem.LoadSaveDataFromDisk();
     }
@@ -185,7 +185,6 @@ public abstract class Client : MonoBehaviour
         
         // STT 분석 함수 호출
         string userText = await manager.GetTextFromAudio(recordingClip);
-        Debug.Log(userText);
         
         ProcessUserInput(userText);
     }

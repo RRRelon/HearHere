@@ -30,6 +30,12 @@ public class GameClient : Client
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadMenu;
     [SerializeField] private BoolEventChannelSO onGameClear;
+
+    protected override void Start()
+    {
+        EnqueueRequestTTS(playbackStr, true);
+        base.Start();
+    }
     
     /// <summary>
     /// 사용자 입력에 대한 처리를 우선적으로 한 뒤 필요 시 GPT 응답에 대한 처리 진행

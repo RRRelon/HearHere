@@ -27,19 +27,6 @@ public class MenuClient : Client
     
     [Header("Broadcasting on")]
     [SerializeField] private LoadEventChannelSO loadLocation;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        
-        // 첫 시작 때는 환영 TTS를 뱉는다.
-        if (GameSessionManager.IsFirstLaunchOfSession)
-        {
-            EnqueueRequestTTS(playbackStr, true);
-            
-            GameSessionManager.CompleteFirstLaunch();
-        }
-    }
     
     /// <summary>
     /// 메인 메뉴 시작 시마다 현재 데이터를 읽어준다.
@@ -47,6 +34,14 @@ public class MenuClient : Client
     /// </summary>
     protected override void Start()
     {
+        // 첫 시작 때는 환영 TTS를 뱉는다.
+        if (GameSessionManager.IsFirstLaunchOfSession)
+        {
+            EnqueueRequestTTS(playbackStr, true);
+            
+            GameSessionManager.CompleteFirstLaunch();
+        }
+        
         // 1. 기록이 2개 이상이면 실력 향상 지표 알려주기
         if (playerData.Datas.Count >= 1)
         {
@@ -146,7 +141,6 @@ public class MenuClient : Client
         if (CheckSystemOperationInput(userText, startGameTargets, startGameActions))
         {
             EnqueueRequestTTS("Starting the game.", true);
-            onTextReadyForTTS.OnEventRaised("Starting the game.", true);
             // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
             StartCoroutine(DelaySceneLoad(5.0f, gameToLoad));
             return;
