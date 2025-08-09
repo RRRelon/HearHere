@@ -19,6 +19,10 @@ public abstract class Client : MonoBehaviour
     [Header("AI")]
     [SerializeField] protected AIConversationManagerSO manager;
     [SerializeField] protected PromptSO prompt;
+
+	[Header("SaveLoad")]
+    [SerializeField] protected SaveLoadSystem saveLoadSystem;
+
     
     [Header("Broadcasting to")]
     [SerializeField] protected TTSEventChannelSO onTextReadyForTTS;
@@ -51,7 +55,14 @@ public abstract class Client : MonoBehaviour
     // Flag
     private bool isListening; // 마이크 입력을 받으면 True, 아니면 False
     private bool isSpeaking;  // 마이크 녹음중이면 True, 아니면 False
-    
+
+    private bool hasData;
+
+    private void Awake()
+    {
+        hasData = saveLoadSystem.LoadSaveDataFromDisk();
+    }
+
     protected virtual void Start()
     {
         // 1. Playback 재생
@@ -174,7 +185,6 @@ public abstract class Client : MonoBehaviour
         
         // STT 분석 함수 호출
         string userText = await manager.GetTextFromAudio(recordingClip);
-        Debug.Log(userText);
         
         ProcessUserInput(userText);
     }
@@ -268,7 +278,7 @@ public abstract class Client : MonoBehaviour
 
         // 3. 최종 문자열을 조합하여 반환합니다.
         Debug.Log($"it takes {formattedTime}, {timeSpan.Seconds} seconds");
-        return $"it takes {formattedTime}";
+        return $"it takes {formattedTime}, ";
     }
     
     /// <summary>

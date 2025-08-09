@@ -632,6 +632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Alphabet_EditorColdStartup
       objectReference: {fileID: 0}
+    - target: {fileID: 2273832178029746115, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2805078641699555020, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -712,99 +716,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!83 &1269203923
-AudioClip:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_LoadType: 0
-  m_Channels: 0
-  m_Frequency: 0
-  m_BitsPerSample: 0
-  m_Length: 0
-  m_IsTrackerFormat: 0
-  m_Ambisonic: 0
-  m_SubsoundIndex: 0
-  m_PreloadAudioData: 1
-  m_LoadInBackground: 0
-  m_Legacy3D: 0
-  m_Resource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_CompressionFormat: 0
-  m_EditorResource:
-    m_Source: 
-    m_Offset: 0
-    m_Size: 0
-  m_EditorCompressionFormat: 0
---- !u!1001 &1367119290
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1907628293360003923, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_Name
-      value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6655802451023267932, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7227486694842233010, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 1269203923}
-    - target: {fileID: 7227486694842233010, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 1269203923}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ebe90ca1f71430e45881161d2c5a2c6e, type: 3}
 --- !u!1001 &1708222929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1120,7 +1031,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1028293135111077271}
   - {fileID: 1054912915}
-  - {fileID: 1367119290}
   - {fileID: 1118309233}
   - {fileID: 258108051}
   - {fileID: 2862878317980573542}

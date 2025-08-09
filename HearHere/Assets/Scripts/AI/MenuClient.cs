@@ -34,6 +34,14 @@ public class MenuClient : Client
     /// </summary>
     protected override void Start()
     {
+        // 첫 시작 때는 환영 TTS를 뱉는다.
+        if (GameSessionManager.IsFirstLaunchOfSession)
+        {
+            EnqueueRequestTTS(playbackStr, true);
+            
+            GameSessionManager.CompleteFirstLaunch();
+        }
+        
         // 1. 기록이 2개 이상이면 실력 향상 지표 알려주기
         if (playerData.Datas.Count >= 1)
         {
@@ -47,9 +55,9 @@ public class MenuClient : Client
             if (playerData.IsImproveThanFirst())
             {
                 int improvementPercentage = playerData.GetImprovementPercentageThanFirst();
-                message1 = improvementPercentage > 0                                                    // firstRecord == 0인 경우 예외 처리
-                    ? $"You're {improvementPercentage}% faster than your first record." // 향상도
-                    : "Keep up the great work!";                                                        // 간단한 격려
+                message1 = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
+                    ? $"s"                           // 향상도
+                    : "Keep up the great work!";     // 간단한 격려
             }
             
             // 3. 이전 vs 현재. 능력이 향상이 된 경우
@@ -86,11 +94,21 @@ public class MenuClient : Client
                 }
             }
             
-            EnqueueRequestTTS(message1 + message2 + message3 + message4, true);
-            EnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false);
+            EnqueueRequestTTS(message1 + message2 + message3 + message4, false);
+            StartCoroutine(DelayAndEnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false, 3.0f));
+        }
+        else
+        {
+            EnqueueRequestTTS(playbackStr, false);
         }
         
         base.Start();
+    }
+
+    private IEnumerator DelayAndEnqueueRequestTTS(AudioClip clip, bool isPriority, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        EnqueueRequestTTS(clip, isPriority);
     }
     
     /// <summary>
@@ -129,7 +147,6 @@ public class MenuClient : Client
         if (CheckSystemOperationInput(userText, startGameTargets, startGameActions))
         {
             EnqueueRequestTTS("Starting the game.", true);
-            onTextReadyForTTS.OnEventRaised("Starting the game.", true);
             // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
             StartCoroutine(DelaySceneLoad(5.0f, gameToLoad));
             return;
