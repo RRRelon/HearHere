@@ -58,12 +58,12 @@ public class SceneLoader : MonoBehaviour
         // 현재 게임씬 타입 저장
         currentlyLoadedSceneType.SceneType = currentlyLoadedScene.SceneType;
 
-        if (currentlyLoadedScene.SceneType == GameSceneType.Location)
-        {
-            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
-            gameplayManagerLoadingOpHandle.WaitForCompletion();
-            gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
-        }
+        // if (currentlyLoadedScene.SceneType == GameSceneType.Location)
+        // {
+        //     gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+        //     gameplayManagerLoadingOpHandle.WaitForCompletion();
+        //     gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
+        // }
     }
 #endif
     
@@ -76,10 +76,10 @@ public class SceneLoader : MonoBehaviour
         this.showLoadingScreen = showLoadingScreen;
         isLoading = true;
 
-        if (gameplayManagerSceneInstance.Scene != null && gameplayManagerSceneInstance.Scene.isLoaded)
-        {
-            Addressables.UnloadSceneAsync(gameplayManagerLoadingOpHandle, true);
-        }
+        // if (gameplayManagerSceneInstance.Scene != null && gameplayManagerSceneInstance.Scene.isLoaded)
+        // {
+        //     Addressables.UnloadSceneAsync(gameplayManagerLoadingOpHandle, true);
+        // }
         
         StartCoroutine(UnloadPreviousScene());
     }
@@ -93,22 +93,24 @@ public class SceneLoader : MonoBehaviour
         this.showLoadingScreen = showLoadingScreen;
         isLoading = true;
 
-        if (gameplayManagerSceneInstance.Scene == null || !gameplayManagerSceneInstance.Scene.isLoaded)
-        {
-            gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
-            gameplayManagerLoadingOpHandle.Completed += OnGameplayManagerLoaded;
-        }
-        else
-        {
-            StartCoroutine(UnloadPreviousScene());
-        }
+        StartCoroutine(UnloadPreviousScene());
+        
+        // if (gameplayManagerSceneInstance.Scene == null || !gameplayManagerSceneInstance.Scene.isLoaded)
+        // {
+        //     gameplayManagerLoadingOpHandle = gameplayScene.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+        //     gameplayManagerLoadingOpHandle.Completed += OnGameplayManagerLoaded;
+        // }
+        // else
+        // {
+        //     StartCoroutine(UnloadPreviousScene());
+        // }
     }
 
-    private void OnGameplayManagerLoaded(AsyncOperationHandle<SceneInstance> obj)
-    {
-        gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
-        StartCoroutine(UnloadPreviousScene());
-    }
+    // private void OnGameplayManagerLoaded(AsyncOperationHandle<SceneInstance> obj)
+    // {
+    //     gameplayManagerSceneInstance = gameplayManagerLoadingOpHandle.Result;
+    //     StartCoroutine(UnloadPreviousScene());
+    // }
 
     /// <summary>
     /// 새로운 씬을 로드하기 전, 현재 씬을 언로드

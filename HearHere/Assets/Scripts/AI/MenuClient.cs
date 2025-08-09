@@ -94,15 +94,21 @@ public class MenuClient : Client
                 }
             }
             
-            EnqueueRequestTTS(message1 + message2 + message3 + message4, true);
-            EnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false);
+            EnqueueRequestTTS(message1 + message2 + message3 + message4, false);
+            StartCoroutine(DelayAndEnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false, 3.0f));
         }
         else
         {
-            EnqueueRequestTTS(playbackStr, true);
+            EnqueueRequestTTS(playbackStr, false);
         }
         
         base.Start();
+    }
+
+    private IEnumerator DelayAndEnqueueRequestTTS(AudioClip clip, bool isPriority, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        EnqueueRequestTTS(clip, isPriority);
     }
     
     /// <summary>
