@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Client Alphabet
       objectReference: {fileID: 0}
+    - target: {fileID: 5901630233940476975, guid: c9ca0fec133f6ce45883a6c95eef7088, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7134243330425687109, guid: c9ca0fec133f6ce45883a6c95eef7088, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -634,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2273832178029746115, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2805078641699555020, guid: 787ddaea6d0199a4d9ac9cb2650cea0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -914,6 +918,10 @@ PrefabInstance:
     - target: {fileID: 3591276838337780346, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
       propertyPath: m_Name
       value: Map_FindingAlpabet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591276838337780346, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4546920943712996715, guid: 3792285f6458d4a55ad82f20ec387c02, type: 3}
       propertyPath: m_LocalPosition.x

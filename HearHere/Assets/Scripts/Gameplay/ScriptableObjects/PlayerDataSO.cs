@@ -89,12 +89,12 @@ public class PlayerDataSO : ScriptableObject
         if (Datas.Count <= 1) 
             return -1;
 
-        float firstRecord = Datas[0].GetAverage();
+        float lastRecord = Datas[^1].GetAverage();
         float previousRecord = Datas[^2].GetAverage();
-        if (firstRecord > 0)
+        if (lastRecord > 0)
         {
             // 향상률(%) = (이전 값 - 현재 값) / 이전 값 * 100
-            float improvement = ((firstRecord - previousRecord) / firstRecord) * 100f;
+            float improvement = ((previousRecord - lastRecord) / previousRecord) * 100f;
             int improvementPercentage = Mathf.RoundToInt(improvement);
 
             return improvementPercentage;
