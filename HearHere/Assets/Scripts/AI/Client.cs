@@ -68,7 +68,7 @@ public abstract class Client : MonoBehaviour
         // 1. Playback 재생
         if (playbackTimer >= playbackInterval)
         {
-            EnqueueRequestTTS(playbackStr, false);
+            EnqueueRequestTTS(playbackStr, false, "client");
         }
         
         // 2. 마이크 설정
@@ -189,14 +189,16 @@ public abstract class Client : MonoBehaviour
         ProcessUserInput(userText);
     }
 
-    protected void EnqueueRequestTTS(string text, bool isPriority)
+    protected void EnqueueRequestTTS(string text, bool isPriority, string org = "")
     {
+        Debug.Log($"origin : {org}");
         onTextReadyForTTS.OnEventRaised(text, isPriority);
         playbackTimer = 0;
     }
 
-    protected void EnqueueRequestTTS(AudioClip clip, bool isPriority)
+    protected void EnqueueRequestTTS(AudioClip clip, bool isPriority, string org = "")
     {
+        Debug.Log($"origin : {org}");
         onAudioClipReadyForTTS.OnEventRaised(clip, isPriority);
         playbackTimer = 0;
     }

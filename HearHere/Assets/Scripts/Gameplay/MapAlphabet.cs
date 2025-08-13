@@ -39,7 +39,10 @@ public class MapAlphabet : MapInfo
         tryCount += 1;        // 시도 횟수 하나 증가
 
         string message = "";
-        message += "The alphabets collected so far is ";
+        if (answerChar.Count == 1)
+            message += "The alphabets collected so far is ";
+        else
+            message += "The alphabets collected so far are ";
         foreach (char c in answerChar)
             message += c.ToString() + ',';
 
@@ -75,7 +78,7 @@ public class MapAlphabet : MapInfo
         // 3. 만약 정답이라면,
         else
         {
-            result = new MapResult(true, $"total try is {tryCount}");
+            result = new MapResult(true, $"total tries are {tryCount}");
             return result;
         }
     }

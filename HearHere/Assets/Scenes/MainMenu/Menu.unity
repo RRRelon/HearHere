@@ -580,7 +580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2273832178029746115, guid: 1f9a4e28878838c4a838dcd19c79e3ef, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2805078641699555020, guid: 1f9a4e28878838c4a838dcd19c79e3ef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -806,6 +806,10 @@ PrefabInstance:
       propertyPath: playbackInterval
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 4836811307156234757, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
+      propertyPath: audioScaleManager
+      value: 
+      objectReference: {fileID: 11400000, guid: 08077c232608e104ba677e22239dd8bf, type: 2}
     - target: {fileID: 8722921288919927692, guid: 287e933cb441c0f469672c8d491fa0ab, type: 3}
       propertyPath: m_Name
       value: Client Menu

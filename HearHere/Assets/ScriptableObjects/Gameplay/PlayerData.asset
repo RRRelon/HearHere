@@ -15,8 +15,10 @@ MonoBehaviour:
   Datas:
   - Time: 0
     TryCount: 0
-  - Time: 0
-    TryCount: 0
-  SequentialRecords: 0000000001000000
-  SequentialDecrease: 0
+  - Time: 60
+    TryCount: 5
+  - Time: 60
+    TryCount: 3
+  SequentialRecords: 000000000100000002000000
+  SequentialDecrease: 1
   gameStageCount: 3

@@ -37,7 +37,7 @@ public class MenuClient : Client
         // 첫 시작 때는 환영 TTS를 뱉는다.
         if (GameSessionManager.IsFirstLaunchOfSession)
         {
-            EnqueueRequestTTS(playbackStr, true);
+            EnqueueRequestTTS(playbackStr, false, "menu client: Start()");
             
             GameSessionManager.CompleteFirstLaunch();
         }
@@ -94,12 +94,8 @@ public class MenuClient : Client
                 }
             }
             
-            EnqueueRequestTTS(message1 + message2 + message3 + message4, false);
+            EnqueueRequestTTS(message1 + message2 + message3 + message4, false, "menu client: Start()");
             StartCoroutine(DelayAndEnqueueRequestTTS(audioScaleManager.CreateMelodyClip(playerData.SequentialRecords, sourceNoteClip, 0.3f), false, 3.0f));
-        }
-        else
-        {
-            EnqueueRequestTTS(playbackStr, false);
         }
         
         base.Start();
@@ -108,7 +104,7 @@ public class MenuClient : Client
     private IEnumerator DelayAndEnqueueRequestTTS(AudioClip clip, bool isPriority, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        EnqueueRequestTTS(clip, isPriority);
+        EnqueueRequestTTS(clip, isPriority, "DelayAndEnqueueRequestTTS: audio scale");
     }
     
     /// <summary>
@@ -162,7 +158,6 @@ public class MenuClient : Client
         
         // 아무 처리도 못했을 경우
         Debug.Log("아무 처리도 못함");
-        onTextReadyForTTS.OnEventRaised(playbackStr, false);
     }
     
     /// <summary>
