@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using HH;
+using HH.Localization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -12,6 +13,7 @@ public class InitializationLoader : MonoBehaviour
     [SerializeField] private GameSceneSO managersScene;
     [SerializeField] private GameSceneSO menuToLoad;
     [SerializeField] private AIConversationManagerSO manager;
+    [SerializeField] private LocalizationManagerSO localizationManager;
     
     [Header("Broadcasting on")]
     [SerializeField] private AssetReference menuLoadChannel;
@@ -25,7 +27,15 @@ public class InitializationLoader : MonoBehaviour
 
     private void Start()
     {
-        RequestTTS("For the best experience, please use headphones.");
+        // Auto-detect language or set default
+        if (localizationManager != null)
+        {
+            localizationManager.AutoDetectLanguage();
+        }
+        
+        string headphonesMessage = localizationManager?.GetText(LocalizationKeys.HEADPHONES_RECOMMENDATION)
+                                   ?? "For the best experience, please use headphones.";
+        RequestTTS(headphonesMessage);
     }
     
     private async void RequestTTS(string text)

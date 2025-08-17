@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: YOUR_SCRIPT_GUID, type: 3}
+  m_Name: KoreanTexts
+  language: 1
+  languageName: 한국어
+  entries:
+  - key: headphones_recommendation
+    value: 최상의 경험을 위해 헤드폰을 착용해 주세요.
+  - key: playback_message
+    value: 정확한 답으로 다시 말씀해 주세요.
+  - key: menu_commands
+    value: 사용 가능한 명령어는 게임 시작과 게임 종료입니다.
+  - key: starting_tutorial
+    value: 튜토리얼을 시작합니다.
+  - key: starting_game
+    value: 게임을 시작합니다.
+  - key: exit_game
+    value: 게임을 종료합니다.
+  - key: improvement_first
+    value: 첫 기록 대비 향상되었습니다!
+  - key: improvement_previous
+    value: 이전 기록보다 {0}% 빨라졌습니다. 정말 대단해요!
+  - key: performance_encourage
+    value: 계속 잘하고 계세요!
+  - key: performance_decline
+    value: 최고 기록은 아니지만, 꾸준함이 중요합니다. 다음번엔 더 잘하실 수 있어요!
+  - key: seek_medical_advice
+    value: 의료 전문가와 상담해 보시는 것이 좋겠습니다.
+  - key: musical_scale_intro
+    value: 전체적인 성과를 음계로 표현해 드리겠습니다.
+  - key: keep_up_good_work
+    value: 계속 잘하고 계세요!
+  - key: recent_record_improved
+    value: 최근 기록이 향상되었습니다. 계속 잘하고 계세요!
+  - key: not_best_record
+    value: 최고 기록은 아니지만, 꾸준함이 중요합니다. 다음번엔 더 잘하실 수 있어요!
+  - key: say_again_correct
+    value: 정확한 답으로 다시 말씀해 주세요.
+  - key: language_changed_to_english
+    value: 언어가 영어로 변경되었습니다.
+  - key: language_changed_to_korean
+    value: 언어가 한국어로 변경되었습니다.

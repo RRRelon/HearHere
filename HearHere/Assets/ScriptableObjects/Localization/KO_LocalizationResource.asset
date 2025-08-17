@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a84bfd03bb33c643b372a6874abd5c6, type: 3}
+  m_Name: KO_LocalizationResource
+  m_EditorClassIdentifier: 
+  language: 1
+  languageName: "\uD55C\uAD6D\uC5B4"
+  entries:
+  - key: headphones_recommendation
+    value: "\uCD5C\uC801\uC758 \uAC8C\uC784 \uD50C\uB808\uC774\uB97C \uC704\uD574
+      \uD5E4\uB4DC\uD3F0 \uC0AC\uC6A9\uC744 \uAD8C\uC7A5\uD569\uB2C8\uB2E4."
+  - key: menu_commands
+    value: 
+  - key: starting_tutorial
+    value: 
+  - key: starting_game
+    value: 
+  - key: exit_game
+    value: 
+  - key: improvement_first
+    value: 
+  - key: improvement_previous
+    value: 
+  - key: performance_encourage
+    value: 
+  - key: performance_decline
+    value: 
+  - key: seek_medical_advice
+    value: 
+  - key: musical_scale_intro
+    value: 
+  - key: keep_up_good_work
+    value: 
+  - key: recent_record_improved
+    value: 
+  - key: not_best_record
+    value: 
+  - key: say_again_correct
+    value: 
+  - key: language_changed_to_english
+    value: 
+  - key: language_changed_to_korean
+    value: 
