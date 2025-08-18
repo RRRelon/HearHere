@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using HH.Localization;
 
 public abstract class MapInfo : MonoBehaviour
 {
+    [Header("Localization")]
+    [SerializeField] protected LocalizationManagerSO localizationManager;
+    
     [SerializeField] protected string answer;         // 실제 정답
     // Debugging 용 Serialize
     [SerializeField] protected int tryCount;          // 클라이언트의 시도 횟수

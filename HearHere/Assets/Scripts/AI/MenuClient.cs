@@ -38,7 +38,7 @@ public class MenuClient : Client
         // 첫 시작 때는 환영 TTS를 뱉는다.
         if (GameSessionManager.IsFirstLaunchOfSession)
         {
-            string welcomeMessage = localizationManager?.GetText(LocalizationKeys.PLAYBACK_MESSAGE) ?? playbackStr;
+            string welcomeMessage = localizationManager?.GetText(LocalizationKeys.PLAYBACK_MESSAGE) ?? GetCurrentPlaybackText();
             EnqueueRequestTTS(welcomeMessage, false, "menu client: Start()");
             
             GameSessionManager.CompleteFirstLaunch();
@@ -58,9 +58,10 @@ public class MenuClient : Client
             if (playerData.IsImproveThanFirst())
             {
                 int improvementPercentage = playerData.GetImprovementPercentageThanFirst();
-                message1 = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
-                    ? localizationManager?.GetText(LocalizationKeys.IMPROVEMENT_FIRST) ?? "You're improving since your first record!"                           // 향상도
+                string improvementTemplate = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
+                    ? localizationManager?.GetText(LocalizationKeys.IMPROVEMENT_FIRST) ?? "You're improving {0}% since your first record!" // 향상도
                     : localizationManager?.GetText(LocalizationKeys.KEEP_UP_GOOD_WORK) ?? "Keep up the great work!";     // 간단한 격려
+                message1 = string.Format(improvementTemplate, improvementPercentage);
             }
             
             // 3. 이전 vs 현재. 능력이 향상이 된 경우
