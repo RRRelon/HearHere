@@ -86,27 +86,27 @@ public class GameClient : Client
         MapResult result; // 맵에서 가져온 결과
         
         // 정답 소리 따로 처리
-        if (mapInfo.CheckAnswerInUserInput(userText) && ContainsAny(userText, answerTargets))
-        {
-            result = mapInfo.GetSuccess('1');
-            string ttsText;
-            // 유효한 정답일 경우
-            if (result.IsValid)
-            {
-                // 정답 뒤에 Try 횟수 붙이기
-                ttsText = localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime); 
-                EnqueueRequestTTS(ttsText, true);
-                GameClear();
-                return;
-            }
-            else
-            {
-                onGameClear.OnEventRaised(false);
-            }
-            // 유효하지 않은 정답일 경우
-            EnqueueRequestTTS(result.Message, false);
-            return;
-        }
+        // if (mapInfo.CheckAnswerInUserInput(userText) && ContainsAny(userText, answerTargets))
+        // {
+        //     result = mapInfo.GetSuccess('1');
+        //     string ttsText;
+        //     // 유효한 정답일 경우
+        //     if (result.IsValid)
+        //     {
+        //         // 정답 뒤에 Try 횟수 붙이기
+        //         ttsText = localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime); 
+        //         EnqueueRequestTTS(ttsText, true);
+        //         GameClear();
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         onGameClear.OnEventRaised(false);
+        //     }
+        //     // 유효하지 않은 정답일 경우
+        //     EnqueueRequestTTS(result.Message, false);
+        //     return;
+        // }
         
         // 단서 소리는 따로 처리
         foreach (ClueSound clue in soundSettings)

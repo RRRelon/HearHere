@@ -7,7 +7,6 @@ using SystemLanguage = HH.Localization.SystemLanguage;
 [System.Serializable]
 public struct LocalizedAnswer
 {
-    public string answer;
     public string englishAnswer;
     public string koreanAnswer;
     

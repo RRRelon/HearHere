@@ -12,13 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22652dc91e5d4a44d98d812a3f25ef34, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  Datas:
-  - Time: 0
-    TryCount: 0
-  - Time: 60
-    TryCount: 5
-  - Time: 60
-    TryCount: 3
-  SequentialRecords: 000000000100000002000000
-  SequentialDecrease: 1
-  gameStageCount: 3
+  Datas: []
+  SequentialRecords: 
+  SequentialDecrease: 0
+  gameStageCount: 1
