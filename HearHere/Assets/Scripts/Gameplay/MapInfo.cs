@@ -2,13 +2,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using HH.Localization;
+using SystemLanguage = HH.Localization.SystemLanguage;
+
+[System.Serializable]
+public struct LocalizedAnswer
+{
+    public string answer;
+    public string englishAnswer;
+    public string koreanAnswer;
+    
+    public string GetAnswerForLanguage(SystemLanguage language)
+    {
+        return language switch
+        {
+            SystemLanguage.Korean => koreanAnswer,
+            SystemLanguage.English => englishAnswer,
+            _ => englishAnswer
+        };
+    }
+    
+    public bool ContainsAnswer(string userInput, SystemLanguage language)
+    {
+        string answerForLanguage = GetAnswerForLanguage(language);
+        return !string.IsNullOrEmpty(answerForLanguage) && userInput.ToLower().Contains(answerForLanguage.ToLower());
+    }
+    
+    public bool ContainsAnswerInAnyLanguage(string userInput)
+    {
+        return ContainsAnswer(userInput, SystemLanguage.English) || 
+               ContainsAnswer(userInput, SystemLanguage.Korean);
+    }
+}
 
 public abstract class MapInfo : MonoBehaviour
 {
     [Header("Localization")]
     [SerializeField] protected LocalizationManagerSO localizationManager;
     
-    [SerializeField] protected string answer;         // 실제 정답
+    [Header("Answer Settings")]
+    [SerializeField] protected LocalizedAnswer answer;         // 실제 정답
     // Debugging 용 Serialize
     [SerializeField] protected int tryCount;          // 클라이언트의 시도 횟수
     [SerializeField] protected List<char> answerChar; // 클라이언트가 수집한 단서
@@ -23,6 +55,26 @@ public abstract class MapInfo : MonoBehaviour
     public abstract MapResult GetClue(char c);
     public abstract MapResult GetSuccess(char c);
     public int GetTryCount() => tryCount;
+    
+    /// <summary>
+    /// 현재 언어에 맞는 정답 반환
+    /// </summary>
+    protected string GetCurrentAnswer()
+    {
+        if (localizationManager != null)
+        {
+            return answer.GetAnswerForLanguage(localizationManager.CurrentLanguage);
+        }
+        return answer.englishAnswer;
+    }
+    
+    /// <summary>
+    /// 사용자 입력이 정답을 포함하는지 확인 (모든 언어)
+    /// </summary>
+    public bool CheckAnswerInUserInput(string userInput)
+    {
+        return answer.ContainsAnswerInAnyLanguage(userInput);
+    }
 }
 
 /// <summary>

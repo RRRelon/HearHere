@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using HH.Localization;
 
 public class MapTutorial : MapInfo
 {
@@ -86,26 +87,26 @@ public class MapTutorial : MapInfo
         if (!int.TryParse(isSuccessChar.ToString(), out isSuccess))
         {
             Debug.Log($"Invalid clue: {isSuccessChar}");
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         
         // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
-        if (answerChar.Count < answer.Length)
+        if (answerChar.Count < GetCurrentAnswer().Length)
         {
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         // 2. 만약 오답이라면,
         if (isSuccess == 0)
         {
-            result = new MapResult(false, $"That's not answer");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ANSWER));
             return result;
         }
         // 3. 만약 정답이라면,
         else
         {
-            result = new MapResult(true, $"Tutorial Success");
+            result = new MapResult(true, localizationManager.GetText(LocalizationKeys.TUTORIAL_SUCCESS));
             return result;
         }
     }

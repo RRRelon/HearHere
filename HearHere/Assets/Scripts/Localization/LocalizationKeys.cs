@@ -47,5 +47,11 @@ namespace HH.Localization
         public const string NOT_ALL_CLUES_COLLECTED = "not_all_clues_collected";
         public const string NOT_ANSWER = "not_answer";
         public const string TOTAL_TRIES = "total_tries";
+        
+        // SequenceMap messages
+        public const string SEQUENCE_COLLECTED = "sequence_collected";
+        
+        // TutorialMap messages
+        public const string TUTORIAL_SUCCESS = "tutorial_success";
     }
 }

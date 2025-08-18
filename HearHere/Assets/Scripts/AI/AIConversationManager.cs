@@ -157,7 +157,7 @@ namespace HH
             {
                 FileData = new FileData() { Data = data, Name = "audio.wav" },
                 Model = "whisper-1",
-                Language = "en"
+                Language = "ko"
             };
 
             var res = await openai.CreateAudioTranscription(req);

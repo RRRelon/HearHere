@@ -65,7 +65,7 @@ public class MapAlphabet : MapInfo
         }
         
         // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
-        if (answerChar.Count < answer.Length)
+        if (answerChar.Count < GetCurrentAnswer().Length)
         {
             result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;

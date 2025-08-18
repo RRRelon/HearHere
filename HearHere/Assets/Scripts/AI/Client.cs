@@ -55,23 +55,23 @@ public abstract class Client : MonoBehaviour
     protected float totalPlayTime = 0;
     
     // 메뉴 정보 명령어
-    protected readonly string[] menuInfoTargets = { "menu" };
-    protected readonly string[] menuInfoActions = { "tell me", "what is", "explain", "describe" };
+    protected readonly string[] menuInfoTargets = { "menu", "메뉴" };
+    protected readonly string[] menuInfoActions = { "tell me", "what is", "explain", "describe", "알려줘", "설명해줘", "뭐야", "무엇" };
     // 메인 메뉴로 이동 명령어
-    protected readonly string[] menuTargets = { "main", "first" };
-    protected readonly string[] menuActions = { "menu", "screen", "move", "return", "go" };
+    protected readonly string[] menuTargets = { "main", "first", "메인", "처음", "첫" };
+    protected readonly string[] menuActions = { "menu", "screen", "move", "return", "go", "메뉴", "화면", "이동", "돌아가", "가자", "가줘" };
     // 게임 종료 명령어
-    protected readonly string[] exitTargets = { "game", "application", "program" };
-    protected readonly string[] exitActions = { "exit", "quit", "turn off", "close" };
+    protected readonly string[] exitTargets = { "game", "application", "program", "게임", "앱", "프로그램" };
+    protected readonly string[] exitActions = { "exit", "quit", "turn off", "close", "종료", "끝내", "나가", "꺼줘", "닫아" };
     // 튜토리얼 시작 관련 키워드
-    protected readonly string[] tutorialTargets = { "tutorial" };
-    protected readonly string[] tutorialActions = { "start", "begin" };
+    protected readonly string[] tutorialTargets = { "tutorial", "튜토리얼", "연습" };
+    protected readonly string[] tutorialActions = { "start", "begin", "시작", "해줘" };
     // 게임 시작 관련 키워드
-    protected readonly string[] startGameTargets = { "game" };
-    protected readonly string[] startGameActions = { "start", "begin", "play" };
+    protected readonly string[] startGameTargets = { "game", "게임" };
+    protected readonly string[] startGameActions = { "start", "begin", "play", "시작", "해줘", "플레이" };
     // 언어 변경 관련 키워드
     protected readonly string[] languageTargets = { "language", "english", "korean", "한국어" };
-    protected readonly string[] languageActions = { "switch", "change", "set", "바꿀", "변경" };
+    protected readonly string[] languageActions = { "switch", "change", "set", "바꿀", "변경", "바꿔", "해줘", "설정" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -172,7 +172,7 @@ public abstract class Client : MonoBehaviour
         }
     }
 
-    private void StartMonitoring()
+    protected void StartMonitoring()
     {
         Debug.Log("Starting mic monitoring...");
         
@@ -221,6 +221,7 @@ public abstract class Client : MonoBehaviour
         Debug.Log($"origin : {org}");
         onTextReadyForTTS.OnEventRaised(text, isPriority);
         playbackTimer = 0;
+        StartMonitoring();
     }
 
     protected void EnqueueRequestTTS(AudioClip clip, bool isPriority, string org = "")
@@ -228,6 +229,7 @@ public abstract class Client : MonoBehaviour
         Debug.Log($"origin : {org}");
         onAudioClipReadyForTTS.OnEventRaised(clip, isPriority);
         playbackTimer = 0;
+        StartMonitoring();
     }
 
     /// <summary>

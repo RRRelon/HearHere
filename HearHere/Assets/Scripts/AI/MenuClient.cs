@@ -124,6 +124,7 @@ public class MenuClient : Client
         if (string.IsNullOrWhiteSpace(userText))
         {
             Debug.Log("입력 값이 Null 입니다.");
+            StartMonitoring();
             return;
         }
         
@@ -134,6 +135,7 @@ public class MenuClient : Client
         // 언어 변경 명령어 처리
         if (TryProcessLanguageCommand(userText))
         {
+            StartMonitoring();
             return;
         }
 
@@ -181,6 +183,7 @@ public class MenuClient : Client
         
         // 아무 처리도 못했을 경우
         Debug.Log("아무 처리도 못함");
+        StartMonitoring();
     }
     
     /// <summary>

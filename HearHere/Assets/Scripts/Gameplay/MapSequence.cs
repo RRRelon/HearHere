@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using HH.Localization;
 
 public class MapSequence : MapInfo
 {
@@ -55,7 +56,7 @@ public class MapSequence : MapInfo
         tryCount += 1;        // 시도 횟수 하나 증가
         currentSequence += 1; // 시퀀스 하나 추가
 
-        result = new MapResult(true, $"Collected so far: {answerChar.Count}");
+        result = new MapResult(true, string.Format(localizationManager.GetText(LocalizationKeys.SEQUENCE_COLLECTED), answerChar.Count));
         return result;
     }
 
@@ -68,26 +69,26 @@ public class MapSequence : MapInfo
         if (!int.TryParse(isSuccessChar.ToString(), out isSuccess))
         {
             Debug.Log($"Invalid clue: {isSuccessChar}");
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         
         // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
-        if (currentSequence < answer.Length - 1)
+        if (currentSequence < GetCurrentAnswer().Length - 1)
         {
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         // 2. 만약 오답이라면,
         if (isSuccess == 0)
         {
-            result = new MapResult(false, $"That's not answer");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ANSWER));
             return result;
         }
         // 3. 만약 정답이라면,
         else
         {
-            result = new MapResult(true, $"total try is {tryCount}");
+            result = new MapResult(true, string.Format(localizationManager.GetText(LocalizationKeys.TOTAL_TRIES), tryCount));
             return result;
         }
     }

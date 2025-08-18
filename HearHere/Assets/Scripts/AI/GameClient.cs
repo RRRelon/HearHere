@@ -15,7 +15,6 @@ public class GameClient : Client
     [Header("Clue/Answer Setting")]
     [SerializeField] private List<ClueSound> soundSettings;
     [SerializeField] private string[] answerTargets;
-    [SerializeField] private string answer;
     
     [Header("Map Info")]
     [SerializeField] private MapInfo mapInfo;
@@ -51,6 +50,8 @@ public class GameClient : Client
         
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
         
+        Debug.Log($"요청 : {userText}");
+        
         // 메뉴 설명
         if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
         {
@@ -76,7 +77,7 @@ public class GameClient : Client
         // 게임 종료
         if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
-            EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.EXIT_GAME), false);
+            EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.EXIT_GAME), true);
             StartCoroutine(ExitGame(5.0f));
             return;
         }
@@ -85,7 +86,7 @@ public class GameClient : Client
         MapResult result; // 맵에서 가져온 결과
         
         // 정답 소리 따로 처리
-        if (userText.Contains(answer) && ContainsAny(userText, answerTargets))
+        if (mapInfo.CheckAnswerInUserInput(userText) && ContainsAny(userText, answerTargets))
         {
             result = mapInfo.GetSuccess('1');
             string ttsText;
@@ -94,7 +95,7 @@ public class GameClient : Client
             {
                 // 정답 뒤에 Try 횟수 붙이기
                 ttsText = localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime); 
-                EnqueueRequestTTS(ttsText, false);
+                EnqueueRequestTTS(ttsText, true);
                 GameClear();
                 return;
             }
@@ -121,7 +122,7 @@ public class GameClient : Client
                 // 정답일 경우
                 if (result.Message == "-1")
                 {
-                    EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime), false);
+                    EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime), true);
                     GameClear();
                     return;
                 }
@@ -136,7 +137,7 @@ public class GameClient : Client
                     onGameClear.OnEventRaised(false);
                 }
                 string ttsText = string.Format(localizationManager.GetText(LocalizationKeys.CORRECTLY_IDENTIFIED_SOUND), clue.Name[0]) + result.Message;
-                EnqueueRequestTTS(ttsText, false);
+                EnqueueRequestTTS(ttsText, true);
                 return;
             }
         }
@@ -176,24 +177,19 @@ public class GameClient : Client
                 {
                     onGameClear.OnEventRaised(false);
                 }
-                response.tts_text += result.Message;
-                EnqueueRequestTTS(response.tts_text, false);
+                EnqueueRequestTTS(result.Message, false);
                 return;
             case "success":  // 정답
                 if (response.argument.Length <= 0)
                 {
-                    EnqueueRequestTTS(response.tts_text, false);
+                    EnqueueRequestTTS(response.tts_text, true);
                     return;   
                 }
                 result = mapInfo.GetSuccess(response.argument[0]);
                 // 유효한 정답일 경우
                 if (result.IsValid)
                 {
-                    // 정답 뒤에 Try 횟수 붙이기
-                    response.tts_text += result.Message;
-                    // 정답 뒤에 걸린 시간 넣기
-                    response.tts_text += FormatPlayTime(totalPlayTime);
-                    EnqueueRequestTTS(response.tts_text, false);
+                    EnqueueRequestTTS(result.Message + FormatPlayTime(totalPlayTime), false);
                     GameClear();
                     return;
                 }
