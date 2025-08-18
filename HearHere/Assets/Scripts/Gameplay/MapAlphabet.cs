@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using HH.Localization;
 
 public class MapAlphabet : MapInfo
 {
@@ -29,7 +30,7 @@ public class MapAlphabet : MapInfo
         if (answerChar.Contains(alphabet))
         {
             Debug.Log($"Duplicated clue: {alphabet}");
-            string duplicatedMessage = "This clue has already been collected. ";
+            string duplicatedMessage = localizationManager.GetText(LocalizationKeys.CLUE_ALREADY_COLLECTED);
             result = new MapResult(false, duplicatedMessage);
             return result;
         }
@@ -40,9 +41,9 @@ public class MapAlphabet : MapInfo
 
         string message = "";
         if (answerChar.Count == 1)
-            message += "The alphabets collected so far is ";
+            message += localizationManager.GetText(LocalizationKeys.ALPHABET_COLLECTED_SINGULAR);
         else
-            message += "The alphabets collected so far are ";
+            message += localizationManager.GetText(LocalizationKeys.ALPHABETS_COLLECTED_PLURAL);
         foreach (char c in answerChar)
             message += c.ToString() + ',';
 
@@ -59,26 +60,26 @@ public class MapAlphabet : MapInfo
         if (!int.TryParse(isSuccessChar.ToString(), out isSuccess))
         {
             Debug.Log($"Invalid clue: {isSuccessChar}");
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         
         // 1. 만약 모든 단서를 수집하지 않은 경우, False 반환 
         if (answerChar.Count < answer.Length)
         {
-            result = new MapResult(false, "You don't have all the clues yet.");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ALL_CLUES_COLLECTED));
             return result;
         }
         // 2. 만약 오답이라면,
         if (isSuccess == 0)
         {
-            result = new MapResult(false, $"That's not answer");
+            result = new MapResult(false, localizationManager.GetText(LocalizationKeys.NOT_ANSWER));
             return result;
         }
         // 3. 만약 정답이라면,
         else
         {
-            result = new MapResult(true, $"total tries are {tryCount}");
+            result = new MapResult(true, string.Format(localizationManager.GetText(LocalizationKeys.TOTAL_TRIES), tryCount));
             return result;
         }
     }

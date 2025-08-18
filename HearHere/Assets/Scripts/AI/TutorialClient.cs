@@ -141,7 +141,7 @@ public class TutorialClient : Client
         }
         
         // 아무 처리도 못했을 경우
-        EnqueueRequestTTS(playbackStr, false);
+        EnqueueRequestTTS(GetCurrentPlaybackText(), false);
     }
 
     private void ExitTutorial()

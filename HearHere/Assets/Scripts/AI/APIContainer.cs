@@ -155,10 +155,11 @@ namespace HH
        /// <summary>
        /// OpenAI TTS 요청을 위한 JSON 요청 본문을 생성
        /// </summary>
-       public static string CreateTTSRequestBody(string text, string voice = "ash")
+       public static string CreateTTSRequestBody(string text, string voice = "alloy", string model = "tts-1")
        {
            OpenAITTSRequest requestData = new OpenAITTSRequest
            {
+               model = model,
                input = text,
                voice = voice
            };

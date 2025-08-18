@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using HH;
+using HH.Localization;
 
 /// <summary>
 /// Unity에서 FastAPI 백엔드 서버와 통신하는 클라이언트 스크립트입니다.
@@ -33,7 +34,7 @@ public class GameClient : Client
 
     protected override void Start()
     {
-        EnqueueRequestTTS(playbackStr, true);
+        EnqueueRequestTTS(GetCurrentPlaybackText(), true);
         base.Start();
     }
     
@@ -53,7 +54,7 @@ public class GameClient : Client
         // 메뉴 설명
         if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
         {
-            EnqueueRequestTTS("Available commands are Go to Main Menu, and Exit Game.", false);
+            EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.AVAILABLE_COMMANDS), false);
             return;
         }
         
@@ -62,12 +63,12 @@ public class GameClient : Client
         {
             if (currentlyLoadedScene.SceneType != GameSceneType.Menu)
             {
-                EnqueueRequestTTS("Moving to the main menu.", false);
+                EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.MOVING_TO_MAIN_MENU), false);
                 // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
                 StartCoroutine(DelaySceneLoad(5.0f, menuToLoad));
             }
             else
-                EnqueueRequestTTS("You are currently in the main menu.", false);
+                EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.CURRENTLY_IN_MAIN_MENU), false);
 
             return;
         }
@@ -75,7 +76,7 @@ public class GameClient : Client
         // 게임 종료
         if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
-            EnqueueRequestTTS("Exit game.", false);
+            EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.EXIT_GAME), false);
             StartCoroutine(ExitGame(5.0f));
             return;
         }
@@ -92,7 +93,7 @@ public class GameClient : Client
             if (result.IsValid)
             {
                 // 정답 뒤에 Try 횟수 붙이기
-                ttsText = "Congratulations! You did it!" + result.Message + FormatPlayTime(totalPlayTime); 
+                ttsText = localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime); 
                 EnqueueRequestTTS(ttsText, false);
                 GameClear();
                 return;
@@ -120,7 +121,7 @@ public class GameClient : Client
                 // 정답일 경우
                 if (result.Message == "-1")
                 {
-                    EnqueueRequestTTS("Congratulations! You did it!" + result.Message + FormatPlayTime(totalPlayTime), false);
+                    EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.CONGRATULATIONS) + result.Message + FormatPlayTime(totalPlayTime), false);
                     GameClear();
                     return;
                 }
@@ -134,7 +135,7 @@ public class GameClient : Client
                 {
                     onGameClear.OnEventRaised(false);
                 }
-                string ttsText = $"You correctly identified the {clue.Name[0]} sound." + result.Message;
+                string ttsText = string.Format(localizationManager.GetText(LocalizationKeys.CORRECTLY_IDENTIFIED_SOUND), clue.Name[0]) + result.Message;
                 EnqueueRequestTTS(ttsText, false);
                 return;
             }
@@ -144,7 +145,7 @@ public class GameClient : Client
         GPTResponse response = await manager.GetGPTResponseFromText(userText, prompt.Prompt);
         if (response == null)
         {
-            EnqueueRequestTTS("Sorry. I can't understand. Try again.", false);
+            EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.CANT_UNDERSTAND), false);
             return;
         }
         
@@ -211,7 +212,7 @@ public class GameClient : Client
         }
         
         // 아무 처리도 못했을 경우
-        EnqueueRequestTTS("Please say that again with the correct answer.", false);
+        EnqueueRequestTTS(localizationManager.GetText(LocalizationKeys.SAY_AGAIN_CORRECT_ANSWER), false);
     }
     
     /// <summary>

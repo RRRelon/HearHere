@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c268efbe616a78f44b7f08730efd4478, type: 3}
+  m_Name: LocalizationManagerSO
+  m_EditorClassIdentifier: 
+  currentLanguage: 1
+  englishTexts: {fileID: 11400000, guid: 5a63da00bc7e0c545b0461335742c91c, type: 2}
+  koreanTexts: {fileID: 11400000, guid: 70c458a05e900fa48b74174c3dae3364, type: 2}
+  englishVoiceConfig: {fileID: 11400000, guid: f139180a5960ecb40b74ccd690af78b6, type: 2}
+  koreanVoiceConfig: {fileID: 11400000, guid: 01ab4eab4cdb2a24c9382485113ae174, type: 2}

@@ -2,14 +2,37 @@ using System;
 using System.Collections;
 using System.Linq;
 using HH;
+using HH.Localization;
 using UnityEngine;
+using SystemLanguage = HH.Localization.SystemLanguage;
+
+[System.Serializable]
+public struct PlaybackSoundSettings
+{
+    [TextArea(3, 10)] public string englishText;
+    [TextArea(3, 10)] public string koreanText;
+    
+    public string GetTextForLanguage(SystemLanguage language)
+    {
+        return language switch
+        {
+            SystemLanguage.Korean => koreanText,
+            SystemLanguage.English => englishText,
+            _ => englishText
+        };
+    }
+}
 
 public abstract class Client : MonoBehaviour
 {
-    [Header("Playback Sound")] [TextArea(5, 30)]
-    [SerializeField] protected string playbackStr = "Please say that again with the correct answer.";
+    [Header("Playback Sound")]
+    [SerializeField] protected PlaybackSoundSettings playbackSettings;
     [SerializeField] protected float playbackInterval = 30.0f;
     [SerializeField] protected float playbackTimer;
+    
+    [Header("Localization")]
+    [SerializeField] protected LocalizationManagerSO localizationManager;
+    [SerializeField] protected LanguageSwitcher languageSwitcher;
     
     [Header("Mic Settings")]
     [SerializeField] private float sensitivityThreshold = 0.02f; // 이 값보다 큰 소리가 감지되면 '말하기 시작'으로 판단
@@ -46,6 +69,9 @@ public abstract class Client : MonoBehaviour
     // 게임 시작 관련 키워드
     protected readonly string[] startGameTargets = { "game" };
     protected readonly string[] startGameActions = { "start", "begin", "play" };
+    // 언어 변경 관련 키워드
+    protected readonly string[] languageTargets = { "language", "english", "korean", "한국어" };
+    protected readonly string[] languageActions = { "switch", "change", "set", "바꿀", "변경" };
     
     // 마이크 입력 관련
     private AudioClip monitoringClip;
@@ -68,7 +94,8 @@ public abstract class Client : MonoBehaviour
         // 1. Playback 재생
         if (playbackTimer >= playbackInterval)
         {
-            EnqueueRequestTTS(playbackStr, false, "client");
+            string playbackMessage = localizationManager?.GetText(LocalizationKeys.PLAYBACK_MESSAGE) ?? GetCurrentPlaybackText();
+            EnqueueRequestTTS(playbackMessage, false, "client");
         }
         
         // 2. 마이크 설정
@@ -100,7 +127,7 @@ public abstract class Client : MonoBehaviour
         if (playbackTimer >= playbackInterval)
         {
             Debug.Log("플레이 백 추가");
-            EnqueueRequestTTS(playbackStr, false);
+            EnqueueRequestTTS(GetCurrentPlaybackText(), false);
         }
         
         // 만약 마이크를 못 찾았을 시, 재할당 시도
@@ -203,6 +230,30 @@ public abstract class Client : MonoBehaviour
         playbackTimer = 0;
     }
 
+    /// <summary>
+    /// 현재 언어에 맞는 playback 텍스트 반환
+    /// </summary>
+    protected string GetCurrentPlaybackText()
+    {
+        if (localizationManager != null)
+        {
+            return playbackSettings.GetTextForLanguage(localizationManager.CurrentLanguage);
+        }
+        return playbackSettings.englishText;
+    }
+    
+    /// <summary>
+    /// 언어 변경 명령어인지 확인하고 처리
+    /// </summary>
+    protected bool TryProcessLanguageCommand(string userText)
+    {
+        if (languageSwitcher != null && languageSwitcher.ProcessLanguageCommand(userText))
+        {
+            return true;
+        }
+        return false;
+    }
+    
     /// <summary>
     /// TTS, GPT를 거친 응답 텍스트를 TTS로 재생 
     /// </summary>

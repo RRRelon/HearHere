@@ -169,3 +169,4 @@ MonoBehaviour:
   manager: {fileID: 11400000, guid: c65d7432b1371984bbd7bd0a01d3f0e3, type: 2}
   ttsRuntimeAnchor: {fileID: 11400000, guid: d99ea653f8fe799408369e134c84a643, type: 2}
   onTextReadyForTTS: {fileID: 11400000, guid: ebf49ef2f9159f14ab64bd1682c6b104, type: 2}
+  onAudioClipReadyForTTS: {fileID: 11400000, guid: d55e7764819fa2141bd690d737c9c2fb, type: 2}

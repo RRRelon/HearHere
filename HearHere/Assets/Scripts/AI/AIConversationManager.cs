@@ -11,6 +11,7 @@ namespace HH
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
+    using HH.Localization;
     
     [CreateAssetMenu(fileName = "AIConversationManager", menuName = "AI/AI Conversation Manager")]
     public class AIConversationManagerSO : ScriptableObject
@@ -27,6 +28,9 @@ namespace HH
         [Range(0.0f, 2.0f)]
         [Tooltip("낮을수록 일관된 답변, 높을수록 창의적 답변 (지침 준수: 0.1~0.3 권장)")]
         public float temperature = 0.1f;
+        
+        [Header("Localization")]
+        [SerializeField] private LocalizationManagerSO localizationManager;
         
         private void OnEnable()
         {
@@ -84,8 +88,13 @@ namespace HH
         {
             string url = "https://api.openai.com/v1/audio/speech";
             
+            // 현재 언어에 맞는 TTS 설정 가져오기
+            var voiceConfig = localizationManager?.GetCurrentVoiceConfig();
+            string voice = voiceConfig?.VoiceName ?? "alloy";
+            string model = voiceConfig?.Model ?? "tts-1";
+            
             // OpenAI TTS 요청 데이터 생성
-            string requestJson = OpenAIRequestHelper.CreateTTSRequestBody(text, "ash");
+            string requestJson = OpenAIRequestHelper.CreateTTSRequestBody(text, voice, model);
             byte[] bodyRaw = Encoding.UTF8.GetBytes(requestJson);
             
             using (UnityWebRequest wwwSender = new UnityWebRequest(url, "POST"))

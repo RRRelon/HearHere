@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data;
 using UnityEngine;
 using HH;
+using HH.Localization;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -37,7 +38,8 @@ public class MenuClient : Client
         // 첫 시작 때는 환영 TTS를 뱉는다.
         if (GameSessionManager.IsFirstLaunchOfSession)
         {
-            EnqueueRequestTTS(playbackStr, false, "menu client: Start()");
+            string welcomeMessage = localizationManager?.GetText(LocalizationKeys.PLAYBACK_MESSAGE) ?? GetCurrentPlaybackText();
+            EnqueueRequestTTS(welcomeMessage, false, "menu client: Start()");
             
             GameSessionManager.CompleteFirstLaunch();
         }
@@ -49,15 +51,17 @@ public class MenuClient : Client
             string message1 = ""; // 처음 vs 현재
             string message2 = ""; // 이전 vs 현재
             string message3 = ""; // 종합 평가
-            string message4 = "I will represent the overall performance using a musical scale.";
+            string message4 = localizationManager?.GetText(LocalizationKeys.MUSICAL_SCALE_INTRO) 
+                              ?? "I will represent the overall performance using a musical scale.";
             
             // 2. 처음 vs 현재. 능력이 향상이 된 경우
             if (playerData.IsImproveThanFirst())
             {
                 int improvementPercentage = playerData.GetImprovementPercentageThanFirst();
-                message1 = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
-                    ? $"s"                           // 향상도
-                    : "Keep up the great work!";     // 간단한 격려
+                string improvementTemplate = improvementPercentage > 0 // firstRecord == 0인 경우 예외 처리
+                    ? localizationManager?.GetText(LocalizationKeys.IMPROVEMENT_FIRST) ?? "You're improving {0}% since your first record!" // 향상도
+                    : localizationManager?.GetText(LocalizationKeys.KEEP_UP_GOOD_WORK) ?? "Keep up the great work!";     // 간단한 격려
+                message1 = string.Format(improvementTemplate, improvementPercentage);
             }
             
             // 3. 이전 vs 현재. 능력이 향상이 된 경우
@@ -69,12 +73,15 @@ public class MenuClient : Client
                 if (improvementPercentage > 0)
                 {
                     playerData.SequentialDecrease = 0; // 연속 감소 정도 초기화
-                    message2 = $"You're {improvementPercentage}% faster than your before record. That's amazing!";
+                    string improvementTemplate = localizationManager?.GetText(LocalizationKeys.IMPROVEMENT_PREVIOUS) 
+                                                  ?? "You're {0}% faster than your before record. That's amazing!";
+                    message2 = string.Format(improvementTemplate, improvementPercentage);
                 }
                 else
                 {
                     // 퍼센트를 계산할 수 없는 경우, 간단한 칭찬 메시지
-                    message2 = "Your recent record has improved. Keep up the great work!";
+                    message2 = localizationManager?.GetText(LocalizationKeys.RECENT_RECORD_IMPROVED) 
+                               ?? "Your recent record has improved. Keep up the great work!";
                 }
             }
             // 3. 하락 시
@@ -84,13 +91,15 @@ public class MenuClient : Client
                 if (playerData.SequentialDecrease < 5)
                 {
                     // 격려 메시지
-                    message3 = "It's not your best record, but consistency is key. You can do better next time!";
+                    message3 = localizationManager?.GetText(LocalizationKeys.NOT_BEST_RECORD) 
+                               ?? "It's not your best record, but consistency is key. You can do better next time!";
                 }
                 // 5번 연속 하강 시, 능력이 악화 된 경우
                 else
                 {
                     // 의료진 만나보세요
-                    message3 = "It might be a good idea to speak with a healthcare professional.";
+                    message3 = localizationManager?.GetText(LocalizationKeys.SEEK_MEDICAL_ADVICE) 
+                               ?? "It might be a good idea to speak with a healthcare professional.";
                 }
             }
             
@@ -121,19 +130,29 @@ public class MenuClient : Client
         userText = userText.ToLower().Replace(".", "").Replace("?", "");
         
         Debug.Log($"user input : {userText}");
+        
+        // 언어 변경 명령어 처리
+        if (TryProcessLanguageCommand(userText))
+        {
+            return;
+        }
 
         // 메뉴 설명
         if (CheckSystemOperationInput(userText, menuInfoTargets, menuInfoActions))
         {
-            EnqueueRequestTTS("Available commands are Start Game and Exit Game.", false);
+            string menuCommands = localizationManager?.GetText(LocalizationKeys.MENU_COMMANDS) 
+                                  ?? "Available commands are Start Game and Exit Game.";
+            EnqueueRequestTTS(menuCommands, false);
             return;
         }
         
         // 튜토리얼 시작
         if (CheckSystemOperationInput(userText, tutorialTargets, tutorialActions))
         {
-            EnqueueRequestTTS("Starting the tutorial.", true);
-            onTextReadyForTTS.OnEventRaised("Starting the tutorial.", true);
+            string startingTutorial = localizationManager?.GetText(LocalizationKeys.STARTING_TUTORIAL) 
+                                      ?? "Starting the tutorial.";
+            EnqueueRequestTTS(startingTutorial, true);
+            onTextReadyForTTS.OnEventRaised(startingTutorial, true);
             // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
             StartCoroutine(DelaySceneLoad(5.0f, tutorialToLoad));
             return;
@@ -142,7 +161,9 @@ public class MenuClient : Client
         // 게임 시작
         if (CheckSystemOperationInput(userText, startGameTargets, startGameActions))
         {
-            EnqueueRequestTTS("Starting the game.", true);
+            string startingGame = localizationManager?.GetText(LocalizationKeys.STARTING_GAME) 
+                                  ?? "Starting the game.";
+            EnqueueRequestTTS(startingGame, true);
             // TTS 응답 속도에 대응하기 위해 조금 기다렸다 씬 로딩 
             StartCoroutine(DelaySceneLoad(5.0f, gameToLoad));
             return;
@@ -151,7 +172,9 @@ public class MenuClient : Client
         // 게임 종료
         if (CheckSystemOperationInput(userText, exitTargets, exitActions))
         {
-            EnqueueRequestTTS("Exit game.", true);
+            string exitGame = localizationManager?.GetText(LocalizationKeys.EXIT_GAME) 
+                              ?? "Exit game.";
+            EnqueueRequestTTS(exitGame, true);
             StartCoroutine(ExitGame());
             return;
         }
